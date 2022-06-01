@@ -5,10 +5,20 @@ You can start by reading our [Contribution guidelines](https://docs.s33d.app/cod
 
 ## Setup
 
-Install the dependencies
-
+1. Clone this repository. 
+```shell
+git clone https://github.com/TheS33DProject/s33d-app.git
+```
+2. Install the dependencies.
 ```shell
 yarn
+```
+3. Run patch-package to update patches. 
+```shell
+yarn patch-package
+```
+4. Run the developer instance
+```shell
 yarn start
 ```
 
@@ -27,6 +37,10 @@ Don't forget to setup your IDE with `eslint` and `prettier`.
 ## Tests
 
 Run tests with `yarn test`.
+
+## Commits & Code Updates
+
+All commits must follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
 ## Issue reports
 
