@@ -13,17 +13,17 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
       //   label: t('Brand'),
       //   href: 'https://docs.pancakeswap.finance/brand',
       // },
-      {
-        label: t('Blog'),
-        href: 'https://medium.com/pancakeswap',
-      },
-      {
-        label: t('Community'),
-        href: 'https://docs.pancakeswap.finance/contact-us/telegram',
-      },
+      // {
+      //   label: t('Blog'),
+      //   href: 'https://medium.com/pancakeswap',
+      // },
+      // {
+      //   label: t('Community'),
+      //   href: 'https://docs.pancakeswap.finance/contact-us/telegram',
+      // },
       {
         label: t('S33D token'),
-        href: 'https://docs.pancakeswap.finance/tokenomics/cake',
+        href: 'https://docs.s33d.app/the-s33d-project/tokenomics/s33d',
       },
       // {
       //   label: '—',
@@ -35,33 +35,33 @@ export const footerLinks: (t: ContextApi['t']) => FooterLinkType[] = (t) => [
       // },
     ],
   },
-  {
-    label: t('Help'),
-    items: [
-      {
-        label: t('Customer Support'),
-        href: 'https://docs.pancakeswap.finance/contact-us/customer-support',
-      },
-      {
-        label: t('Troubleshooting'),
-        href: 'https://docs.pancakeswap.finance/help/troubleshooting',
-      },
-      {
-        label: t('Guides'),
-        href: 'https://docs.pancakeswap.finance/get-started',
-      },
-    ],
-  },
+  // {
+  //   label: t('Help'),
+  //   items: [
+  //     {
+  //       label: t('Customer Support'),
+  //       href: 'https://docs.pancakeswap.finance/contact-us/customer-support',
+  //     },
+  //     {
+  //       label: t('Troubleshooting'),
+  //       href: 'https://docs.pancakeswap.finance/help/troubleshooting',
+  //     },
+  //     {
+  //       label: t('Guides'),
+  //       href: 'https://docs.s33d.app/get-started',
+  //     },
+  //   ],
+  // },
   {
     label: t('Developers'),
     items: [
       {
         label: 'Github',
-        href: 'https://github.com/pancakeswap',
+        href: 'https://github.com/TheS33DProject',
       },
       {
         label: t('Documentation'),
-        href: 'https://docs.pancakeswap.finance',
+        href: 'https://docs.s33d.app',
       },
       // {
       //   label: t('Bug Bounty'),

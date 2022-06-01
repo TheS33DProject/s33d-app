@@ -1,4 +1,4 @@
-# 🥞 S33D App
+# 🌱 S33D App
 
 This project contains the main features of the S33D application.
 
