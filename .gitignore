@@ -1,7 +1,16 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+
 # dependencies
-/node_modules
+/node_modules/*
+!/node_modules/@pancakeswap
+/node_modules/@pancakeswap/*
+!/node_modules/@pancakeswap/uikit
+/node_modules/@pancakeswap/uikit/dist/*
+!/node_modules/@pancakeswap/uikit/dist/index.esm.js
+node_modules/@pancakeswap/uikit/LICENSE
+node_modules/@pancakeswap/uikit/package.json
+node_modules/@pancakeswap/uikit/README.md
 /.pnp
 .pnp.js
 
@@ -34,4 +43,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 debug.log*
+
+# But not these files...
 
