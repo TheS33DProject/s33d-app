@@ -1,5 +1,5 @@
 diff --git a/node_modules/@pancakeswap/uikit/dist/index.esm.js b/node_modules/@pancakeswap/uikit/dist/index.esm.js
-index 0c4a18e..150c10d 100644
+index 0c4a18e..0fb96ea 100644
 --- a/node_modules/@pancakeswap/uikit/dist/index.esm.js
 +++ b/node_modules/@pancakeswap/uikit/dist/index.esm.js
 @@ -375,11 +375,11 @@ var Icon$1$ = function (props) {
@@ -420,7 +420,19 @@ index 0c4a18e..150c10d 100644
  };
  
  var MenuItems = function (_a) {
-@@ -4876,7 +4876,7 @@ var MenuItems = function (_a) {
+@@ -4870,13 +4870,17 @@ var MenuItems = function (_a) {
+         var statusColor = (_c = (_b = menuItems === null || menuItems === void 0 ? void 0 : menuItems.find(function (menuItem) { return menuItem.status !== undefined; })) === null || _b === void 0 ? void 0 : _b.status) === null || _c === void 0 ? void 0 : _c.color;
+         var isActive = activeItem === href;
+         var linkProps = isTouchDevice() && menuItems && menuItems.length > 0 ? {} : { href: href };
+-        return (React__default.createElement(DropdownMenu, { key: label + "#" + href + "#" + icon, items: menuItems, py: 1, activeItem: activeSubItem },
+-            React__default.createElement(MenuItem$1, __assign({}, linkProps, { isActive: isActive, statusColor: statusColor }), label || React__default.createElement(IconComponent, { iconName: icon, color: isActive ? "secondary" : "textSubtle" }))));
++        return (
++            null
++            // React__default.createElement(DropdownMenu, { key: label + "#" + href + "#" + icon, items: menuItems, py: 1, activeItem: activeSubItem },
++            //     React__default.createElement(MenuItem$1, __assign({}, linkProps, { isActive: isActive, statusColor: statusColor }), label || React__default.createElement(IconComponent, { iconName: icon, color: isActive ? "secondary" : "textSubtle" })),
++            // )
++        );
+     })));
  };
  
  var blink = keyframes(templateObject_1$7 || (templateObject_1$7 = __makeTemplateObject(["\n  0%,  100% { transform: scaleY(1); } \n  50% { transform:  scaleY(0.1); } \n"], ["\n  0%,  100% { transform: scaleY(1); } \n  50% { transform:  scaleY(0.1); } \n"])));
@@ -429,7 +441,7 @@ index 0c4a18e..150c10d 100644
      var theme = _a.theme;
      return theme.mediaQueries.nav;
  }, function (_a) {
-@@ -4887,9 +4887,9 @@ var Logo = function (_a) {
+@@ -4887,9 +4891,9 @@ var Logo = function (_a) {
      var isDark = _a.isDark, href = _a.href;
      var isAbsoluteUrl = href.startsWith("http");
      var innerLogo = (React__default.createElement(React__default.Fragment, null,
@@ -441,7 +453,7 @@ index 0c4a18e..150c10d 100644
  };
  var Logo$1 = React__default.memo(Logo, function (prev, next) { return prev.isDark === next.isDark; });
  var templateObject_1$7, templateObject_2$4;
-@@ -5038,7 +5038,7 @@ var links = [
+@@ -5038,7 +5042,7 @@ var links = [
      },
      {
          type: DropdownMenuItemType.EXTERNAL_LINK,
@@ -450,7 +462,7 @@ index 0c4a18e..150c10d 100644
          label: "Link",
      },
      {
-@@ -5056,7 +5056,7 @@ var TOP_BANNER_HEIGHT = 70;
+@@ -5056,7 +5060,7 @@ var TOP_BANNER_HEIGHT = 70;
  var TOP_BANNER_HEIGHT_MOBILE = 84;
  
  var Wrapper = styled.div(templateObject_1$6 || (templateObject_1$6 = __makeTemplateObject(["\n  position: relative;\n  width: 100%;\n"], ["\n  position: relative;\n  width: 100%;\n"])));
@@ -459,7 +471,7 @@ index 0c4a18e..150c10d 100644
      var theme = _a.theme;
      return theme.nav.background;
  }, function (_a) {
-@@ -5131,12 +5131,16 @@ var Menu$1 = function (_a) {
+@@ -5131,20 +5135,26 @@ var Menu$1 = function (_a) {
                      !isMobile && React__default.createElement(MenuItems, { items: links, activeItem: activeItem, activeSubItem: activeSubItem, ml: "24px" })),
                  React__default.createElement(Flex, { alignItems: "center", height: "100%" },
                      !isMobile && (React__default.createElement(Box, { mr: "12px" },
@@ -480,7 +492,19 @@ index 0c4a18e..150c10d 100644
          subLinks && (React__default.createElement(Flex, { justifyContent: "space-around" },
              React__default.createElement(SubMenuItems, { items: subLinksWithoutMobile, mt: totalTopMenuHeight + 1 + "px", activeItem: activeSubItem }),
              (subLinksMobileOnly === null || subLinksMobileOnly === void 0 ? void 0 : subLinksMobileOnly.length) > 0 && (React__default.createElement(SubMenuItems, { items: subLinksMobileOnly, mt: totalTopMenuHeight + 1 + "px", activeItem: activeSubItem, isMobileOnly: true })))),
-@@ -5409,7 +5413,7 @@ var useWalletModal = function (login, logout, t) {
+         React__default.createElement(BodyWrapper, { mt: !subLinks ? totalTopMenuHeight + 1 + "px" : "0" },
+             React__default.createElement(Inner, { isPushed: false, showMenu: showMenu },
+                 children,
+-                React__default.createElement(MenuItem, { items: footerLinks, isDark: isDark, toggleTheme: toggleTheme, langs: langs, setLang: setLang, currentLang: currentLang, cakePriceUsd: cakePriceUsd, buyCakeLabel: buyCakeLabel, mb: [MOBILE_MENU_HEIGHT + "px", null, "0px"] }))),
+-        isMobile && React__default.createElement(BottomNav, { items: links, activeItem: activeItem, activeSubItem: activeSubItem })));
++                React__default.createElement(MenuItem, { items: footerLinks, isDark: isDark, toggleTheme: toggleTheme, langs: langs, setLang: setLang, currentLang: currentLang, cakePriceUsd: cakePriceUsd, buyCakeLabel: buyCakeLabel, mb: [MOBILE_MENU_HEIGHT + "px", null, "0px"] }),
++            )),
++        // isMobile && React__default.createElement(BottomNav, { items: links, activeItem: activeItem, activeSubItem: activeSubItem })
++    ));
+ };
+ var templateObject_1$6, templateObject_2$3, templateObject_3$1, templateObject_4, templateObject_5, templateObject_6;
+ 
+@@ -5409,7 +5419,7 @@ var useWalletModal = function (login, logout, t) {
      return { onPresentConnectModal: onPresentConnectModal };
  };
  
