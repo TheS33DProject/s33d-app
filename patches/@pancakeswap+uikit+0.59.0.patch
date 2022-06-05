@@ -1,5 +1,5 @@
 diff --git a/node_modules/@pancakeswap/uikit/dist/index.esm.js b/node_modules/@pancakeswap/uikit/dist/index.esm.js
-index 0c4a18e..0fb96ea 100644
+index 0c4a18e..6372c5b 100644
 --- a/node_modules/@pancakeswap/uikit/dist/index.esm.js
 +++ b/node_modules/@pancakeswap/uikit/dist/index.esm.js
 @@ -375,11 +375,11 @@ var Icon$1$ = function (props) {
@@ -173,7 +173,29 @@ index 0c4a18e..0fb96ea 100644
          } }));
  };
  var ThemeSwitcher$1 = React__default.memo(ThemeSwitcher, function (prev, next) { return prev.isDark === next.isDark; });
-@@ -4694,85 +4685,85 @@ var socials = [
+@@ -4536,7 +4527,7 @@ var BottomNavItem = function (_a) {
+     return showItemsOnMobile ? (React__default.createElement(StyledBottomNavItem, __assign({ type: "button" }, props), bottomNavItemContent)) : (React__default.createElement(StyledBottomNavItem, __assign({ as: Link$1, to: href }, props), bottomNavItemContent));
+ };
+ 
+-var StyledBottomNav = styled(Flex)(templateObject_1$b || (templateObject_1$b = __makeTemplateObject(["\n  position: fixed;\n  bottom: 0px;\n  width: 100%;\n  padding: 5px 8px;\n  background: ", ";\n  border-top: 1px solid ", ";\n  padding-bottom: env(safe-area-inset-bottom);\n  html[data-useragent*=\"TokenPocket_iOS\"] & {\n    padding-bottom: 45px;\n  }\n  z-index: 20;\n"], ["\n  position: fixed;\n  bottom: 0px;\n  width: 100%;\n  padding: 5px 8px;\n  background: ", ";\n  border-top: 1px solid ", ";\n  padding-bottom: env(safe-area-inset-bottom);\n  html[data-useragent*=\"TokenPocket_iOS\"] & {\n    padding-bottom: 45px;\n  }\n  z-index: 20;\n"])), function (_a) {
++var StyledBottomNav = styled(Flex)(templateObject_1$b || (templateObject_1$b = __makeTemplateObject(["\n  position: fixed;\n  bottom: 0px;\n  width: 100%;\n  padding: 5px 8px;\n  background: ", ";\n  padding-bottom: env(safe-area-inset-bottom);\n  html[data-useragent*=\"TokenPocket_iOS\"] & {\n    padding-bottom: 45px;\n  }\n  z-index: 20;\n"], ["\n  position: fixed;\n  bottom: 0px;\n  width: 100%;\n  padding: 5px 8px;\n  background: ", ";\n  padding-bottom: env(safe-area-inset-bottom);\n  html[data-useragent*=\"TokenPocket_iOS\"] & {\n    padding-bottom: 45px;\n  }\n  z-index: 20;\n"])), function (_a) {
+     var theme = _a.theme;
+     return theme.colors.backgroundAlt;
+ }, function (_a) {
+@@ -4686,93 +4677,96 @@ var BottomNav = function (_a) {
+             return (showOnMobile && (React__default.createElement(DropdownMenu, { key: label, items: menuItems, isBottomNav: true, activeItem: activeSubItem, showItemsOnMobile: showItemsOnMobile, setMenuOpenByIndex: setMenuOpenByIndex, index: index },
+                 React__default.createElement(Box, null,
+                     React__default.createElement(NotificationDot, { show: !!statusColor, color: statusColor },
+-                        React__default.createElement(BottomNavItem, { href: href, isActive: href === activeItem, label: label, iconName: icon, showItemsOnMobile: showItemsOnMobile }))))));
+-        }))));
++                        React__default.createElement(BottomNavItem, { href: href, isActive: href === activeItem, label: label, iconName: icon, showItemsOnMobile: showItemsOnMobile }))
++                )))
++            );
++        })),
++    ));
+ };
+ 
+ var socials = [
      {
          label: "Twitter",
          icon: "Twitter",
@@ -330,7 +352,7 @@ index 0c4a18e..0fb96ea 100644
      },
  ];
  __spreadArray([], Array(20)).map(function (_, i) { return ({
-@@ -4787,7 +4778,7 @@ var SocialLinks = function (_a) {
+@@ -4787,7 +4781,7 @@ var SocialLinks = function (_a) {
          var iconProps = {
              iconName: social.icon,
              width: "20px",
@@ -339,7 +361,7 @@ index 0c4a18e..0fb96ea 100644
              style: { cursor: "pointer" },
          };
          var mr = index < socials.length - 1 ? "24px" : 0;
-@@ -4800,18 +4791,18 @@ var SocialLinks = function (_a) {
+@@ -4800,18 +4794,18 @@ var SocialLinks = function (_a) {
  };
  var SocialLinks$1 = React__default.memo(SocialLinks, function () { return true; });
  
@@ -361,10 +383,12 @@ index 0c4a18e..0fb96ea 100644
  var StyledText = styled.span(templateObject_7 || (templateObject_7 = __makeTemplateObject(["\n  color: ", ";\n"], ["\n  color: ", ";\n"])), darkColors.text);
  var templateObject_1$9, templateObject_2$5, templateObject_3$2, templateObject_4$1, templateObject_5$1, templateObject_6$1, templateObject_7;
  
-@@ -4837,29 +4828,38 @@ var MenuItem = function (_a) {
+@@ -4835,33 +4829,52 @@ var LangSelector$1 = React__default.memo(LangSelector, function (prev, next) { r
+ 
+ var MenuItem = function (_a) {
      var items = _a.items, isDark = _a.isDark, toggleTheme = _a.toggleTheme, currentLang = _a.currentLang, langs = _a.langs, setLang = _a.setLang, cakePriceUsd = _a.cakePriceUsd, buyCakeLabel = _a.buyCakeLabel, props = __rest(_a, ["items", "isDark", "toggleTheme", "currentLang", "langs", "setLang", "cakePriceUsd", "buyCakeLabel"]);
-     return (React__default.createElement(StyledFooter, __assign({ p: ["40px 16px", null, "56px 40px 32px 40px"] }, props, { justifyContent: "center" }),
-         React__default.createElement(Flex, { flexDirection: "column", width: ["100%", null, "1200px;"] },
+-    return (React__default.createElement(StyledFooter, __assign({ p: ["40px 16px", null, "56px 40px 32px 40px"] }, props, { justifyContent: "center" }),
+-        React__default.createElement(Flex, { flexDirection: "column", width: ["100%", null, "1200px;"] },
 -            React__default.createElement(StyledIconMobileContainer, { display: ["block", null, "none"] },
 -                React__default.createElement(LogoWithTextIcon, { isDark: true, width: "130px" })),
 -            React__default.createElement(Flex, { order: [2, null, 1], flexDirection: ["column", null, "row"], justifyContent: "space-between", alignItems: "flex-start", mb: ["42px", null, "36px"] }, items === null || items === void 0 ? void 0 :
@@ -380,6 +404,26 @@ index 0c4a18e..0fb96ea 100644
 -                React__default.createElement(Box, { display: ["none", null, "block"] },
 -                    React__default.createElement(LogoWithTextIcon, { isDark: true, width: "160px" }))),
 -            React__default.createElement(StyledSocialLinks, { order: [2], pb: ["42px", null, "32px"], mb: ["0", null, "32px"] }),
+-            React__default.createElement(StyledToolsContainer, { order: [1, null, 3], flexDirection: ["column", null, "row"], justifyContent: "space-between" },
+-                React__default.createElement(Flex, { order: [2, null, 1], alignItems: "center" },
+-                    React__default.createElement(ThemeSwitcher$1, { isDark: isDark, toggleTheme: toggleTheme }),
+-                    React__default.createElement(LangSelector$1, { currentLang: currentLang, langs: langs, setLang: setLang, color: darkColors.textSubtle, dropdownPosition: "top-right" })),
+-                React__default.createElement(Flex, { order: [1, null, 2], mb: ["24px", null, "0"], justifyContent: "space-between", alignItems: "center" },
+-                    React__default.createElement(Box, { mr: "20px" },
+-                        React__default.createElement(CakePrice$1, { cakePriceUsd: cakePriceUsd, color: darkColors.textSubtle })),
+-                    React__default.createElement(Button, { as: "a", href: "https://pancakeswap.finance/swap?outputCurrency=0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82", target: "_blank", scale: "sm", endIcon: React__default.createElement(Icon$27, { color: lightColors.backgroundAlt }) }, buyCakeLabel))))));
+-};
+-
++    return (
++        React__default.createElement(StyledFooter, __assign({ p: ["40px 16px", null, "56px 40px 32px 40px"] }, props, { justifyContent: "center" }, ),
++        //=> key:footer - New footer for S33D UI
++        //==============================================================================================================================================
++        React__default.createElement(ThemeSwitcher$1, { isDark: isDark, toggleTheme: toggleTheme }),
++        React__default.createElement(Box, { mr: "20px" }),
++        React__default.createElement(StyledSocialLinks, { order: [2], pb: [null, null, null], mb: [null, null, null] }),
++        //==============================================================================================================================================
++        //=> key:footer - This section is for editing the elements on footer of the App. Deprecated and replaced with above
++        // React__default.createElement(Flex, { flexDirection: "column", width: ["100%", null, "1200px;"] },
 +            // React__default.createElement(StyledIconMobileContainer, { display: ["block", null, "none"] },
 +            //     React__default.createElement(LogoWithTextIcon, { isDark: true, width: "130px" })
 +            // ),
@@ -397,30 +441,29 @@ index 0c4a18e..0fb96ea 100644
 +            //         React__default.createElement(LogoWithTextIcon, { isDark: true, width: "85px" }))
 +            // ),
 +            // Original location for StyledSocialLinks
-             React__default.createElement(StyledToolsContainer, { order: [1, null, 3], flexDirection: ["column", null, "row"], justifyContent: "space-between" },
-                 React__default.createElement(Flex, { order: [2, null, 1], alignItems: "center" },
-                     React__default.createElement(ThemeSwitcher$1, { isDark: isDark, toggleTheme: toggleTheme }),
--                    React__default.createElement(LangSelector$1, { currentLang: currentLang, langs: langs, setLang: setLang, color: darkColors.textSubtle, dropdownPosition: "top-right" })),
--                React__default.createElement(Flex, { order: [1, null, 2], mb: ["24px", null, "0"], justifyContent: "space-between", alignItems: "center" },
--                    React__default.createElement(Box, { mr: "20px" },
--                        React__default.createElement(CakePrice$1, { cakePriceUsd: cakePriceUsd, color: darkColors.textSubtle })),
--                    React__default.createElement(Button, { as: "a", href: "https://pancakeswap.finance/swap?outputCurrency=0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82", target: "_blank", scale: "sm", endIcon: React__default.createElement(Icon$27, { color: lightColors.backgroundAlt }) }, buyCakeLabel))))));
++            // React__default.createElement(StyledToolsContainer, { order: [1, null, 3], flexDirection: ["column", null, "row"], justifyContent: "space-between" },
++                // React__default.createElement(Flex, { order: [2, null, 1], alignItems: "center" },
++                    // React__default.createElement(ThemeSwitcher$1, { isDark: isDark, toggleTheme: toggleTheme }),
 +                    // React__default.createElement(LangSelector$1, { currentLang: currentLang, langs: langs, setLang: setLang, color: darkColors.textSubtle, dropdownPosition: "top-right" })
-+                    React__default.createElement(Box, { mr: "20px" }),
-+                    React__default.createElement(StyledSocialLinks, { order: [2], pb: [null, null, null], mb: [null, null, null] }),
-+                ),
++                    // React__default.createElement(Box, { mr: "20px" }),
++                    // React__default.createElement(StyledSocialLinks, { order: [2], pb: [null, null, null], mb: [null, null, null] }),
++                // ),
 +                // React__default.createElement(Flex, { order: [1, null, 2], mb: ["24px", null, "0"], justifyContent: "space-between", alignItems: "center" },
 +                    // React__default.createElement(Box, { mr: "20px" },
 +                    //     React__default.createElement(CakePrice$1, { cakePriceUsd: cakePriceUsd, color: darkColors.textSubtle })
 +                    // ),
 +                    // React__default.createElement(Button, { as: "a", href: "https://pancakeswap.finance/swap?outputCurrency=0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82", target: "_blank", scale: "sm", endIcon: React__default.createElement(Icon$27, { color: lightColors.backgroundAlt }) }, buyCakeLabel),
 +                // ),
-+            ),
-+        )));
- };
- 
++            // ),
++        // ),
++        )
++    );
++};
++//=> key:menu This is the place to edit the navbar items on top
  var MenuItems = function (_a) {
-@@ -4870,13 +4870,17 @@ var MenuItems = function (_a) {
+     var _b = _a.items, items = _b === void 0 ? [] : _b, activeItem = _a.activeItem, activeSubItem = _a.activeSubItem, props = __rest(_a, ["items", "activeItem", "activeSubItem"]);
+     return (React__default.createElement(Flex, __assign({}, props), items.map(function (_a) {
+@@ -4870,13 +4883,17 @@ var MenuItems = function (_a) {
          var statusColor = (_c = (_b = menuItems === null || menuItems === void 0 ? void 0 : menuItems.find(function (menuItem) { return menuItem.status !== undefined; })) === null || _b === void 0 ? void 0 : _b.status) === null || _c === void 0 ? void 0 : _c.color;
          var isActive = activeItem === href;
          var linkProps = isTouchDevice() && menuItems && menuItems.length > 0 ? {} : { href: href };
@@ -441,7 +484,7 @@ index 0c4a18e..0fb96ea 100644
      var theme = _a.theme;
      return theme.mediaQueries.nav;
  }, function (_a) {
-@@ -4887,9 +4891,9 @@ var Logo = function (_a) {
+@@ -4887,9 +4904,9 @@ var Logo = function (_a) {
      var isDark = _a.isDark, href = _a.href;
      var isAbsoluteUrl = href.startsWith("http");
      var innerLogo = (React__default.createElement(React__default.Fragment, null,
@@ -453,7 +496,7 @@ index 0c4a18e..0fb96ea 100644
  };
  var Logo$1 = React__default.memo(Logo, function (prev, next) { return prev.isDark === next.isDark; });
  var templateObject_1$7, templateObject_2$4;
-@@ -5038,7 +5042,7 @@ var links = [
+@@ -5038,7 +5055,7 @@ var links = [
      },
      {
          type: DropdownMenuItemType.EXTERNAL_LINK,
@@ -462,16 +505,19 @@ index 0c4a18e..0fb96ea 100644
          label: "Link",
      },
      {
-@@ -5056,7 +5060,7 @@ var TOP_BANNER_HEIGHT = 70;
+@@ -5056,9 +5073,9 @@ var TOP_BANNER_HEIGHT = 70;
  var TOP_BANNER_HEIGHT_MOBILE = 84;
  
  var Wrapper = styled.div(templateObject_1$6 || (templateObject_1$6 = __makeTemplateObject(["\n  position: relative;\n  width: 100%;\n"], ["\n  position: relative;\n  width: 100%;\n"])));
 -var StyledNav = styled.nav(templateObject_2$3 || (templateObject_2$3 = __makeTemplateObject(["\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 100%;\n  height: ", "px;\n  background-color: ", ";\n  border-bottom: 1px solid ", ";\n  transform: translate3d(0, 0, 0);\n\n  padding-left: 16px;\n  padding-right: 16px;\n"], ["\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 100%;\n  height: ", "px;\n  background-color: ", ";\n  border-bottom: 1px solid ", ";\n  transform: translate3d(0, 0, 0);\n\n  padding-left: 16px;\n  padding-right: 16px;\n"])), MENU_HEIGHT, function (_a) {
 +var StyledNav = styled.nav(templateObject_2$3 || (templateObject_2$3 = __makeTemplateObject(["\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 100%;\n  height: ", "px;\n  background-color: ", ";\n   transform: translate3d(0, 0, 0);\n\n  padding-left: 16px;\n  padding-right: 16px;\n"], ["\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 100%;\n  height: ", "px;\n  background-color: ", ";\n  transform: translate3d(0, 0, 0);\n\n  padding-left: 16px;\n  padding-right: 16px;\n"])), MENU_HEIGHT, function (_a) {
      var theme = _a.theme;
-     return theme.nav.background;
+-    return theme.nav.background;
++    return theme.nav.backgroundAlt;
  }, function (_a) {
-@@ -5131,20 +5135,26 @@ var Menu$1 = function (_a) {
+     var theme = _a.theme;
+     return theme.colors.cardBorder;
+@@ -5131,20 +5148,27 @@ var Menu$1 = function (_a) {
                      !isMobile && React__default.createElement(MenuItems, { items: links, activeItem: activeItem, activeSubItem: activeSubItem, ml: "24px" })),
                  React__default.createElement(Flex, { alignItems: "center", height: "100%" },
                      !isMobile && (React__default.createElement(Box, { mr: "12px" },
@@ -499,12 +545,13 @@ index 0c4a18e..0fb96ea 100644
 -        isMobile && React__default.createElement(BottomNav, { items: links, activeItem: activeItem, activeSubItem: activeSubItem })));
 +                React__default.createElement(MenuItem, { items: footerLinks, isDark: isDark, toggleTheme: toggleTheme, langs: langs, setLang: setLang, currentLang: currentLang, cakePriceUsd: cakePriceUsd, buyCakeLabel: buyCakeLabel, mb: [MOBILE_MENU_HEIGHT + "px", null, "0px"] }),
 +            )),
++        //=> key:menu - Bottom nav bar enable for mobile view
 +        // isMobile && React__default.createElement(BottomNav, { items: links, activeItem: activeItem, activeSubItem: activeSubItem })
 +    ));
  };
  var templateObject_1$6, templateObject_2$3, templateObject_3$1, templateObject_4, templateObject_5, templateObject_6;
  
-@@ -5409,7 +5419,7 @@ var useWalletModal = function (login, logout, t) {
+@@ -5409,7 +5433,7 @@ var useWalletModal = function (login, logout, t) {
      return { onPresentConnectModal: onPresentConnectModal };
  };
  
