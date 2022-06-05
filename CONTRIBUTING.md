@@ -13,7 +13,7 @@ git clone https://github.com/TheS33DProject/s33d-app.git
 ```shell
 yarn
 ```
-3. Run patch-package to update patches. 
+3. Run patch-package to update patches. This is required to display S33D App UI correctly.
 ```shell
 yarn patch-package
 ```
@@ -41,6 +41,30 @@ Run tests with `yarn test`.
 ## Commits & Code Updates
 
 All commits must follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+
+All changes to the S33D App UI needs to be captured in a patch before committing these changes to the repository. This can be done with by following the steps below.
+
+```shell
+yarn patch-package @pancakeswap/uikit
+```
+
+### Example Output
+```shell
+gardener@S33DLabs s33d-app % yarn patch-package @pancakeswap/uikit
+yarn run v1.22.17
+$ npx patch-package @pancakeswap/uikit
+patch-package 6.4.7
+• Creating temporary folder
+• Installing @pancakeswap/uikit@0.59.0 with yarn
+• Diffing your files with clean files
+✔ Created file patches/@pancakeswap+uikit+0.59.0.patch
+
+💡 @pancakeswap/uikit is on GitHub! To draft an issue based on your patch run
+
+    yarn patch-package @pancakeswap/uikit --create-issue
+
+✨  Done in 7.85s.
+```
 
 ## Issue reports
 
