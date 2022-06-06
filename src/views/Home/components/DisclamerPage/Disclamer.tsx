@@ -16,11 +16,9 @@ export default function DisclamerScreen() {
           planet. We are on a mission to enable the propagation of sustainability initiatives and encourage humankind to
           form symbiotic relationships with our planet and each
         </p>
-        <br />
         <p className="para-content">
           You understand that by participating the Initial DEX Offering (IDO) of The S33D Project, you have:
         </p>
-        <br />
         <p className="para-content">
           <span className="content1">(I) read the Legal Notice and other information about this ID</span>
           <span className="content1">(II) confirmed that you are not in a jurisdiction where buying,</span>
@@ -30,8 +28,6 @@ export default function DisclamerScreen() {
           <span className="content1">(III) understood that despite all precautions, there can</span>
           still be exploit risks that exist within the app which may result in partial or total loss of funds.
         </p>
-
-        <br />
         <Button type="button" className="btn">
           Submit
         </Button>
