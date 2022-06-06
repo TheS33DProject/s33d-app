@@ -11,6 +11,12 @@ import { usePollCoreFarmData } from 'state/farms/hooks'
 import { useFetchProfile } from 'state/profile/hooks'
 import { DatePickerPortal } from 'components/DatePicker'
 import { nftsBaseUrl } from 'views/Nft/market/constants'
+import BuySeedScreen from 'views/Home/components/BuySeeds/BuySeed'
+import DisclamerScreen from 'views/Home/components/DisclamerPage/Disclamer'
+import WhiteListingScreen from 'views/Home/components/WhiteListing/WhiteListing'
+import ThankYouScreen from 'views/Home/components/ThankYouPage/ThankYouScreen'
+import BuySeedCard from 'views/Home/components/PurchaseSeeds/BuySeedCard'
+
 import GlobalStyle from './style/Global'
 import Menu from './components/Menu'
 import SuspenseWithChunkError from './components/SuspenseWithChunkError'
@@ -30,6 +36,7 @@ import {
 import RedirectOldRemoveLiquidityPathStructure from './views/RemoveLiquidity/redirects'
 import { RedirectPathToSwapOnly, RedirectToSwap } from './views/Swap/redirects'
 import { useInactiveListener } from './hooks/useInactiveListener'
+import './app.css'
 
 // Route-based code splitting
 // Only pool is included in the main bundle because of it's the most visited page
@@ -139,6 +146,27 @@ const App: React.FC = () => {
             {/* Info pages */}
             <Route path="/info">
               <Info />
+            </Route>
+
+            {/* new UI */}
+            <Route path="/buy-seeds">
+              <BuySeedScreen />
+            </Route>
+
+            <Route path="/disclamer">
+              <DisclamerScreen />
+            </Route>
+
+            <Route path="/white-listing">
+              <WhiteListingScreen />
+            </Route>
+
+            <Route path="/thank-you">
+              <ThankYouScreen />
+            </Route>
+
+            <Route path="/purchase-seed">
+              <BuySeedCard />
             </Route>
 
             {/* Using this format because these components use routes injected props. We need to rework them with hooks */}
