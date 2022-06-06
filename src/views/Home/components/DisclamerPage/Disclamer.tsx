@@ -1,9 +1,11 @@
 import { Button } from '@pancakeswap/uikit'
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 import logo from '../assets/g12.svg'
 
 export default function DisclamerScreen() {
+  const history = useHistory()
   return (
     <div className="main-container">
       <div className="astro-box pr-1">
@@ -28,7 +30,7 @@ export default function DisclamerScreen() {
           <span className="content1">(III) understood that despite all precautions, there can</span>
           still be exploit risks that exist within the app which may result in partial or total loss of funds.
         </p>
-        <Button type="button" className="btn">
+        <Button type="button" onClick={() => history.push('/purchase-seed')} className="btn">
           Submit
         </Button>
       </div>

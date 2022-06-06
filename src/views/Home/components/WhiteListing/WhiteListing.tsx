@@ -5,7 +5,10 @@ import { useState } from 'react'
 import logo from '../assets/astronaut-input.svg'
 import axios from 'axios'
 import { transform } from 'lodash'
+import { useHistory } from 'react-router-dom'
+
 export default function WhiteListingScreen() {
+  const history = useHistory()
   const [buttonFlag, setButtonFlag] = useState(false)
   const [userDetails, setUserDetails] = useState({
     firstname: '',
@@ -61,6 +64,9 @@ export default function WhiteListingScreen() {
         payload,
         config,
       )
+      if ((result.status = 200)) {
+        history.push('/thank-you')
+      }
     } catch (error) {
       console.log('Error from API', error)
     }

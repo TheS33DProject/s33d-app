@@ -153,7 +153,7 @@ const App: React.FC = () => {
               <BuySeedScreen />
             </Route>
 
-            <Route path="/disclamer">
+            <Route path="/disclaimer">
               <DisclamerScreen />
             </Route>
 
