@@ -1,3 +1,7 @@
+body {
+        background-color: #FFFCF1;
+}
+
 .buySeed {
     width: 100vw;
     /* height: calc(100vh - 100px); */
@@ -334,7 +338,7 @@ background: radial-gradient(50% 50% at 50% 50%, rgba(65, 166, 91, 0.15) 0%, rgba
     font-weight: 400;
     font-size: 60px;
     line-height: 73px;
-
+    margin-bottom: 20px;
     /* Dark Green */
 
     color: #002C00;
@@ -348,11 +352,12 @@ background: radial-gradient(50% 50% at 50% 50%, rgba(65, 166, 91, 0.15) 0%, rgba
     top: 0%;
     bottom: -800%;
    */
-    font-family: 'Manrope';
+    /* font-family: 'Manrope'; */
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
     line-height: 25px;
+    margin-bottom: 25px;
 
     /* Dark Green */
 
@@ -360,7 +365,7 @@ background: radial-gradient(50% 50% at 50% 50%, rgba(65, 166, 91, 0.15) 0%, rgba
 }
 
 .txt-bold {
-    font-family: 'Manrope';
+    /* font-family: 'Manrope'; */
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
@@ -412,7 +417,7 @@ background: radial-gradient(50% 50% at 50% 50%, rgba(65, 166, 91, 0.15) 0%, rgba
 
 #WhiteListingForm ::placeholder {
     /* Edge */
-    font-family: 'Manrope';
+    /* font-family: 'Manrope'; */
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
@@ -432,10 +437,10 @@ background: radial-gradient(50% 50% at 50% 50%, rgba(65, 166, 91, 0.15) 0%, rgba
 }
 
 .pr-1 {
-    padding-right: 15px;
+    padding-right: 60px;
 }
-
+/* 
 .footer-area-icons {
     display: flex;
     justify-content: center;
-}
+} */
