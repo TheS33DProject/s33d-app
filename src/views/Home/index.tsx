@@ -55,9 +55,11 @@ const Home: React.FC = (props) => {
       <PageMeta />
       <div className="App">
         <HomeCarousel />
-        <Button className="seed-btn" onClick={() => history.push('/buy-seeds')}>
-          Buy S33D
-        </Button>
+        <div className="text-center">
+          <Button className="seed-btn" onClick={() => history.push('/buy-seeds')}>
+            Buy S33D
+          </Button>
+        </div>
       </div>
     </>
   )
