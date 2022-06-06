@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, Progress } from '@pancakeswap/uikit'
+import { Button, Input, Progress } from '@pancakeswap/uikit'
 
 function BuySeedCard() {
   return (
@@ -45,9 +45,9 @@ function BuySeedCard() {
             <Input type="text" className="input-field" placeholder="1.00" />
           </div>
           <div className="button-popup">
-            <button type="button" className="seed-btn">
+            <Button type="button" className="seed-btn">
               Buy S33D
-            </button>
+            </Button>
           </div>
           {/* <div style={{ width: '270', margin: 'auto', display: 'flex' }}>
             <div

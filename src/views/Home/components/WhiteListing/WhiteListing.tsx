@@ -1,4 +1,4 @@
-import { Button } from '@pancakeswap/uikit'
+import { Button, Input } from '@pancakeswap/uikit'
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
@@ -106,26 +106,14 @@ export default function WhiteListingScreen() {
             </p>
             <div className="input-controller">
               <div className="form-group">
-                <input
-                  type="text"
-                  name="firstname"
-                  className="form-control"
-                  placeholder="First Name"
-                  onChange={onChange}
-                />
+                <Input type="text" scale="lg" placeholder="First Name" onChange={onChange} />
               </div>
               <div className="form-group">
-                <input
-                  type="text"
-                  name="lastname"
-                  onChange={onChange}
-                  className="form-control"
-                  placeholder="Last Name"
-                />
+                <Input type="text" scale="lg" placeholder="Last Name" onChange={onChange} />
               </div>
             </div>
             <div className="form-group-mail">
-              <input type="email" onChange={onChange} name="email" placeholder="Email Address" />
+              <Input type="email" onChange={onChange} scale="lg" placeholder="Email Address" />
             </div>
             <p className="para-content">
               The S33D Project is committed to protect and respect your privacy and we only use your personal
