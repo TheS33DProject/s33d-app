@@ -2,12 +2,11 @@ import { Button, Input } from '@pancakeswap/uikit'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
-// import logo from '/images/assets/astronaut-input.svg'
 import { useWeb3React } from '@web3-react/core'
 
 export default function WhiteListingScreen() {
   const history = useHistory()
-  const { account } = useWeb3React() //wallet address is available as account
+  const { account } = useWeb3React() // wallet address is available as account
   const [buttonFlag, setButtonFlag] = useState(false)
   const [userDetails, setUserDetails] = useState({
     firstname: '',
@@ -66,6 +65,7 @@ export default function WhiteListingScreen() {
         config,
       )
       if (result.status === 200) {
+        localStorage.setItem('userWhiteListStatus', 'true')
         history.push('/thank-you')
       }
     } catch (error) {

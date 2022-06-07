@@ -1,11 +1,22 @@
 import { Button } from '@pancakeswap/uikit'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
 // import logo from '/images/assets/g12.svg'
 
 export default function DisclamerScreen() {
   const history = useHistory()
+  useEffect(() => {
+    const whiteListStatus = localStorage.getItem('userWhiteListStatus')
+    if (whiteListStatus !== 'true') {
+      history.push('/')
+    }
+  }, [history])
+
+  const handleClick = () => {
+    localStorage.setItem('userDisclamerStatus', 'true')
+    history.push('/purchase-seed')
+  }
   return (
     <div className="main-container">
       <div className="astro-box pr-1">
@@ -30,7 +41,7 @@ export default function DisclamerScreen() {
           <span className="content1">(III) understood that despite all precautions, there can</span>
           still be exploit risks that exist within the app which may result in partial or total loss of funds.
         </p>
-        <Button type="button" onClick={() => history.push('/purchase-seed')} className="btn">
+        <Button type="button" onClick={handleClick} className="btn">
           Submit
         </Button>
       </div>
