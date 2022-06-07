@@ -3,10 +3,8 @@ import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
 import useTheme from 'hooks/useTheme'
 import { useHistory } from 'react-router-dom'
-
 import { Button } from '@pancakeswap/uikit'
 import HomeCarousel from './components/Carousal/HomeCarousal'
-import CSS from 'csstype'
 
 const BuySeedButton = styled(Button)`
   background: #41a65b;
@@ -20,7 +18,7 @@ const Home: React.FC = (props) => {
   const history = useHistory()
   // const HomeSectionContainerStyles = { margin: '0', width: '100%', maxWidth: '968px' }
 
-  const divStyle: CSS.Properties = {
+  const divStyle = {
     display: 'flex',
     justifyContent: 'center',
     paddingLeft: '20%',

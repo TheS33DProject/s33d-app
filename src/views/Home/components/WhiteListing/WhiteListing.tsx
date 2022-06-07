@@ -1,11 +1,8 @@
 import { Button, Input } from '@pancakeswap/uikit'
-import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
-import logo from '../assets/astronaut-input.svg'
-import axios from 'axios'
-import { transform } from 'lodash'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import axios from 'axios'
+import logo from '../assets/astronaut-input.svg'
 
 export default function WhiteListingScreen() {
   const history = useHistory()
@@ -50,10 +47,12 @@ export default function WhiteListingScreen() {
   }
   const hsFormSubmission = async () => {
     try {
-      const data = userDetails
+      const data = { ...userDetails }
       data['TICKET.content'] = 'content from developer kapil Sharma'
       delete data.termAndCondition
       const payload = transformHSFormPayload(data)
+      console.log(payload)
+
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -64,7 +63,7 @@ export default function WhiteListingScreen() {
         payload,
         config,
       )
-      if ((result.status = 200)) {
+      if (result.status === 200) {
         history.push('/thank-you')
       }
     } catch (error) {
@@ -75,13 +74,17 @@ export default function WhiteListingScreen() {
     const tranformedData = {
       fields: [],
     }
-    for (const keys in data) {
+    const keys = Object.keys(data)
+
+    keys.forEach((element) => {
       const temp = { name: '', value: '' }
-      temp.name = keys
-      temp.value = data[keys]
+
+      temp.name = element
+
+      temp.value = data[element]
+
       tranformedData.fields.push(temp)
-    }
-    // return JSON.stringify(tranformedData)
+    })
     return tranformedData
   }
   useEffect(() => {
@@ -90,7 +93,8 @@ export default function WhiteListingScreen() {
     } else {
       setButtonFlag(true)
     }
-  }, [userDetails])
+    console.log({ buttonFlag, firstname, lastname, email, termAndCondition })
+  }, [firstname, lastname, email, termAndCondition, buttonFlag])
   return (
     <>
       <div className="main-container">
@@ -106,14 +110,14 @@ export default function WhiteListingScreen() {
             </p>
             <div className="input-controller">
               <div className="form-group">
-                <Input type="text" scale="lg" placeholder="First Name" onChange={onChange} />
+                <Input type="text" scale="lg" placeholder="First Name" name="firstname" onChange={onChange} />
               </div>
               <div className="form-group">
-                <Input type="text" scale="lg" placeholder="Last Name" onChange={onChange} />
+                <Input type="text" scale="lg" placeholder="Last Name" name="lastname" onChange={onChange} />
               </div>
             </div>
             <div className="form-group-mail">
-              <Input type="email" onChange={onChange} scale="lg" placeholder="Email Address" />
+              <Input type="email" onChange={onChange} scale="lg" name="email" placeholder="Email Address" />
             </div>
             <p className="para-content">
               The S33D Project is committed to protect and respect your privacy and we only use your personal
