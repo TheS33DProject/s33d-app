@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 // import logo from '/images/assets/astronaut-input.svg'
+import { useWeb3React } from '@web3-react/core'
 
 export default function WhiteListingScreen() {
   const history = useHistory()
+  const { account } = useWeb3React() //wallet address is available as account
   const [buttonFlag, setButtonFlag] = useState(false)
   const [userDetails, setUserDetails] = useState({
     firstname: '',
