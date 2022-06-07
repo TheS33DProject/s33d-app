@@ -2,14 +2,14 @@ import { Button } from '@pancakeswap/uikit'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
-import logo from '../assets/g12.svg'
+// import logo from '/images/assets/g12.svg'
 
 export default function DisclamerScreen() {
   const history = useHistory()
   return (
     <div className="main-container">
       <div className="astro-box pr-1">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src="images/assets/g12.svg" className="App-logo" alt="logo" />
       </div>
       <div className="content-box">
         <h1 className="hero-heading">Disclaimer</h1>

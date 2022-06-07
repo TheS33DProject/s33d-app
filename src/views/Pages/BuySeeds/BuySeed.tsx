@@ -1,7 +1,7 @@
 import { Button } from '@pancakeswap/uikit'
 import { useHistory } from 'react-router-dom'
 import React from 'react'
-import logo from '../assets/astronaut.svg'
+// import logo from '/images/assets/astronaut.svg'
 
 export default function BuySeedScreen() {
   const history = useHistory()
@@ -9,7 +9,7 @@ export default function BuySeedScreen() {
     <>
       <div className="main-container">
         <div className="astro-box pr-1">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src="images/assets/astronaut.svg" className="App-logo" alt="logo" />
         </div>
         <div className="content-box">
           <h1 className="hero-heading">Buy S33D</h1>
