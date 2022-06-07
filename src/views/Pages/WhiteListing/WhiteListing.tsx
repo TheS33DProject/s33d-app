@@ -119,6 +119,7 @@ export default function WhiteListingScreen() {
             <div className="form-group-mail">
               <Input type="email" onChange={onChange} scale="lg" name="email" placeholder="Email Address" />
             </div>
+            <br />
             <p className="para-content">
               The S33D Project is committed to protect and respect your privacy and we only use your personal
               information to facilitate this whitelisting process. If you consent to us contacting you for project
