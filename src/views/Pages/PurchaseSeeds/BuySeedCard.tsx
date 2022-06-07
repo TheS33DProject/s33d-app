@@ -14,7 +14,7 @@ function BuySeedCard() {
           <div className="text-container-brand">
             <div className="text-wrapper-brand">
               <div className="icon">
-                <img src="images/Artboard.svg" alt="a" />
+                <img src="images/Group.png" alt="a" />
                 <span>USDT</span>
               </div>
             </div>
@@ -28,7 +28,7 @@ function BuySeedCard() {
             <div className="text-wrapper-brand">
               <div className="icon">
                 <img src="images/Artboard.svg" alt="a" />
-                <span>USDT</span>
+                <span>S33D</span>
               </div>
             </div>
             <div className="text-wrapper-brand">Balance: 100.00</div>
@@ -37,8 +37,8 @@ function BuySeedCard() {
             <Progress variant="flat" primaryStep={80} />
           </div>
           <div className="text-container-offer my-2">
-            <div className="text-wrapper">Offer Price</div>
-            <div className="text-wrapper">0.10 USDT per S33D</div>
+            <div className="text-wrapper">50% filled</div>
+            <div className="text-wrapper">100,000 available</div>
           </div>
 
           <div className="input-container">
