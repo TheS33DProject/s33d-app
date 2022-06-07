@@ -15,7 +15,7 @@ import BuySeedScreen from 'views/Pages/BuySeeds/BuySeed'
 import DisclamerScreen from 'views/Pages/DisclamerPage/Disclamer'
 import WhiteListingScreen from 'views/Pages/WhiteListing/WhiteListing'
 import ThankYouScreen from 'views/Pages/ThankYouPage/ThankYouScreen'
-import BuySeedCard from 'views/Pages/PurchaseSeeds/BuySeedCard'
+import PurchaseSeeds from 'views/Pages/PurchaseSeeds/PurchaseSeeds'
 
 import GlobalStyle from './style/Global'
 import Menu from './components/Menu'
@@ -166,7 +166,7 @@ const App: React.FC = () => {
             </Route>
 
             <Route path="/purchase-seed">
-              <BuySeedCard />
+              <PurchaseSeeds />
             </Route>
 
             {/* Using this format because these components use routes injected props. We need to rework them with hooks */}

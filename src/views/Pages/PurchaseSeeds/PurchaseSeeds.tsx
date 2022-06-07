@@ -1,7 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, Input, Progress } from '@pancakeswap/uikit'
+import { useHistory } from 'react-router-dom'
 
-function BuySeedCard() {
+function PurchaseSeeds() {
+  const history = useHistory()
+
+  useEffect(() => {
+    const disclaimerStatus = localStorage.getItem('userDisclamerStatus')
+    const whiteListStatus = localStorage.getItem('userWhiteListStatus')
+    console.log({ disclaimerStatus, whiteListStatus })
+
+    if (whiteListStatus === null) {
+      history.push('/')
+    } else if ((disclaimerStatus !== 'true' || disclaimerStatus === null) && whiteListStatus === 'true') {
+      history.push('/disclaimer')
+    } else if (disclaimerStatus === null && whiteListStatus === null) {
+      history.push('/')
+    }
+  }, [history])
+
   return (
     <>
       <div className="buySeed">
@@ -37,7 +54,7 @@ function BuySeedCard() {
             <Progress variant="flat" primaryStep={80} />
           </div>
           <div className="text-container-offer my-2">
-            <div className="text-wrapper">50% filled</div>
+            <div className="text-wrapper">80% filled</div>
             <div className="text-wrapper">100,000 available</div>
           </div>
 
@@ -77,4 +94,4 @@ function BuySeedCard() {
   )
 }
 
-export default BuySeedCard
+export default PurchaseSeeds

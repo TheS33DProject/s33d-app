@@ -1,10 +1,26 @@
 import { Button } from '@pancakeswap/uikit'
 import { useHistory } from 'react-router-dom'
-import React from 'react'
+import React, { useEffect } from 'react'
 // import logo from '/images/assets/astronaut.svg'
 
 export default function BuySeedScreen() {
+  const [checkWalletStatus, setCheckWalletStatus] = React.useState(true)
   const history = useHistory()
+
+  useEffect(() => {
+    const walletStatus = localStorage.getItem('connectorIdv2')
+    if (walletStatus !== null) {
+      setCheckWalletStatus(false)
+    } else {
+      setCheckWalletStatus(true)
+    }
+    console.log({ walletStatus, checkWalletStatus })
+  }, [checkWalletStatus])
+
+  const handleClick = (e) => {
+    history.push('/white-listing')
+  }
+
   return (
     <>
       <div className="main-container">
@@ -24,7 +40,7 @@ export default function BuySeedScreen() {
 
           <p className="para-content">Please connect your wallet on Binance Smart Chain to begin.</p>
           <br />
-          <Button onClick={() => history.push('/white-listing')} className="btn">
+          <Button disabled={checkWalletStatus} onClick={handleClick} className="btn">
             Continue
           </Button>
         </div>
