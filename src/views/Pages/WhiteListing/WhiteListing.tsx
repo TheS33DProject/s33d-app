@@ -2,7 +2,7 @@ import { Button, Input } from '@pancakeswap/uikit'
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
-import logo from '../assets/astronaut-input.svg'
+// import logo from '/images/assets/astronaut-input.svg'
 
 export default function WhiteListingScreen() {
   const history = useHistory()
@@ -99,7 +99,7 @@ export default function WhiteListingScreen() {
     <>
       <div className="main-container">
         <div className="astro-box pr-1">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src="images/assets/astronaut-input.svg" className="App-logo" alt="logo" />
         </div>
         <div className="content-box">
           <h1 className="hero-heading">Whitelisting</h1>
