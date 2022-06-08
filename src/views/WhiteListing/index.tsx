@@ -1,4 +1,5 @@
-import { Button, Input } from '@pancakeswap/uikit'
+import { Flex, Heading, Text, Button, Input, Checkbox } from '@pancakeswap/uikit'
+
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
@@ -97,9 +98,104 @@ export default function WhiteListingScreen() {
     }
     console.log({ buttonFlag, firstname, lastname, email, termAndCondition })
   }, [firstname, lastname, email, termAndCondition, buttonFlag])
+
+  const PageHeight = {
+    height: 'calc(100vh - 200px)',
+  }
+
+  const contentFontStyle = {
+    fontFamily: 'Manrope',
+    fontStyle: 'normal',
+    color: '#002C00',
+    fontSize: '18px',
+  }
+  const headingFontStyle = {
+    fontFamily: 'Fredoka',
+    fontStyle: 'normal',
+    color: '#002C00',
+  }
+
+  const formStyles = {
+    background: 'rgba(0, 44, 0, 0.2)',
+  }
+
+  const inputWidth = {
+    width: '250px',
+  }
+
   return (
     <>
-      <div className="main-container">
+      <Flex style={PageHeight} alignItems="center" justifyContent="center">
+        <Flex alignItems="center" justifyContent="center" flexDirection="column">
+          <img src="images/assets/astronaut-input.svg" className="App-logo" alt="logo" />
+        </Flex>
+        <Flex maxWidth="550px" flexDirection="column" ml="30px">
+          <Heading style={headingFontStyle} scale="xl" mb="24px" textAlign="center">
+            Whitelisting
+          </Heading>
+
+          <form id="WhiteListingForm" onSubmit={handleSubmit}>
+            <Text style={contentFontStyle}>
+              Please fill in the form to start. We require this information to communicate important information about
+              The S33D Project to all our founding gardeners.
+            </Text>
+
+            <Flex alignItems="center" justifyContent="space-between">
+              <Flex flexDirection="column" mt="24px">
+                <Input
+                  style={formStyles}
+                  type="text"
+                  scale="lg"
+                  placeholder="First Name"
+                  name="firstname"
+                  onChange={onChange}
+                />
+              </Flex>
+              <Flex flexDirection="column" mt="24px">
+                <Input
+                  style={formStyles}
+                  type="text"
+                  scale="lg"
+                  placeholder="Last Name"
+                  name="lastname"
+                  onChange={onChange}
+                />
+              </Flex>
+            </Flex>
+            <Flex flexDirection="row" mt="24px">
+              <Input
+                style={formStyles}
+                type="email"
+                onChange={onChange}
+                scale="lg"
+                name="email"
+                placeholder="Email Address"
+              />
+            </Flex>
+            <br />
+
+            <Text style={contentFontStyle} mb="10px">
+              The S33D Project is committed to protect and respect your privacy and we only use your personal
+              information to facilitate this whitelisting process. If you consent to us contacting you for project
+              updates, please tick the box below.
+            </Text>
+
+            <Flex flexDirection="row" mt="24px">
+              <Text style={contentFontStyle}>
+                <Checkbox onChange={onChange} name="termAndCondition" />I agree to receive communications from The S33D
+                Project
+              </Text>
+            </Flex>
+          </form>
+
+          <br />
+          <Button width="100px" disabled={buttonFlag} type="submit" className="btn">
+            Continue
+          </Button>
+        </Flex>
+      </Flex>
+
+      {/* <div className="main-container">
         <div className="astro-box pr-1">
           <img src="images/assets/astronaut-input.svg" className="App-logo" alt="logo" />
         </div>
@@ -138,7 +234,7 @@ export default function WhiteListingScreen() {
             </Button>
           </form>
         </div>
-      </div>
+      </div> */}
     </>
   )
 }
