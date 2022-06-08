@@ -11,14 +11,14 @@ const config: (t: ContextApi['t']) => ConfigMenuItemsType[] = (t) => [
     href: '/swap',
     showItemsOnMobile: false,
     items: [
-      {
-        label: t('Trade'),
-        href: '/swap',
-      },
-      {
-        label: t('Supply'),
-        href: '/liquidity',
-      },
+      // {
+      //   label: t('Trade'),
+      //   href: '/swap',
+      // },
+      // {
+      //   label: t('Supply'),
+      //   href: '/liquidity',
+      // },
     ],
   },
   // {
