@@ -13,6 +13,14 @@ interface SerializedTokenList {
 }
 
 export const mainnetTokens = {
+  s33d: new Token(
+    MAINNET,
+    '0xB9d2F259Da6Fe1178Cbf68809F4d3C8409B76ef0',
+    18,
+    'S33D',
+    'The S33D Project',
+    'https://s33d.app/',
+  ),
   wbnb: new Token(
     MAINNET,
     '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
@@ -25,11 +33,11 @@ export const mainnetTokens = {
   bnb: new Token(MAINNET, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'BNB', 'BNB', 'https://www.binance.com/'),
   cake: new Token(
     MAINNET,
-    '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82',
+    '0xB9d2F259Da6Fe1178Cbf68809F4d3C8409B76ef0',
     18,
-    'CAKE',
-    'PancakeSwap Token',
-    'https://pancakeswap.finance/',
+    'S33D',
+    'The S33D Project',
+    'https://s33d.app/',
   ),
   tlos: new Token(MAINNET, '0xb6C53431608E626AC81a9776ac3e999c5556717c', 18, 'TLOS', 'Telos', 'https://www.telos.net/'),
   beta: new Token(
@@ -1829,8 +1837,8 @@ export const testnetTokens = {
     TESTNET,
     '0xa35062141Fa33BCA92Ce69FeD37D0E8908868AAe',
     18,
-    'CAKE',
-    'PancakeSwap Token',
+    'CAKED',
+    'PancakeSwap Token d',
     'https://pancakeswap.finance/',
   ),
   busd: new Token(

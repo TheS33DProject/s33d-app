@@ -51,12 +51,13 @@
       "logoURI": "https://pancakeswap.finance/images/tokens/0x55d398326f99059ff775485246999027b3197955.png"
     },
     {
-      "name": "PancakeSwap Token",
-      "symbol": "CAKE",
-      "address": "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
+      "name": "The S33D Project",
+      "symbol": "S33D",
+      "address": "0xB9d2F259Da6Fe1178Cbf68809F4d3C8409B76ef0",
       "chainId": 56,
       "decimals": 18,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82.png"
+      
+      "logoURI": "logo.png"
     },
     {
       "name": "Venus",

@@ -88,15 +88,7 @@ export default function CurrencyInputPanel({
   return (
     <Box id={id}>
       <Flex mb="6px" alignItems="center" justifyContent="space-between">
-        <CurrencySelectButton
-          className="open-currency-select-button"
-          selected={!!currency}
-          onClick={() => {
-            if (!disableCurrencySelect) {
-              onPresentCurrencyModal()
-            }
-          }}
-        >
+        <CurrencySelectButton className="open-currency-select-button" selected={!!currency}>
           <Flex alignItems="center" justifyContent="space-between">
             {pair ? (
               <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={16} margin />
@@ -117,7 +109,7 @@ export default function CurrencyInputPanel({
                   : currency?.symbol) || t('Select a currency')}
               </Text>
             )}
-            {!disableCurrencySelect && <ChevronDownIcon />}
+            {/* {!disableCurrencySelect && <ChevronDownIcon />} */}
           </Flex>
         </CurrencySelectButton>
         {account && (
@@ -141,13 +133,13 @@ export default function CurrencyInputPanel({
               />
             </RowBetween>
           </LabelRow>
-          <InputRow selected={disableCurrencySelect}>
-            {account && currency && showMaxButton && label !== 'To' && (
+          <InputRow selected={disableCurrencySelect} />
+          {/* {account && currency && showMaxButton && label !== 'To' && (
               <Button onClick={onMax} scale="xs" variant="secondary">
                 MAX
               </Button>
-            )}
-          </InputRow>
+            )} */}
+          {/* </InputRow> */}
         </Container>
       </InputPanel>
     </Box>
