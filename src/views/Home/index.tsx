@@ -4,7 +4,7 @@ import { useWeb3React } from '@web3-react/core'
 import useTheme from 'hooks/useTheme'
 import { useHistory } from 'react-router-dom'
 import { Button } from '@pancakeswap/uikit'
-import HomeCarousel from './components/Carousal/HomeCarousal'
+import HomeCarousel from './components/Carousal'
 
 const BuySeedButton = styled(Button)`
   background: #41a65b;
