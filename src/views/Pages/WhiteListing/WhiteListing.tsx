@@ -49,7 +49,7 @@ export default function WhiteListingScreen() {
   const hsFormSubmission = async () => {
     try {
       const data = { ...userDetails }
-      data['TICKET.content'] = 'content from developer kapil Sharma'
+      data['TICKET.content'] = account
       delete data.termAndCondition
       const payload = transformHSFormPayload(data)
       console.log(payload)
