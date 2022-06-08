@@ -396,9 +396,7 @@ export default function Swap({ history }: RouteComponentProps) {
                       <IconButton variant="light" scale="sm">
                         <ArrowDownIcon
                           width="16px"
-                          onClick={() => {
-                            return
-                          }}
+                          onClick={() => {}}
                           color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? 'primary' : 'text'}
                         />
                       </IconButton>

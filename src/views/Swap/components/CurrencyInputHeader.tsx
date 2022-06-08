@@ -49,7 +49,7 @@ const CurrencyInputHeader: React.FC<Props> = ({ title, subtitle, setIsChartDispl
             {isChartDisplayed ? <ChartDisableIcon color="textSubtle" /> : <ChartIcon width="24px" color="textSubtle" />}
           </ColoredIconButton>
         )} */}
-        <Flex></Flex>
+        <Flex />
         <Flex flexDirection="column" alignItems="center">
           <Heading as="h2" mb="8px">
             {title}
