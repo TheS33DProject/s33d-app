@@ -1,11 +1,13 @@
 import { Flex, Heading, Text, Button } from '@pancakeswap/uikit'
-
 import { useHistory } from 'react-router-dom'
 import React, { useEffect } from 'react'
+import useTheme from './Hooks/useTheme'
 // import logo from '/images/assets/astronaut.svg'
 
 export default function BuySeedScreen() {
+  const { isDark, theme } = useTheme()
   const [checkWalletStatus, setCheckWalletStatus] = React.useState(true)
+
   const history = useHistory()
 
   useEffect(() => {
@@ -28,11 +30,25 @@ export default function BuySeedScreen() {
     fontFamily: 'Manrope',
     fontStyle: 'normal',
     color: '#002C00',
+    fontSize: '18px',
   }
+  const contentFontStyleDark = {
+    fontFamily: 'Manrope',
+    fontStyle: 'normal',
+
+    fontSize: '18px',
+  }
+
   const headingFontStyle = {
     fontFamily: 'Fredoka',
     fontStyle: 'normal',
     color: '#002C00',
+  }
+
+  const darkThemeStyle = {
+    fontFamily: 'Fredoka',
+    fontStyle: 'normal',
+    color: '#4fba6a',
   }
 
   return (
@@ -42,22 +58,27 @@ export default function BuySeedScreen() {
           <img src="images/assets/astronaut.svg" className="App-logo" alt="logo" />
         </Flex>
         <Flex maxWidth="550px" flexDirection="column" ml="30px">
-          <Heading style={headingFontStyle} scale="xl" mb="24px" textAlign="center">
+          <Heading
+            style={isDark ? { ...darkThemeStyle } : { ...headingFontStyle }}
+            scale="xl"
+            mb="24px"
+            textAlign="center"
+          >
             Buy S33D
           </Heading>
-          <Text style={contentFontStyle} fontSize="18px">
+          <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
             We are delighted that you share the vision and dreams of creating a new future with us.
           </Text>
           <br />
-          <Text style={contentFontStyle} fontSize="18px">
+          <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
             Our first goal is to raise $1,000,000 and you’re invited to participate as founding gardeners at S33D. To
             ensure a fair distribution in this first launch, each participant can acquire a maximum of{' '}
           </Text>
-          <Text style={contentFontStyle} bold>
+          <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }} bold>
             100,000 S33D
           </Text>
           <br />
-          <Text style={contentFontStyle} fontSize="18px">
+          <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
             Please connect your wallet on Binance Smart Chain to begin.
           </Text>
 
