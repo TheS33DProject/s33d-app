@@ -1,11 +1,13 @@
 import { Flex, Heading, Text, Button } from '@pancakeswap/uikit'
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import useTheme from './Hooks/useTheme'
 
 // import logo from '/images/assets/g12.svg'
 
 export default function DisclamerScreen() {
   const history = useHistory()
+  const { isDark, theme } = useTheme()
   useEffect(() => {
     const whiteListStatus = localStorage.getItem('userWhiteListStatus')
     if (whiteListStatus !== 'true') {
@@ -25,11 +27,25 @@ export default function DisclamerScreen() {
     fontFamily: 'Manrope',
     fontStyle: 'normal',
     color: '#002C00',
+    fontSize: '18px',
   }
+  const contentFontStyleDark = {
+    fontFamily: 'Manrope',
+    fontStyle: 'normal',
+
+    fontSize: '18px',
+  }
+
   const headingFontStyle = {
     fontFamily: 'Fredoka',
     fontStyle: 'normal',
     color: '#002C00',
+  }
+
+  const darkThemeStyle = {
+    fontFamily: 'Fredoka',
+    fontStyle: 'normal',
+    color: '#4fba6a',
   }
 
   return (
@@ -39,20 +55,29 @@ export default function DisclamerScreen() {
           <img src="images/assets/g12.svg" className="App-logo" alt="logo" />
         </Flex>
         <Flex maxWidth="550px" flexDirection="column" ml="30px">
-          <Heading style={headingFontStyle} scale="xl" mb="24px" textAlign="center">
+          <Heading
+            style={isDark ? { ...darkThemeStyle } : { ...headingFontStyle }}
+            scale="xl"
+            mb="24px"
+            textAlign="center"
+          >
             Disclaimer
           </Heading>
-          <Text style={contentFontStyle} fontSize="18px">
+          <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
             The S33D Project is an innovative concept for reimagining the ideas and our relationship with nature and our
             planet. We are on a mission to enable the propagation of sustainability initiatives and encourage humankind
             to form symbiotic relationships with our planet and each
           </Text>
           <br />
-          <Text style={contentFontStyle} fontSize="18px">
+          <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
             You understand that by participating the Initial DEX Offering (IDO) of The S33D Project, you have:
-            <Text style={contentFontStyle}>(I) read the Legal Notice and other information about this ID</Text>
-            <Text style={contentFontStyle}>(II) confirmed that you are not in a jurisdiction where buying,</Text>
-            <Text style={contentFontStyle}>
+            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+              (I) read the Legal Notice and other information about this ID
+            </Text>
+            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+              (II) confirmed that you are not in a jurisdiction where buying,
+            </Text>
+            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               trading and/or owing S33D token would be prohibited or restricted in any manner.
             </Text>
             <br />

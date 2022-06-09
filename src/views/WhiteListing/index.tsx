@@ -4,9 +4,11 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 import { useWeb3React } from '@web3-react/core'
+import useTheme from './Hooks/useTheme'
 
 export default function WhiteListingScreen() {
   const history = useHistory()
+  const { isDark, theme } = useTheme()
   const { account } = useWeb3React() // wallet address is available as account
   const [buttonFlag, setButtonFlag] = useState(false)
   const [userDetails, setUserDetails] = useState({
@@ -109,12 +111,23 @@ export default function WhiteListingScreen() {
     color: '#002C00',
     fontSize: '18px',
   }
+  const contentFontStyleDark = {
+    fontFamily: 'Manrope',
+    fontStyle: 'normal',
+    fontSize: '18px',
+  }
+
   const headingFontStyle = {
     fontFamily: 'Fredoka',
     fontStyle: 'normal',
     color: '#002C00',
   }
 
+  const darkThemeStyle = {
+    fontFamily: 'Fredoka',
+    fontStyle: 'normal',
+    color: '#4fba6a',
+  }
   const formStyles = {
     background: 'rgba(0, 44, 0, 0.2)',
   }
@@ -130,12 +143,17 @@ export default function WhiteListingScreen() {
           <img src="images/assets/astronaut-input.svg" className="App-logo" alt="logo" />
         </Flex>
         <Flex maxWidth="550px" flexDirection="column" ml="30px">
-          <Heading style={headingFontStyle} scale="xl" mb="24px" textAlign="center">
+          <Heading
+            style={isDark ? { ...darkThemeStyle } : { ...headingFontStyle }}
+            scale="xl"
+            mb="24px"
+            textAlign="center"
+          >
             Whitelisting
           </Heading>
 
           <form id="WhiteListingForm" onSubmit={handleSubmit}>
-            <Text style={contentFontStyle}>
+            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               Please fill in the form to start. We require this information to communicate important information about
               The S33D Project to all our founding gardeners.
             </Text>
@@ -143,7 +161,7 @@ export default function WhiteListingScreen() {
             <Flex alignItems="center" justifyContent="space-between">
               <Flex flexDirection="column" mt="24px">
                 <Input
-                  style={formStyles}
+                  style={isDark ? {} : { ...formStyles }}
                   type="text"
                   scale="lg"
                   placeholder="First Name"
@@ -153,7 +171,7 @@ export default function WhiteListingScreen() {
               </Flex>
               <Flex flexDirection="column" mt="24px">
                 <Input
-                  style={formStyles}
+                  style={isDark ? {} : { ...formStyles }}
                   type="text"
                   scale="lg"
                   placeholder="Last Name"
@@ -164,7 +182,7 @@ export default function WhiteListingScreen() {
             </Flex>
             <Flex flexDirection="row" mt="24px">
               <Input
-                style={formStyles}
+                style={isDark ? {} : { ...formStyles }}
                 type="email"
                 onChange={onChange}
                 scale="lg"
@@ -174,14 +192,14 @@ export default function WhiteListingScreen() {
             </Flex>
             <br />
 
-            <Text style={contentFontStyle} mb="10px">
+            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }} mb="10px">
               The S33D Project is committed to protect and respect your privacy and we only use your personal
               information to facilitate this whitelisting process. If you consent to us contacting you for project
               updates, please tick the box below.
             </Text>
 
             <Flex flexDirection="row" mt="24px">
-              <Text style={contentFontStyle}>
+              <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
                 <Checkbox onChange={onChange} name="termAndCondition" />I agree to receive communications from The S33D
                 Project
               </Text>
