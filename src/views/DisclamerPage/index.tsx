@@ -1,9 +1,20 @@
 import { Flex, Heading, Text, Button } from '@pancakeswap/uikit'
+import styled from 'styled-components'
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import useTheme from './Hooks/useTheme'
 
 // import logo from '/images/assets/g12.svg'
+const DesktopImage = styled.div`
+  display: none;
+
+  ${({ theme }) => theme.mediaQueries.lg && theme.mediaQueries.md} {
+    display: block;
+  }
+`
+const DesktopContent = styled.div`
+  margin-top: 40px;
+`
 
 export default function DisclamerScreen() {
   const history = useHistory()
@@ -51,43 +62,47 @@ export default function DisclamerScreen() {
   return (
     <>
       <Flex style={PageHeight} alignItems="center" justifyContent="center">
-        <Flex alignItems="center" justifyContent="center" flexDirection="column">
-          <img src="images/assets/g12.svg" className="App-logo" alt="logo" />
-        </Flex>
-        <Flex maxWidth="550px" flexDirection="column" ml="30px">
-          <Heading
-            style={isDark ? { ...darkThemeStyle } : { ...headingFontStyle }}
-            scale="xl"
-            mb="24px"
-            textAlign="center"
-          >
-            Disclaimer
-          </Heading>
-          <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
-            The S33D Project is an innovative concept for reimagining the ideas and our relationship with nature and our
-            planet. We are on a mission to enable the propagation of sustainability initiatives and encourage humankind
-            to form symbiotic relationships with our planet and each
-          </Text>
-          <br />
-          <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
-            You understand that by participating the Initial DEX Offering (IDO) of The S33D Project, you have:
+        <DesktopImage>
+          <Flex alignItems="center" justifyContent="center" flexDirection="column">
+            <img src="images/assets/g12.svg" className="App-logo" alt="logo" />
+          </Flex>
+        </DesktopImage>
+        <DesktopContent>
+          <Flex maxWidth="550px" flexDirection="column" ml="30px">
+            <Heading
+              style={isDark ? { ...darkThemeStyle } : { ...headingFontStyle }}
+              scale="xl"
+              mb="24px"
+              textAlign="center"
+            >
+              Disclaimer
+            </Heading>
             <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
-              (I) read the Legal Notice and other information about this ID
-            </Text>
-            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
-              (II) confirmed that you are not in a jurisdiction where buying,
-            </Text>
-            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
-              trading and/or owing S33D token would be prohibited or restricted in any manner.
+              The S33D Project is an innovative concept for reimagining the ideas and our relationship with nature and
+              our planet. We are on a mission to enable the propagation of sustainability initiatives and encourage
+              humankind to form symbiotic relationships with our planet and each
             </Text>
             <br />
-            still be exploit risks that exist within the app which may result in partial or total loss of funds.
-          </Text>
-          <br />
-          <Button width="100px" onClick={handleClick} className="btn">
-            Continue
-          </Button>
-        </Flex>
+            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+              You understand that by participating the Initial DEX Offering (IDO) of The S33D Project, you have:
+              <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+                (I) read the Legal Notice and other information about this ID
+              </Text>
+              <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+                (II) confirmed that you are not in a jurisdiction where buying,
+              </Text>
+              <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+                trading and/or owing S33D token would be prohibited or restricted in any manner.
+              </Text>
+              <br />
+              still be exploit risks that exist within the app which may result in partial or total loss of funds.
+            </Text>
+            <br />
+            <Button width="100px" onClick={handleClick} className="btn">
+              Continue
+            </Button>
+          </Flex>
+        </DesktopContent>
       </Flex>
     </>
     // <div className="main-container">

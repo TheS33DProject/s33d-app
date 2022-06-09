@@ -1,10 +1,34 @@
-import { Flex, Heading, Text, Button, Input, Checkbox } from '@pancakeswap/uikit'
+import { Flex, Heading, Text, Button, Input, Checkbox, Box } from '@pancakeswap/uikit'
 
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 import { useWeb3React } from '@web3-react/core'
 import useTheme from './Hooks/useTheme'
+
+const DesktopImage = styled.div`
+  display: none;
+
+  ${({ theme }) => theme.mediaQueries.lg && theme.mediaQueries.md} {
+    display: block;
+  }
+`
+const DesktopContent = styled.div`
+  display: block;
+  flex-direction: column;
+  margin-right: 30px;
+  ${({ theme }) => theme.mediaQueries.lg && theme.mediaQueries.md} {
+    display: flex;
+    flex-direction: row;
+  }
+`
+
+const DesktopContent2 = styled.div`
+  display: block;
+  flex-direction: column;
+  margin-right: 30px;
+`
 
 export default function WhiteListingScreen() {
   const history = useHistory()
@@ -130,18 +154,32 @@ export default function WhiteListingScreen() {
   }
   const formStyles = {
     background: 'rgba(0, 44, 0, 0.2)',
+    marginTop: '20px',
+    marginRight: '20px',
+  }
+  const formStylesDark = {
+    marginTop: '20px',
+    marginRight: '20px',
   }
 
   const inputWidth = {
     width: '250px',
   }
+  const emailInput = {
+    // margin:"10px"
+    // marginRight:"15px",
+    // marginLeft:"15px",
+    width: '100%',
+  }
 
   return (
     <>
       <Flex style={PageHeight} alignItems="center" justifyContent="center">
-        <Flex alignItems="center" justifyContent="center" flexDirection="column">
-          <img src="images/assets/astronaut-input.svg" className="App-logo" alt="logo" />
-        </Flex>
+        <DesktopImage>
+          <Flex alignItems="center" justifyContent="center" flexDirection="column">
+            <img src="images/assets/astronaut-input.svg" className="App-logo" alt="logo" />
+          </Flex>
+        </DesktopImage>
         <Flex maxWidth="550px" flexDirection="column" ml="30px">
           <Heading
             style={isDark ? { ...darkThemeStyle } : { ...headingFontStyle }}
@@ -158,38 +196,37 @@ export default function WhiteListingScreen() {
               The S33D Project to all our founding gardeners.
             </Text>
 
-            <Flex alignItems="center" justifyContent="space-between">
-              <Flex flexDirection="column" mt="24px">
-                <Input
-                  style={isDark ? {} : { ...formStyles }}
-                  type="text"
-                  scale="lg"
-                  placeholder="First Name"
-                  name="firstname"
-                  onChange={onChange}
-                />
-              </Flex>
-              <Flex flexDirection="column" mt="24px">
-                <Input
-                  style={isDark ? {} : { ...formStyles }}
-                  type="text"
-                  scale="lg"
-                  placeholder="Last Name"
-                  name="lastname"
-                  onChange={onChange}
-                />
-              </Flex>
-            </Flex>
-            <Flex flexDirection="row" mt="24px">
+            <DesktopContent>
               <Input
-                style={isDark ? {} : { ...formStyles }}
+                style={isDark ? { ...formStylesDark } : { ...formStyles }}
+                type="text"
+                scale="lg"
+                placeholder="First Name"
+                name="firstname"
+                onChange={onChange}
+              />
+              <Input
+                style={isDark ? { ...formStylesDark } : { ...formStyles }}
+                type="text"
+                scale="lg"
+                placeholder="Last Name"
+                name="lastname"
+                onChange={onChange}
+              />
+            </DesktopContent>
+            <DesktopContent2>
+              <Input
+                style={isDark ? { ...formStylesDark } : { ...formStyles, ...emailInput }}
                 type="email"
                 onChange={onChange}
                 scale="lg"
                 name="email"
                 placeholder="Email Address"
               />
-            </Flex>
+            </DesktopContent2>
+            {/* <Flex alignItems="center" justifyContent="space-between">
+                        </Flex> */}
+
             <br />
 
             <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }} mb="10px">
@@ -204,12 +241,11 @@ export default function WhiteListingScreen() {
                 Project
               </Text>
             </Flex>
+            <br />
+            <Button width="100px" disabled={buttonFlag} type="submit" className="btn">
+              Continue
+            </Button>
           </form>
-
-          <br />
-          <Button width="100px" disabled={buttonFlag} type="submit" className="btn">
-            Continue
-          </Button>
         </Flex>
       </Flex>
 
