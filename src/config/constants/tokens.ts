@@ -13,14 +13,6 @@ interface SerializedTokenList {
 }
 
 export const mainnetTokens = {
-  s33d: new Token(
-    MAINNET,
-    '0xB9d2F259Da6Fe1178Cbf68809F4d3C8409B76ef0',
-    18,
-    'S33D',
-    'The S33D Project',
-    'https://s33d.app/',
-  ),
   wbnb: new Token(
     MAINNET,
     '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
@@ -33,11 +25,11 @@ export const mainnetTokens = {
   bnb: new Token(MAINNET, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'BNB', 'BNB', 'https://www.binance.com/'),
   cake: new Token(
     MAINNET,
-    '0xB9d2F259Da6Fe1178Cbf68809F4d3C8409B76ef0',
+    '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82',
     18,
-    'S33D',
-    'The S33D Project',
-    'https://s33d.app/',
+    'CAKE',
+    'PancakeSwap Token',
+    'https://pancakeswap.finance/',
   ),
   tlos: new Token(MAINNET, '0xb6C53431608E626AC81a9776ac3e999c5556717c', 18, 'TLOS', 'Telos', 'https://www.telos.net/'),
   beta: new Token(
@@ -131,6 +123,7 @@ export const mainnetTokens = {
     'Binance-Peg USD Coin',
     'https://www.centre.io/usdc',
   ),
+  s33d: new Token(MAINNET, '0xC27D7335533e4bf3005dF1378fCa283a853b292f', 18, 'S33D', 'A S33D', 'https://s33d.app/'),
   kalm: new Token(
     MAINNET,
     '0x4BA0057f784858a48fe351445C672FF2a3d43515',
@@ -1833,12 +1826,14 @@ export const testnetTokens = {
     'Wrapped BNB',
     'https://www.binance.com/',
   ),
+  // bnb here points to the wbnb contract. Wherever the currency BNB is required, conditional checks for the symbol 'BNB' can be used
+  bnb: new Token(TESTNET, '0x094616F0BdFB0b526bD735Bf66Eca0Ad254ca81F', 18, 'BNB', 'BNB', 'https://www.binance.com/'),
   cake: new Token(
     TESTNET,
     '0xa35062141Fa33BCA92Ce69FeD37D0E8908868AAe',
     18,
-    'CAKED',
-    'PancakeSwap Token d',
+    'CAKE',
+    'PancakeSwap Token',
     'https://pancakeswap.finance/',
   ),
   busd: new Token(
@@ -1849,22 +1844,15 @@ export const testnetTokens = {
     'Binance USD',
     'https://www.paxos.com/busd/',
   ),
-  syrup: new Token(
+  usdt: new Token(
     TESTNET,
-    '0xfE1e507CeB712BDe086f3579d2c03248b2dB77f9',
+    '0x337610d27c682E347C9cD60BD4b3b107C9d34dDd',
     18,
-    'SYRUP',
-    'SyrupBar Token',
-    'https://pancakeswap.finance/',
+    'USDT',
+    'USDT Token',
+    'https://testnet.bscscan.com/token/0x337610d27c682E347C9cD60BD4b3b107C9d34dDd/',
   ),
-  bake: new Token(
-    TESTNET,
-    '0xE02dF9e3e622DeBdD69fb838bB799E3F168902c5',
-    18,
-    'BAKE',
-    'Bakeryswap Token',
-    'https://www.bakeryswap.org/',
-  ),
+  s33d: new Token(TESTNET, '0xC27D7335533e4bf3005dF1378fCa283a853b292f', 18, 'S33D', 'A S33D', 'https://s33d.app/'),
 }
 
 const tokens = (): TokenList => {
