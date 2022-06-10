@@ -28,7 +28,7 @@ export type CtaButtonsProps = {
   totalSupplyMinted: number
   numberTokensOfUser: number
   startTimestamp: number
-  cakeBalance: BigNumber
+  s33dBalance: BigNumber
   pricePerTicket: BigNumber
   ticketsOfUser: BigNumber[]
 }
@@ -49,7 +49,7 @@ const CtaButtons: React.FC<CtaButtonsProps> = ({
   startTimestamp,
   maxSupply,
   totalSupplyMinted,
-  cakeBalance,
+  s33dBalance,
   pricePerTicket,
   ticketsOfUser,
 }) => {
@@ -69,7 +69,7 @@ const CtaButtons: React.FC<CtaButtonsProps> = ({
             maxPerAddress={maxPerAddress}
             numberTicketsOfUser={numberTicketsOfUser}
             numberTicketsUsedForGen0={numberTicketsUsedForGen0}
-            cakeBalance={cakeBalance}
+            s33dBalance={s33dBalance}
             maxPerTransaction={maxPerTransaction}
             numberTicketsForGen0={numberTicketsForGen0}
             pricePerTicket={pricePerTicket}

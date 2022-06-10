@@ -1,16 +1,16 @@
 import { useCallback } from 'react'
 import { stakeFarm } from 'utils/calls'
-import { useMasterchef } from 'hooks/useContract'
+import { useGrandGardener } from 'hooks/useContract'
 
 const useStakeFarms = (pid: number) => {
-  const masterChefContract = useMasterchef()
+  const grandGardenerContract = useGrandGardener()
 
   const handleStake = useCallback(
     async (amount: string) => {
-      const txHash = await stakeFarm(masterChefContract, pid, amount)
+      const txHash = await stakeFarm(grandGardenerContract, pid, amount)
       console.info(txHash)
     },
-    [masterChefContract, pid],
+    [grandGardenerContract, pid],
   )
 
   return { onStake: handleStake }

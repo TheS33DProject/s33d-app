@@ -12,7 +12,8 @@ import {
   getBunnyFactoryAddress,
   getBunnySpecialAddress,
   getLotteryV2Address,
-  getMasterChefAddress,
+  getGrandGardenerAddress,
+  getInitialS33DRoundAddress,
   getPointCenterIfoAddress,
   getClaimRefundAddress,
   getTradingCompetitionAddress,
@@ -39,12 +40,13 @@ import bunnySpecialAbi from 'config/abi/bunnySpecial.json'
 import bep20Abi from 'config/abi/erc20.json'
 import erc721Abi from 'config/abi/erc721.json'
 import lpTokenAbi from 'config/abi/lpToken.json'
-import cakeAbi from 'config/abi/cake.json'
+import s33dAbi from 'config/abi/S33DS.json'
 import ifoV1Abi from 'config/abi/ifoV1.json'
 import ifoV2Abi from 'config/abi/ifoV2.json'
 import pointCenterIfo from 'config/abi/pointCenterIfo.json'
 import lotteryV2Abi from 'config/abi/lotteryV2.json'
-import masterChef from 'config/abi/masterchef.json'
+import grandGardenerAbi from 'config/abi/GrandGardener.json'
+import initialS33DRoundAbi from 'config/abi/InitialS33DRound.json'
 import sousChef from 'config/abi/sousChef.json'
 import sousChefV2 from 'config/abi/sousChefV2.json'
 import sousChefBnb from 'config/abi/sousChefBnb.json'
@@ -98,8 +100,8 @@ export const getSouschefV2Contract = (id: number, signer?: ethers.Signer | ether
 export const getPointCenterIfoContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
   return getContract(pointCenterIfo, getPointCenterIfoAddress(), signer)
 }
-export const getCakeContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
-  return getContract(cakeAbi, tokens.cake.address, signer)
+export const getS33DContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
+  return getContract(s33dAbi, tokens.s33d.address, signer)
 }
 export const getProfileContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
   return getContract(profileABI, getPancakeProfileAddress(), signer) as PancakeProfileContract
@@ -116,8 +118,11 @@ export const getBunnySpecialContract = (signer?: ethers.Signer | ethers.provider
 export const getLotteryV2Contract = (signer?: ethers.Signer | ethers.providers.Provider) => {
   return getContract(lotteryV2Abi, getLotteryV2Address(), signer)
 }
-export const getMasterchefContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
-  return getContract(masterChef, getMasterChefAddress(), signer)
+export const getGrandGardenerContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
+  return getContract(grandGardenerAbi, getGrandGardenerAddress(), signer)
+}
+export const getInitialS33DRoundContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
+  return getContract(initialS33DRoundAbi, getGrandGardenerAddress(), signer)
 }
 export const getClaimRefundContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
   return getContract(claimRefundAbi, getClaimRefundAddress(), signer)

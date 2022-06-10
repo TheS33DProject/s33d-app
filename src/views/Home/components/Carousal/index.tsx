@@ -38,7 +38,7 @@ function HomeCarousel() {
   return (
     <>
       <Carousel
-        // wrapAround="true"
+        animation="fade"
         slidesToShow={1}
         defaultControlsConfig={{
           prevButtonStyle: {
@@ -52,6 +52,7 @@ function HomeCarousel() {
           },
           pagingDotsContainerClassName: 'page-dots-container',
         }}
+        // wrapAround
       >
         <Flex mb="30px" alignItems="center" flexDirection="column" justifyContent="center">
           <Heading

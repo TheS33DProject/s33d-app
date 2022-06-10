@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AutoRenewIcon, Button, Flex, InjectedModalProps, Text } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
-import { useCake } from 'hooks/useContract'
+import { useS33D } from 'hooks/useContract'
 import useToast from 'hooks/useToast'
 import { useProfile } from 'state/profile/hooks'
 import { getPancakeProfileAddress } from 'utils/addressHelpers'
@@ -20,12 +20,12 @@ const ApproveCakePage: React.FC<ApproveCakePageProps> = ({ goToChange, onDismiss
   const {
     costs: { numberCakeToUpdate, numberCakeToReactivate },
   } = useGetProfileCosts()
-  const cakeContract = useCake()
+  const s33dContract = useS33D()
   const { toastError } = useToast()
   const cost = profile.isActive ? numberCakeToUpdate : numberCakeToReactivate
 
   const handleApprove = async () => {
-    const tx = await cakeContract.approve(getPancakeProfileAddress(), cost.mul(2).toString())
+    const tx = await s33dContract.approve(getPancakeProfileAddress(), cost.mul(2).toString())
     setIsApproving(true)
     const receipt = await tx.wait()
     if (receipt.status) {
