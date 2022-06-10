@@ -31,9 +31,6 @@ const DesktopContent2 = styled.div`
 `
 const WhiteListingContainer = styled.div`
   margin-top: 10px;
-  ${({ theme }) => theme.mediaQueries.lg && theme.mediaQueries.md} {
-    margin-top: 0px;
-  }
 `
 
 export default function WhiteListingScreen() {
