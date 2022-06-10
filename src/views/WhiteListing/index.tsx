@@ -29,6 +29,12 @@ const DesktopContent2 = styled.div`
   flex-direction: column;
   margin-right: 30px;
 `
+const WhiteListingContainer = styled.div`
+  margin-top: 250px;
+  ${({ theme }) => theme.mediaQueries.lg && theme.mediaQueries.md} {
+    margin-top: 0px;
+  }
+`
 
 export default function WhiteListingScreen() {
   const history = useHistory()
@@ -73,7 +79,12 @@ export default function WhiteListingScreen() {
       hsFormSubmission()
     }
   }
+
   const hsFormSubmission = async () => {
+    if (!account) {
+      alert('please connect your wallet then try Again.')
+      return
+    }
     try {
       const data = { ...userDetails }
       data['TICKET.content'] = account
@@ -99,6 +110,7 @@ export default function WhiteListingScreen() {
       console.log('Error from API', error)
     }
   }
+
   const transformHSFormPayload = (data) => {
     const tranformedData = {
       fields: [],
@@ -126,7 +138,7 @@ export default function WhiteListingScreen() {
   }, [firstname, lastname, email, termAndCondition, buttonFlag])
 
   const PageHeight = {
-    height: 'calc(100vh - 200px)',
+    minHeight: 'calc(100vh - 200px)',
   }
 
   const contentFontStyle = {
@@ -173,7 +185,7 @@ export default function WhiteListingScreen() {
   }
 
   return (
-    <>
+    <WhiteListingContainer>
       <Flex style={PageHeight} alignItems="center" justifyContent="center">
         <DesktopImage>
           <Flex alignItems="center" justifyContent="center" flexDirection="column">
@@ -289,6 +301,6 @@ export default function WhiteListingScreen() {
           </form>
         </div>
       </div> */}
-    </>
+    </WhiteListingContainer>
   )
 }
