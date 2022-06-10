@@ -18,6 +18,11 @@ const GlobalStyle = createGlobalStyle`
       height: auto;
       max-width: 100%;
     }
+
+    .cwzysi {
+        background-color: #41a65b !important;
+    }
+
   }
 `
 

@@ -3,6 +3,7 @@ import { Flex, Heading, Text } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import Carousel from 'nuka-carousel'
 import useTheme from 'hooks/useTheme'
+import './carousel.css'
 
 const DesktopContent = styled.div``
 
