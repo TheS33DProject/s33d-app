@@ -13,6 +13,7 @@ import {
   useMatchBreakpoints,
   Progress,
 } from '@pancakeswap/uikit'
+import useTheme from 'hooks/useTheme'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
 import Footer from 'components/Menu/Footer'
@@ -82,7 +83,7 @@ export default function Swap({ history }: RouteComponentProps) {
   const [isChartExpanded, setIsChartExpanded] = useState(false)
   const [userChartPreference, setUserChartPreference] = useExchangeChartManager(isMobile)
   const [isChartDisplayed, setIsChartDisplayed] = useState(userChartPreference)
-
+  const { isDark, theme } = useTheme()
   useEffect(() => {
     setUserChartPreference(isChartDisplayed)
   }, [isChartDisplayed, setUserChartPreference])
@@ -353,7 +354,13 @@ export default function Swap({ history }: RouteComponentProps) {
     fontFamily: 'Manrope',
     fontStyle: 'normal',
     color: '#002c00',
-    padding: '10px 10px 0px 10px',
+    padding: '10px 10px 10px 10px',
+  }
+  const textWrapperDark = {
+    fontFamily: 'Manrope',
+    fontStyle: 'normal',
+    color: '#FFFCF1',
+    padding: '10px 10px 10px 10px',
   }
 
   return (
@@ -399,8 +406,10 @@ export default function Swap({ history }: RouteComponentProps) {
                 isChartDisplayed={isChartDisplayed}
               />
               <TextContainer>
-                <Text style={textWrapper}>Offer Price</Text>
-                <Text style={textWrapper}>{conversionSeedVal} USDT per S33D</Text>
+                <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>Offer Price</Text>
+                <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>
+                  {conversionSeedVal} USDT per S33D
+                </Text>
               </TextContainer>
               <Wrapper id="swap-page">
                 <AutoColumn gap="md">

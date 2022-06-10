@@ -22,7 +22,14 @@ const GlobalStyle = createGlobalStyle`
     .cwzysi {
         background-color: #41a65b !important;
     }
+    
+    .kCKXqq {
+      background: #f0f0f0 !important;
+    }
 
+    .jKVFtq {
+        background-color: rgba(0, 44, 0, 0.25) !important;
+    }
   }
 `
 

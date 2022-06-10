@@ -27,7 +27,7 @@ const CurrencyInputContainer = styled(Flex)`
   align-items: center;
   padding: 24px;
   width: 100%;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  // border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
 `
 
 const ColoredIconButton = styled(IconButton)`
