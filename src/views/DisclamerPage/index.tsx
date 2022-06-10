@@ -15,6 +15,12 @@ const DesktopImage = styled.div`
 const DesktopContent = styled.div`
   margin-top: 40px;
 `
+const DisclaimerContainer = styled.div`
+  margin-top: 250px;
+  ${({ theme }) => theme.mediaQueries.lg && theme.mediaQueries.md} {
+    margin-top: 0px;
+  }
+`
 
 export default function DisclamerScreen() {
   const history = useHistory()
@@ -32,7 +38,7 @@ export default function DisclamerScreen() {
   }
 
   const PageHeight = {
-    height: 'calc(100vh - 200px)',
+    minHeight: 'calc(100vh - 200px)',
   }
   const contentFontStyle = {
     fontFamily: 'Manrope',
@@ -60,7 +66,7 @@ export default function DisclamerScreen() {
   }
 
   return (
-    <>
+    <DisclaimerContainer>
       <Flex style={PageHeight} alignItems="center" justifyContent="center">
         <DesktopImage>
           <Flex alignItems="center" justifyContent="center" flexDirection="column">
@@ -104,7 +110,7 @@ export default function DisclamerScreen() {
           </Flex>
         </DesktopContent>
       </Flex>
-    </>
+    </DisclaimerContainer>
     // <div className="main-container">
     //   <div className="astro-box pr-1">
     //     <img src="images/assets/g12.svg" className="App-logo" alt="logo" />

@@ -3,6 +3,7 @@ import Container from 'components/Layout/Container'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import React, { useEffect } from 'react'
+import { useWeb3React } from '@web3-react/core'
 import useTheme from './Hooks/useTheme'
 // import logo from '/images/assets/astronaut.svg'
 
@@ -20,7 +21,7 @@ const DesktopContent = styled.div`
 export default function BuySeedScreen() {
   const { isDark, theme } = useTheme()
   const [checkWalletStatus, setCheckWalletStatus] = React.useState(true)
-
+  const { account } = useWeb3React()
   const history = useHistory()
 
   useEffect(() => {
@@ -30,8 +31,8 @@ export default function BuySeedScreen() {
     } else {
       setCheckWalletStatus(true)
     }
-    console.log({ walletStatus, checkWalletStatus })
-  }, [checkWalletStatus])
+    console.log({ walletStatus, checkWalletStatus, account })
+  }, [checkWalletStatus, account])
 
   const handleClick = (e) => {
     history.push('/white-listing')
