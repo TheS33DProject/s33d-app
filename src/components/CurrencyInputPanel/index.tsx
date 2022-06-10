@@ -1,5 +1,6 @@
 import React from 'react'
 import { Currency, Pair } from '@pancakeswap/sdk'
+import useTheme from 'hooks/useTheme'
 import { Button, ChevronDownIcon, Text, useModal, Flex, Box, Progress } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
@@ -87,6 +88,7 @@ export default function CurrencyInputPanel({
   filledSeeds = 0,
   availableSeeds = 0,
 }: CurrencyInputPanelProps) {
+  const { isDark, theme } = useTheme()
   const { account } = useActiveWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
   const { t } = useTranslation()
@@ -105,6 +107,19 @@ export default function CurrencyInputPanel({
     fontStyle: 'normal',
     color: '#002c00',
     padding: '10px 10px 10px 10px',
+  }
+  const textWrapperDark = {
+    fontFamily: 'Manrope',
+    fontStyle: 'normal',
+    color: '#FFFCF1',
+    padding: '10px 10px 10px 10px',
+  }
+
+  const inputBackgroundLight = {
+    background: 'rgba(0, 44, 0, 0.2)',
+  }
+  const inputBackgroundDark = {
+    background: '',
   }
 
   return (
@@ -149,13 +164,13 @@ export default function CurrencyInputPanel({
         <>
           <Progress variant="round" scale="md" primaryStep={filledSeeds} />
           <TextContainer>
-            <Text style={textWrapper}>{filledSeeds}% filled</Text>
-            <Text style={textWrapper}>{availableSeeds} available</Text>
+            <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>{filledSeeds}% filled</Text>
+            <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>{availableSeeds} available</Text>
           </TextContainer>
         </>
       )}
       <InputPanel>
-        <Container>
+        <Container style={isDark ? { ...inputBackgroundDark } : { ...inputBackgroundLight }}>
           <LabelRow>
             <RowBetween>
               <NumericalInput
