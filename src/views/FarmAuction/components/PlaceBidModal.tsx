@@ -10,7 +10,7 @@ import { ethersToBigNumber } from 'utils/bigNumber'
 import useTheme from 'hooks/useTheme'
 import useTokenBalance, { FetchStatus } from 'hooks/useTokenBalance'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
-import { useCake, useFarmAuctionContract } from 'hooks/useContract'
+import { useS33D, useFarmAuctionContract } from 'hooks/useContract'
 import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import useToast from 'hooks/useToast'
 import ConnectWalletButton from 'components/ConnectWalletButton'
@@ -65,11 +65,11 @@ const PlaceBidModal: React.FC<PlaceBidModalProps> = ({
   const [errorText, setErrorText] = useState(null)
 
   const { balance: userCake, fetchStatus } = useTokenBalance(tokens.cake.address)
-  const userCakeBalance = getBalanceAmount(userCake)
+  const users33dBalance = getBalanceAmount(userCake)
 
   const cakePriceBusd = usePriceCakeBusd()
   const farmAuctionContract = useFarmAuctionContract()
-  const cakeContract = useCake()
+  const s33dContract = useS33D()
 
   const { toastSuccess } = useToast()
 
@@ -81,12 +81,12 @@ const PlaceBidModal: React.FC<PlaceBidModalProps> = ({
   useEffect(() => {
     setIsMoreThanInitialBidAmount(parseFloat(bid) >= initialBidAmount)
     setIsMultipleOfTen(parseFloat(bid) % 10 === 0 && parseFloat(bid) !== 0)
-    if (fetchStatus === FetchStatus.SUCCESS && userCakeBalance.lt(bid)) {
+    if (fetchStatus === FetchStatus.SUCCESS && users33dBalance.lt(bid)) {
       setUserNotEnoughCake(true)
     } else {
       setUserNotEnoughCake(false)
     }
-  }, [bid, initialBidAmount, fetchStatus, userCakeBalance])
+  }, [bid, initialBidAmount, fetchStatus, users33dBalance])
 
   useEffect(() => {
     if (userNotEnoughCake) {
@@ -104,7 +104,7 @@ const PlaceBidModal: React.FC<PlaceBidModalProps> = ({
     useApproveConfirmTransaction({
       onRequiresApproval: async () => {
         try {
-          const response = await cakeContract.allowance(account, farmAuctionContract.address)
+          const response = await s33dContract.allowance(account, farmAuctionContract.address)
           const currentAllowance = ethersToBigNumber(response)
           return currentAllowance.gt(0)
         } catch (error) {
@@ -112,7 +112,7 @@ const PlaceBidModal: React.FC<PlaceBidModalProps> = ({
         }
       },
       onApprove: () => {
-        return callWithGasPrice(cakeContract, 'approve', [farmAuctionContract.address, ethers.constants.MaxUint256])
+        return callWithGasPrice(s33dContract, 'approve', [farmAuctionContract.address, ethers.constants.MaxUint256])
       },
       onApproveSuccess: async ({ receipt }) => {
         toastSuccess(
@@ -145,7 +145,7 @@ const PlaceBidModal: React.FC<PlaceBidModalProps> = ({
       <ExistingInfo>
         <Flex justifyContent="space-between">
           <Text>{t('Your existing bid')}</Text>
-          <Text>{t('%num% CAKE', { num: getBalanceNumber(amount).toLocaleString() })}</Text>
+          <Text>{t('%num% S33D', { num: getBalanceNumber(amount).toLocaleString() })}</Text>
         </Flex>
         <Flex justifyContent="space-between">
           <Text>{t('Your position')}</Text>
@@ -180,7 +180,7 @@ const PlaceBidModal: React.FC<PlaceBidModalProps> = ({
             {t('Balance')}:
           </Text>
           <Text fontSize="12px" color="textSubtle">
-            {formatNumber(userCakeBalance.toNumber(), 3, 3)}
+            {formatNumber(users33dBalance.toNumber(), 3, 3)}
           </Text>
         </Flex>
         {errorText && (

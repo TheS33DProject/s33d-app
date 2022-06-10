@@ -4,7 +4,7 @@ import { ethers, Contract } from 'ethers'
 import { useAppDispatch } from 'state'
 import { updateUserAllowance } from 'state/actions'
 import { useTranslation } from 'contexts/Localization'
-import { useCake, useSousChef, useCakeVaultContract } from 'hooks/useContract'
+import { useS33D, useSousChef, useCakeVaultContract } from 'hooks/useContract'
 import useToast from 'hooks/useToast'
 import useLastUpdated from 'hooks/useLastUpdated'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
@@ -66,10 +66,10 @@ export const useVaultApprove = (setLastUpdated: () => void) => {
   const { toastSuccess, toastError } = useToast()
   const cakeVaultContract = useCakeVaultContract()
   const { callWithGasPrice } = useCallWithGasPrice()
-  const cakeContract = useCake()
+  const s33dContract = useS33D()
 
   const handleApprove = async () => {
-    const tx = await callWithGasPrice(cakeContract, 'approve', [cakeVaultContract.address, ethers.constants.MaxUint256])
+    const tx = await callWithGasPrice(s33dContract, 'approve', [cakeVaultContract.address, ethers.constants.MaxUint256])
     setRequestedApproval(true)
     const receipt = await tx.wait()
     if (receipt.status) {
@@ -93,13 +93,13 @@ export const useVaultApprove = (setLastUpdated: () => void) => {
 export const useCheckVaultApprovalStatus = () => {
   const [isVaultApproved, setIsVaultApproved] = useState(false)
   const { account } = useWeb3React()
-  const cakeContract = useCake()
+  const s33dContract = useS33D()
   const cakeVaultContract = useCakeVaultContract()
   const { lastUpdated, setLastUpdated } = useLastUpdated()
   useEffect(() => {
     const checkApprovalStatus = async () => {
       try {
-        const currentAllowance = await cakeContract.allowance(account, cakeVaultContract.address)
+        const currentAllowance = await s33dContract.allowance(account, cakeVaultContract.address)
         setIsVaultApproved(currentAllowance.gt(0))
       } catch (error) {
         setIsVaultApproved(false)
@@ -107,7 +107,7 @@ export const useCheckVaultApprovalStatus = () => {
     }
 
     checkApprovalStatus()
-  }, [account, cakeContract, cakeVaultContract, lastUpdated])
+  }, [account, s33dContract, cakeVaultContract, lastUpdated])
 
   return { isVaultApproved, setLastUpdated }
 }

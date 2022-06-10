@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { formatUnits } from '@ethersproject/units'
 import { useAppDispatch } from 'state'
 import { useTranslation } from 'contexts/Localization'
-import { useCake, useProfile } from 'hooks/useContract'
+import { useS33D, useProfile } from 'hooks/useContract'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
 import { fetchProfile } from 'state/profile'
 import useToast from 'hooks/useToast'
@@ -19,7 +19,7 @@ interface Props {
   selectedNft: State['selectedNft']
   account: string
   teamId: number
-  minimumCakeRequired: ethers.BigNumber
+  minimumS33DRequired: ethers.BigNumber
   allowance: ethers.BigNumber
   onDismiss?: () => void
 }
@@ -28,7 +28,7 @@ const ConfirmProfileCreationModal: React.FC<Props> = ({
   account,
   teamId,
   selectedNft,
-  minimumCakeRequired,
+  minimumS33DRequired,
   allowance,
   onDismiss,
 }) => {
@@ -36,21 +36,21 @@ const ConfirmProfileCreationModal: React.FC<Props> = ({
   const profileContract = useProfile()
   const dispatch = useAppDispatch()
   const { toastSuccess } = useToast()
-  const cakeContract = useCake()
+  const s33dContract = useS33D()
   const { callWithGasPrice } = useCallWithGasPrice()
 
   const { isApproving, isApproved, isConfirmed, isConfirming, handleApprove, handleConfirm } =
     useApproveConfirmTransaction({
       onRequiresApproval: async () => {
         try {
-          const response = await cakeContract.allowance(account, profileContract.address)
-          return response.gte(minimumCakeRequired)
+          const response = await s33dContract.allowance(account, profileContract.address)
+          return response.gte(minimumS33DRequired)
         } catch (error) {
           return false
         }
       },
       onApprove: () => {
-        return callWithGasPrice(cakeContract, 'approve', [profileContract.address, allowance.toJSON()])
+        return callWithGasPrice(s33dContract, 'approve', [profileContract.address, allowance.toJSON()])
       },
       onConfirm: () => {
         return callWithGasPrice(profileContract, 'createProfile', [
@@ -73,7 +73,7 @@ const ConfirmProfileCreationModal: React.FC<Props> = ({
       </Text>
       <Flex justifyContent="space-between" mb="16px">
         <Text>{t('Cost')}</Text>
-        <Text>{t('%num% CAKE', { num: formatUnits(REGISTER_COST) })}</Text>
+        <Text>{t('%num% S33D', { num: formatUnits(REGISTER_COST) })}</Text>
       </Flex>
       <ApproveConfirmButtons
         isApproveDisabled={isConfirmed || isConfirming || isApproved}

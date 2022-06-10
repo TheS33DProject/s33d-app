@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js'
 import { useTranslation } from 'contexts/Localization'
 import { usePriceCakeBusd } from 'state/farms/hooks'
 import useToast from 'hooks/useToast'
-import { useMasterchef } from 'hooks/useContract'
+import { useGrandGardener } from 'hooks/useContract'
 import { harvestFarm } from 'utils/calls'
 import Balance from 'components/Balance'
 import useFarmsWithBalance from 'views/Home/hooks/useFarmsWithBalance'
@@ -23,7 +23,7 @@ const HarvestCard = () => {
   const { toastSuccess, toastError } = useToast()
   const { farmsWithStakedBalance, earningsSum: farmEarningsSum } = useFarmsWithBalance()
 
-  const masterChefContract = useMasterchef()
+  const grandGardenerContract = useGrandGardener()
   const cakePriceBusd = usePriceCakeBusd()
   const earningsBusd = new BigNumber(farmEarningsSum).multipliedBy(cakePriceBusd)
   const numTotalToCollect = farmsWithStakedBalance.length
@@ -39,7 +39,7 @@ const HarvestCard = () => {
     for (const farmWithBalance of farmsWithStakedBalance) {
       try {
         // eslint-disable-next-line no-await-in-loop
-        await harvestFarm(masterChefContract, farmWithBalance.pid)
+        await harvestFarm(grandGardenerContract, farmWithBalance.pid)
         toastSuccess(
           `${t('Harvested')}!`,
           t('Your %symbol% earnings have been sent to your wallet!', { symbol: 'CAKE' }),
@@ -49,7 +49,7 @@ const HarvestCard = () => {
       }
     }
     setPendingTx(false)
-  }, [farmsWithStakedBalance, masterChefContract, toastSuccess, toastError, t])
+  }, [farmsWithStakedBalance, grandGardenerContract, toastSuccess, toastError, t])
 
   return (
     <StyledCard>

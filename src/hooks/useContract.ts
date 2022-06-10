@@ -2,14 +2,15 @@ import { useMemo } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import {
   getBep20Contract,
-  getCakeContract,
+  getS33DContract,
   getBunnyFactoryContract,
   getBunnySpecialContract,
   getPancakeRabbitContract,
   getProfileContract,
   getIfoV1Contract,
   getIfoV2Contract,
-  getMasterchefContract,
+  getGrandGardenerContract,
+  getInitialS33DRoundContract,
   getPointCenterIfoContract,
   getSouschefContract,
   getClaimRefundContract,
@@ -72,9 +73,9 @@ export const useERC721 = (address: string) => {
   return useMemo(() => getErc721Contract(address, library.getSigner()), [address, library])
 }
 
-export const useCake = () => {
+export const useS33D = () => {
   const { library } = useActiveWeb3React()
-  return useMemo(() => getCakeContract(library.getSigner()), [library])
+  return useMemo(() => getS33DContract(library.getSigner()), [library])
 }
 
 export const useBunnyFactory = () => {
@@ -97,9 +98,14 @@ export const useLotteryV2Contract = () => {
   return useMemo(() => getLotteryV2Contract(library.getSigner()), [library])
 }
 
-export const useMasterchef = () => {
+export const useGrandGardener = () => {
   const { library } = useActiveWeb3React()
-  return useMemo(() => getMasterchefContract(library.getSigner()), [library])
+  return useMemo(() => getGrandGardenerContract(library.getSigner()), [library])
+}
+
+export const useInitialS33DRound = () => {
+  const { library } = useActiveWeb3React()
+  return useMemo(() => getInitialS33DRoundContract(library.getSigner()), [library])
 }
 
 export const useSousChef = (id) => {

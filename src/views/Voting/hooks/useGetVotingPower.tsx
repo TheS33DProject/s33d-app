@@ -7,7 +7,7 @@ import { getVotingPower } from '../helpers'
 
 interface State {
   verificationHash: string
-  cakeBalance: number
+  s33dBalance: number
   cakeVaultBalance: number
   cakePoolBalance: number
   poolsBalance: number
@@ -17,7 +17,7 @@ interface State {
 
 const initialState: State = {
   verificationHash: null,
-  cakeBalance: 0,
+  s33dBalance: 0,
   cakeVaultBalance: 0,
   cakePoolBalance: 0,
   poolsBalance: 0,
@@ -39,7 +39,7 @@ const useGetVotingPower = (block?: number, isActive = true): State & { isLoading
         const eligiblePools = await getActivePools(blockNumber)
         const poolAddresses = eligiblePools.map(({ contractAddress }) => getAddress(contractAddress))
         const {
-          cakeBalance,
+          s33dBalance,
           cakeBnbLpBalance,
           cakePoolBalance,
           total,
@@ -52,7 +52,7 @@ const useGetVotingPower = (block?: number, isActive = true): State & { isLoading
           setVotingPower((prevVotingPower) => ({
             ...prevVotingPower,
             verificationHash,
-            cakeBalance: parseFloat(cakeBalance),
+            s33dBalance: parseFloat(s33dBalance),
             cakeBnbLpBalance: parseFloat(cakeBnbLpBalance),
             cakePoolBalance: parseFloat(cakePoolBalance),
             poolsBalance: parseFloat(poolsBalance),

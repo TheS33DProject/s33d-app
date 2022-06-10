@@ -6,9 +6,11 @@ export const getAddress = (address: Address): string => {
   const chainId = process.env.REACT_APP_CHAIN_ID
   return address[chainId] ? address[chainId] : address[ChainId.MAINNET]
 }
-
-export const getMasterChefAddress = () => {
-  return getAddress(addresses.masterChef)
+export const getGrandGardenerAddress = () => {
+  return getAddress(addresses.grandGardener)
+}
+export const getInitialS33DRoundAddress = () => {
+  return getAddress(addresses.initialS33DRound)
 }
 export const getMulticallAddress = () => {
   return getAddress(addresses.multiCall)

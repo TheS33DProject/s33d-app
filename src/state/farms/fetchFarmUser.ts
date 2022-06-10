@@ -1,16 +1,16 @@
 import BigNumber from 'bignumber.js'
 import erc20ABI from 'config/abi/erc20.json'
-import masterchefABI from 'config/abi/masterchef.json'
+import grandGardenerABI from 'config/abi/GrandGardener.json'
 import multicall from 'utils/multicall'
-import { getAddress, getMasterChefAddress } from 'utils/addressHelpers'
+import { getAddress, getGrandGardenerAddress } from 'utils/addressHelpers'
 import { SerializedFarmConfig } from 'config/constants/types'
 
 export const fetchFarmUserAllowances = async (account: string, farmsToFetch: SerializedFarmConfig[]) => {
-  const masterChefAddress = getMasterChefAddress()
+  const grandGardenerAddress = getGrandGardenerAddress()
 
   const calls = farmsToFetch.map((farm) => {
     const lpContractAddress = getAddress(farm.lpAddresses)
-    return { address: lpContractAddress, name: 'allowance', params: [account, masterChefAddress] }
+    return { address: lpContractAddress, name: 'allowance', params: [account, grandGardenerAddress] }
   })
 
   const rawLpAllowances = await multicall(erc20ABI, calls)
@@ -38,17 +38,17 @@ export const fetchFarmUserTokenBalances = async (account: string, farmsToFetch: 
 }
 
 export const fetchFarmUserStakedBalances = async (account: string, farmsToFetch: SerializedFarmConfig[]) => {
-  const masterChefAddress = getMasterChefAddress()
+  const grandGardenerAddress = getGrandGardenerAddress()
 
   const calls = farmsToFetch.map((farm) => {
     return {
-      address: masterChefAddress,
+      address: grandGardenerAddress,
       name: 'userInfo',
       params: [farm.pid, account],
     }
   })
 
-  const rawStakedBalances = await multicall(masterchefABI, calls)
+  const rawStakedBalances = await multicall(grandGardenerABI, calls)
   const parsedStakedBalances = rawStakedBalances.map((stakedBalance) => {
     return new BigNumber(stakedBalance[0]._hex).toJSON()
   })
@@ -56,17 +56,17 @@ export const fetchFarmUserStakedBalances = async (account: string, farmsToFetch:
 }
 
 export const fetchFarmUserEarnings = async (account: string, farmsToFetch: SerializedFarmConfig[]) => {
-  const masterChefAddress = getMasterChefAddress()
+  const grandGardenerAddress = getGrandGardenerAddress()
 
   const calls = farmsToFetch.map((farm) => {
     return {
-      address: masterChefAddress,
-      name: 'pendingCake',
+      address: grandGardenerAddress,
+      name: 'pendingS33D',
       params: [farm.pid, account],
     }
   })
 
-  const rawEarnings = await multicall(masterchefABI, calls)
+  const rawEarnings = await multicall(grandGardenerABI, calls)
   const parsedEarnings = rawEarnings.map((earnings) => {
     return new BigNumber(earnings).toJSON()
   })

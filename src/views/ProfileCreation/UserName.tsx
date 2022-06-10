@@ -20,7 +20,7 @@ import { useWeb3React } from '@web3-react/core'
 import { formatUnits } from '@ethersproject/units'
 import { API_PROFILE } from 'config/constants/endpoints'
 import useToast from 'hooks/useToast'
-import { FetchStatus, useGetCakeBalance } from 'hooks/useTokenBalance'
+import { FetchStatus, useGetS33DBalance } from 'hooks/useTokenBalance'
 import { signMessage } from 'utils/web3React'
 import fetchWithTimeout from 'utils/fetchWithTimeout'
 import useWeb3Provider from 'hooks/useActiveWeb3React'
@@ -58,7 +58,7 @@ const Indicator = styled(Flex)`
 
 const UserName: React.FC = () => {
   const [isAcknowledged, setIsAcknowledged] = useState(false)
-  const { teamId, selectedNft, userName, actions, minimumCakeRequired, allowance } = useProfileCreation()
+  const { teamId, selectedNft, userName, actions, minimumS33DRequired, allowance } = useProfileCreation()
   const { t } = useTranslation()
   const { account } = useWeb3React()
   const { toastError } = useToast()
@@ -68,15 +68,15 @@ const UserName: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState('')
   const fetchAbortSignal = useRef<AbortController>(null)
-  const { balance: cakeBalance, fetchStatus } = useGetCakeBalance()
-  const hasMinimumCakeRequired = fetchStatus === FetchStatus.SUCCESS && cakeBalance.gte(REGISTER_COST)
+  const { balance: s33dBalance, fetchStatus } = useGetS33DBalance()
+  const hasMinimumCakeRequired = fetchStatus === FetchStatus.SUCCESS && s33dBalance.gte(REGISTER_COST)
   const [onPresentConfirmProfileCreation] = useModal(
     <ConfirmProfileCreationModal
       userName={userName}
       selectedNft={selectedNft}
       account={account}
       teamId={teamId}
-      minimumCakeRequired={minimumCakeRequired}
+      minimumS33DRequired={minimumS33DRequired}
       allowance={allowance}
     />,
     false,
