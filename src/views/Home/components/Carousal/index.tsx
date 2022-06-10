@@ -39,6 +39,8 @@ function HomeCarousel() {
     <>
       <Carousel
         animation="fade"
+        // wrapAround="true"
+        style={{ marginTop: '80px', width: '100vw' }}
         slidesToShow={1}
         defaultControlsConfig={{
           prevButtonStyle: {
@@ -90,7 +92,7 @@ function HomeCarousel() {
             <Text textAlign="center" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               All life happens with planting a seed.
             </Text>
-            <Text textAlign="center" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+            <Text textAlign="center" p="20px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               Our initiative is easy. Tell S33D farmers what you want and the community responds with fair offers for
               locally grown and harvested foods at specific time frames.
             </Text>
