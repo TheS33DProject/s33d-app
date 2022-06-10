@@ -67,14 +67,14 @@ function HomeCarousel() {
             The S33D Project
           </Heading>
           <DesktopContent>
-            <Text textAlign="center" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+            <Text textAlign="center" p="20px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               This is a 100% community owned sustainability initiative. Together, we’re reimagining how we use our
               resources to conserve our planet for generations to come.
             </Text>
-            <Text textAlign="center" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+            <Text textAlign="center" p="20px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               Finance for growers
             </Text>
-            <Text textAlign="center" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+            <Text textAlign="center" p="20px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               Powered by blockchain, accelerated by DeFi.
             </Text>
           </DesktopContent>
@@ -90,7 +90,7 @@ function HomeCarousel() {
             >
               Plant A S33D
             </Heading>
-            <Text textAlign="center" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+            <Text textAlign="center" p="20px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               All life happens with planting a seed.
             </Text>
             <Text textAlign="center" p="20px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
@@ -110,10 +110,10 @@ function HomeCarousel() {
             >
               Grow Food
             </Heading>
-            <Text textAlign="center" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+            <Text textAlign="center" p="20px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               Get funded to start your passion for growing loved fruits of labor.
             </Text>
-            <Text textAlign="center" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+            <Text textAlign="center" p="20px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               Mark your presence, establish your credentials, and thrive while growing what you love, knowing they will
               be enjoyed locally.
             </Text>
@@ -129,7 +129,7 @@ function HomeCarousel() {
             >
               Fund Causes
             </Heading>
-            <Text textAlign="center" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+            <Text textAlign="center" p="20px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               Mobilise funds to reach the causes that matter to you. Let the planet be a little better to live in when
               funds go to where it matters.
             </Text>
