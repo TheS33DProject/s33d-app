@@ -63,6 +63,8 @@ import SwapWarningModal from './components/SwapWarningModal'
 import PriceChartContainer from './components/Chart/PriceChartContainer'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import CurrencyInputHeader from './components/CurrencyInputHeader'
+import { useS33D, useInitialS33DRound } from 'hooks/useContract'
+import { useWeb3React } from '@web3-react/core'
 
 const Label = styled(Text)`
   font-size: 12px;
@@ -77,6 +79,20 @@ const TextContainer = styled.div`
 `
 
 export default function Swap({ history }: RouteComponentProps) {
+  const s33dContract = useS33D()
+  const initialS33DRound = useInitialS33DRound()
+  const whitelist = initialS33DRound.getWhitelist()
+  whitelist.then((res) => {
+    //console.log(res.toString())
+  })
+
+  const availableS33D = initialS33DRound.getPouchBalance()
+  availableS33D.then((res) => {
+    console.log(res.toString())
+  })
+  // console.log("whitelist "+ Object.keys(whitelist))
+  // console.log("pouchBalance "+ availableS33D)
+
   const loadedUrlParams = useDefaultsFromURLSearch()
   const { t } = useTranslation()
   const { isMobile } = useMatchBreakpoints()
@@ -107,7 +123,7 @@ export default function Swap({ history }: RouteComponentProps) {
     })
 
   const { account } = useActiveWeb3React()
-
+  console.log(account)
   // for expert mode
   const [isExpertMode] = useExpertModeManager()
 

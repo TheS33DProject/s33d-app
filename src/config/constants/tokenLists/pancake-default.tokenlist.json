@@ -51,6 +51,14 @@
       "logoURI": "https://pancakeswap.finance/images/tokens/0x55d398326f99059ff775485246999027b3197955.png"
     },
     {
+      "name": "Tether USD",
+      "symbol": "USDT",
+      "address": "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd",
+      "chainId": 97,
+      "decimals": 18,
+      "logoURI": "https://pancakeswap.finance/images/tokens/0x55d398326f99059ff775485246999027b3197955.png"
+    },
+    {
       "name": "The S33D Project",
       "symbol": "S33D",
       "address": "0xB9d2F259Da6Fe1178Cbf68809F4d3C8409B76ef0",

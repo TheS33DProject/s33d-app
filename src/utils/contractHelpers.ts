@@ -122,7 +122,7 @@ export const getGrandGardenerContract = (signer?: ethers.Signer | ethers.provide
   return getContract(grandGardenerAbi, getGrandGardenerAddress(), signer)
 }
 export const getInitialS33DRoundContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
-  return getContract(initialS33DRoundAbi, getGrandGardenerAddress(), signer)
+  return getContract(initialS33DRoundAbi, getInitialS33DRoundAddress(), signer)
 }
 export const getClaimRefundContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
   return getContract(claimRefundAbi, getClaimRefundAddress(), signer)

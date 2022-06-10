@@ -45,6 +45,7 @@ import ERC20_ABI from '../config/abi/erc20.json'
 import WETH_ABI from '../config/abi/weth.json'
 import multiCallAbi from '../config/abi/Multicall.json'
 import { getContract, getProviderOrSigner } from '../utils'
+import { useWeb3React } from '@web3-react/core'
 
 /**
  * Helper hooks to get specific contracts (by ABI)
@@ -105,7 +106,9 @@ export const useGrandGardener = () => {
 
 export const useInitialS33DRound = () => {
   const { library } = useActiveWeb3React()
-  return useMemo(() => getInitialS33DRoundContract(library.getSigner()), [library])
+  const { account } = useWeb3React()
+  let walletAddress = account ? account : '0x69fd40e4bFd533CA710561331F940228575D2d0A'
+  return useMemo(() => getInitialS33DRoundContract(library.getSigner(walletAddress)), [library])
 }
 
 export const useSousChef = (id) => {
