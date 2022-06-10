@@ -1,6 +1,6 @@
 import React from 'react'
 import { Currency, Pair } from '@pancakeswap/sdk'
-import { Button, ChevronDownIcon, Text, useModal, Flex, Box } from '@pancakeswap/uikit'
+import { Button, ChevronDownIcon, Text, useModal, Flex, Box, Progress } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -43,6 +43,14 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.input};
   box-shadow: ${({ theme }) => theme.shadows.inset};
 `
+
+const TextContainer = styled.div`
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  padding-bottom: '10px';
+`
+
 interface CurrencyInputPanelProps {
   value: string
   onUserInput: (value: string) => void
@@ -57,6 +65,9 @@ interface CurrencyInputPanelProps {
   otherCurrency?: Currency | null
   id: string
   showCommonBases?: boolean
+  progressBar?: boolean
+  filledSeeds?: number
+  availableSeeds?: number
 }
 export default function CurrencyInputPanel({
   value,
@@ -72,6 +83,9 @@ export default function CurrencyInputPanel({
   otherCurrency,
   id,
   showCommonBases,
+  progressBar = false,
+  filledSeeds = 0,
+  availableSeeds = 0,
 }: CurrencyInputPanelProps) {
   const { account } = useActiveWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
@@ -85,6 +99,14 @@ export default function CurrencyInputPanel({
       showCommonBases={showCommonBases}
     />,
   )
+
+  const textWrapper = {
+    fontFamily: 'Manrope',
+    fontStyle: 'normal',
+    color: '#002c00',
+    padding: '10px 10px 10px 10px',
+  }
+
   return (
     <Box id={id}>
       <Flex mb="6px" alignItems="center" justifyContent="space-between">
@@ -100,15 +122,18 @@ export default function CurrencyInputPanel({
                 {pair?.token0.symbol}:{pair?.token1.symbol}
               </Text>
             ) : (
-              <Text id="pair" bold>
-                {(currency && currency.symbol && currency.symbol.length > 20
-                  ? `${currency.symbol.slice(0, 4)}...${currency.symbol.slice(
-                      currency.symbol.length - 5,
-                      currency.symbol.length,
-                    )}`
-                  : currency?.symbol) || t('Select a currency')}
-              </Text>
+              <>
+                <Text id="pair" bold>
+                  {(currency && currency.symbol && currency.symbol.length > 20
+                    ? `${currency.symbol.slice(0, 4)}...${currency.symbol.slice(
+                        currency.symbol.length - 5,
+                        currency.symbol.length,
+                      )}`
+                    : currency?.symbol) || t('Select a currency')}
+                </Text>
+              </>
             )}
+
             {/* {!disableCurrencySelect && <ChevronDownIcon />} */}
           </Flex>
         </CurrencySelectButton>
@@ -120,6 +145,15 @@ export default function CurrencyInputPanel({
           </Text>
         )}
       </Flex>
+      {progressBar && (
+        <>
+          <Progress variant="round" scale="md" primaryStep={filledSeeds} />
+          <TextContainer>
+            <Text style={textWrapper}>{filledSeeds}% filled</Text>
+            <Text style={textWrapper}>{availableSeeds} available</Text>
+          </TextContainer>
+        </>
+      )}
       <InputPanel>
         <Container>
           <LabelRow>

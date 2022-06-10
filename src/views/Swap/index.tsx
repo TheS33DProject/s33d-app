@@ -11,6 +11,7 @@ import {
   IconButton,
   BottomDrawer,
   useMatchBreakpoints,
+  Progress,
 } from '@pancakeswap/uikit'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
@@ -66,6 +67,12 @@ const Label = styled(Text)`
   font-size: 12px;
   font-weight: bold;
   color: ${({ theme }) => theme.colors.secondary};
+`
+
+const TextContainer = styled.div`
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
 `
 
 export default function Swap({ history }: RouteComponentProps) {
@@ -227,6 +234,13 @@ export default function Swap({ history }: RouteComponentProps) {
   // errors
   const [showInverted, setShowInverted] = useState<boolean>(false)
 
+  // progress bar stuff
+  const [progressBar, setProgress] = useState(true)
+  // conversion seed val
+  const [conversionSeedVal, setConversionSeedVal] = useState(12.0)
+  const [filledSeed, setFilledSeed] = useState(45)
+  const [availableSeeds, setAvailableSeeds] = useState(1000)
+
   // warnings on slippage
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
@@ -335,6 +349,13 @@ export default function Swap({ history }: RouteComponentProps) {
     'confirmSwapModal',
   )
 
+  const textWrapper = {
+    fontFamily: 'Manrope',
+    fontStyle: 'normal',
+    color: '#002c00',
+    padding: '10px 10px 0px 10px',
+  }
+
   return (
     // <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
     <Flex width="100%" justifyContent="center" position="relative">
@@ -377,6 +398,10 @@ export default function Swap({ history }: RouteComponentProps) {
                 setIsChartDisplayed={setIsChartDisplayed}
                 isChartDisplayed={isChartDisplayed}
               />
+              <TextContainer>
+                <Text style={textWrapper}>Offer Price</Text>
+                <Text style={textWrapper}>{conversionSeedVal} USDT per S33D</Text>
+              </TextContainer>
               <Wrapper id="swap-page">
                 <AutoColumn gap="md">
                   <CurrencyInputPanel
@@ -406,7 +431,9 @@ export default function Swap({ history }: RouteComponentProps) {
                       ) : null}
                     </AutoRow>
                   </AutoColumn>
+
                   <CurrencyInputPanel
+                    progressBar={progressBar}
                     value={formattedAmounts[Field.OUTPUT]}
                     onUserInput={handleTypeOutput}
                     label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}
@@ -415,6 +442,8 @@ export default function Swap({ history }: RouteComponentProps) {
                     onCurrencySelect={handleOutputSelect}
                     otherCurrency={currencies[Field.INPUT]}
                     id="swap-currency-output"
+                    availableSeeds={availableSeeds}
+                    filledSeeds={filledSeed}
                   />
 
                   {isExpertMode && recipient !== null && !showWrap ? (

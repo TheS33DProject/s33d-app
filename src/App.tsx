@@ -35,7 +35,7 @@ import {
 import RedirectOldRemoveLiquidityPathStructure from './views/RemoveLiquidity/redirects'
 import { RedirectPathToSwapOnly, RedirectToSwap } from './views/Swap/redirects'
 import { useInactiveListener } from './hooks/useInactiveListener'
-import './app.css'
+// import './app.css'
 
 // Route-based code splitting
 // Only pool is included in the main bundle because of it's the most visited page
