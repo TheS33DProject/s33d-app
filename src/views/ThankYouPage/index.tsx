@@ -64,12 +64,12 @@ export default function ThankYouScreen() {
             >
               Thank You
             </Heading>
-            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+            <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               We appreciate your support in our project. Please allow us up to 48 hours to process your whitelisting
               request. You will receive an email from us to confirm your whitelisting and the next steps!
             </Text>
 
-            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }} pt="20px">
+            <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }} pt="20px">
               In the meantime, please follow us on the social media channels below for more updates and active
               discussions.
             </Text>

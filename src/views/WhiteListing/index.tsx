@@ -30,7 +30,7 @@ const DesktopContent2 = styled.div`
   margin-right: 30px;
 `
 const WhiteListingContainer = styled.div`
-  margin-top: 250px;
+  margin-top: 10px;
   ${({ theme }) => theme.mediaQueries.lg && theme.mediaQueries.md} {
     margin-top: 0px;
   }
@@ -138,7 +138,7 @@ export default function WhiteListingScreen() {
   }, [firstname, lastname, email, termAndCondition, buttonFlag])
 
   const PageHeight = {
-    minHeight: 'calc(100vh - 200px)',
+    minHeight: 'calc(100vh - 150px)',
   }
 
   const contentFontStyle = {
@@ -185,83 +185,84 @@ export default function WhiteListingScreen() {
   }
 
   return (
-    <WhiteListingContainer>
-      <Flex style={PageHeight} alignItems="center" justifyContent="center">
-        <DesktopImage>
-          <Flex alignItems="center" justifyContent="center" flexDirection="column">
-            <img src="images/assets/astronaut-input.svg" className="App-logo" alt="logo" />
-          </Flex>
-        </DesktopImage>
-        <Flex maxWidth="550px" flexDirection="column" ml="30px">
-          <Heading
-            style={isDark ? { ...darkThemeStyle } : { ...headingFontStyle }}
-            scale="xl"
-            mb="24px"
-            textAlign="center"
-          >
-            Whitelisting
-          </Heading>
+    <>
+      <WhiteListingContainer>
+        <Flex style={PageHeight} alignItems="center" justifyContent="center">
+          <DesktopImage>
+            <Flex alignItems="center" justifyContent="center" flexDirection="column">
+              <img src="images/assets/astronaut-input.svg" className="App-logo" alt="logo" />
+            </Flex>
+          </DesktopImage>
+          <Flex maxWidth="550px" flexDirection="column" ml="30px">
+            <Heading
+              style={isDark ? { ...darkThemeStyle } : { ...headingFontStyle }}
+              scale="xl"
+              mb="24px"
+              textAlign="center"
+            >
+              Whitelisting
+            </Heading>
 
-          <form id="WhiteListingForm" onSubmit={handleSubmit}>
-            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
-              Please fill in the form to start. We require this information to communicate important information about
-              The S33D Project to all our founding gardeners.
-            </Text>
+            <form id="WhiteListingForm" onSubmit={handleSubmit}>
+              <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+                Please fill in the form to start. We require this information to communicate important information about
+                The S33D Project to all our founding gardeners.
+              </Text>
 
-            <DesktopContent>
-              <Input
-                style={isDark ? { ...formStylesDark } : { ...formStyles }}
-                type="text"
-                scale="lg"
-                placeholder="First Name"
-                name="firstname"
-                onChange={onChange}
-              />
-              <Input
-                style={isDark ? { ...formStylesDark } : { ...formStyles }}
-                type="text"
-                scale="lg"
-                placeholder="Last Name"
-                name="lastname"
-                onChange={onChange}
-              />
-            </DesktopContent>
-            <DesktopContent2>
-              <Input
-                style={isDark ? { ...formStylesDark } : { ...formStyles, ...emailInput }}
-                type="email"
-                onChange={onChange}
-                scale="lg"
-                name="email"
-                placeholder="Email Address"
-              />
-            </DesktopContent2>
-            {/* <Flex alignItems="center" justifyContent="space-between">
+              <DesktopContent>
+                <Input
+                  style={isDark ? { ...formStylesDark } : { ...formStyles }}
+                  type="text"
+                  scale="lg"
+                  placeholder="First Name"
+                  name="firstname"
+                  onChange={onChange}
+                />
+                <Input
+                  style={isDark ? { ...formStylesDark } : { ...formStyles }}
+                  type="text"
+                  scale="lg"
+                  placeholder="Last Name"
+                  name="lastname"
+                  onChange={onChange}
+                />
+              </DesktopContent>
+              <DesktopContent2>
+                <Input
+                  style={isDark ? { ...formStylesDark } : { ...formStyles, ...emailInput }}
+                  type="email"
+                  onChange={onChange}
+                  scale="lg"
+                  name="email"
+                  placeholder="Email Address"
+                />
+              </DesktopContent2>
+              {/* <Flex alignItems="center" justifyContent="space-between">
                         </Flex> */}
 
-            <br />
+              <br />
 
-            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }} mb="10px">
-              The S33D Project is committed to protect and respect your privacy and we only use your personal
-              information to facilitate this whitelisting process. If you consent to us contacting you for project
-              updates, please tick the box below.
-            </Text>
-
-            <Flex flexDirection="row" mt="24px">
-              <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
-                <Checkbox onChange={onChange} name="termAndCondition" />I agree to receive communications from The S33D
-                Project
+              <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }} mb="10px">
+                The S33D Project is committed to protect and respect your privacy and we only use your personal
+                information to facilitate this whitelisting process. If you consent to us contacting you for project
+                updates, please tick the box below.
               </Text>
-            </Flex>
-            <br />
-            <Button width="100px" disabled={buttonFlag} type="submit" className="btn">
-              Continue
-            </Button>
-          </form>
-        </Flex>
-      </Flex>
 
-      {/* <div className="main-container">
+              <Flex flexDirection="row" mt="24px">
+                <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+                  <Checkbox onChange={onChange} name="termAndCondition" />I agree to receive communications from The
+                  S33D Project
+                </Text>
+              </Flex>
+              <br />
+              <Button width="100px" disabled={buttonFlag} type="submit" className="btn">
+                Continue
+              </Button>
+            </form>
+          </Flex>
+        </Flex>
+
+        {/* <div className="main-container">
         <div className="astro-box pr-1">
           <img src="images/assets/astronaut-input.svg" className="App-logo" alt="logo" />
         </div>
@@ -301,6 +302,7 @@ export default function WhiteListingScreen() {
           </form>
         </div>
       </div> */}
-    </WhiteListingContainer>
+      </WhiteListingContainer>
+    </>
   )
 }

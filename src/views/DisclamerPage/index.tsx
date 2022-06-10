@@ -13,14 +13,17 @@ const DesktopImage = styled.div`
   }
 `
 const DesktopContent = styled.div`
-  margin-top: 40px;
-`
-const DisclaimerContainer = styled.div`
-  margin-top: 250px;
+  margin-top: 0px;
   ${({ theme }) => theme.mediaQueries.lg && theme.mediaQueries.md} {
-    margin-top: 0px;
+    margin-top: 40px;
   }
 `
+// const DisclaimerContainer = styled.div`
+//   margin-top: 250px;
+//   ${({ theme }) => theme.mediaQueries.lg && theme.mediaQueries.md} {
+//     margin-top: 0px;
+//   }
+// `
 
 export default function DisclamerScreen() {
   const history = useHistory()
@@ -66,7 +69,8 @@ export default function DisclamerScreen() {
   }
 
   return (
-    <DisclaimerContainer>
+    <>
+      {/* <DisclaimerContainer> */}
       <Flex style={PageHeight} alignItems="center" justifyContent="center">
         <DesktopImage>
           <Flex alignItems="center" justifyContent="center" flexDirection="column">
@@ -83,21 +87,21 @@ export default function DisclamerScreen() {
             >
               Disclaimer
             </Heading>
-            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+            <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               The S33D Project is an innovative concept for reimagining the ideas and our relationship with nature and
               our planet. We are on a mission to enable the propagation of sustainability initiatives and encourage
               humankind to form symbiotic relationships with our planet and each
             </Text>
             <br />
-            <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+            <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               You understand that by participating the Initial DEX Offering (IDO) of The S33D Project, you have:
-              <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+              <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
                 (I) read the Legal Notice and other information about this ID
               </Text>
-              <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+              <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
                 (II) confirmed that you are not in a jurisdiction where buying,
               </Text>
-              <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
+              <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
                 trading and/or owing S33D token would be prohibited or restricted in any manner.
               </Text>
               <br />
@@ -110,7 +114,8 @@ export default function DisclamerScreen() {
           </Flex>
         </DesktopContent>
       </Flex>
-    </DisclaimerContainer>
+      {/* </DisclaimerContainer> */}
+    </>
     // <div className="main-container">
     //   <div className="astro-box pr-1">
     //     <img src="images/assets/g12.svg" className="App-logo" alt="logo" />
