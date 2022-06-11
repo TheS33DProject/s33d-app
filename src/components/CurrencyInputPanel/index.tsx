@@ -1,6 +1,7 @@
 import React from 'react'
 import { Currency, Pair } from '@pancakeswap/sdk'
-import { Button, ChevronDownIcon, Text, useModal, Flex, Box } from '@pancakeswap/uikit'
+import useTheme from 'hooks/useTheme'
+import { Button, ChevronDownIcon, Text, useModal, Flex, Box, Progress } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -43,6 +44,14 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.input};
   box-shadow: ${({ theme }) => theme.shadows.inset};
 `
+
+const TextContainer = styled.div`
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  padding-bottom: '10px';
+`
+
 interface CurrencyInputPanelProps {
   value: string
   onUserInput: (value: string) => void
@@ -57,6 +66,9 @@ interface CurrencyInputPanelProps {
   otherCurrency?: Currency | null
   id: string
   showCommonBases?: boolean
+  progressBar?: boolean
+  filledSeeds?: number
+  availableSeeds?: number
 }
 export default function CurrencyInputPanel({
   value,
@@ -72,7 +84,11 @@ export default function CurrencyInputPanel({
   otherCurrency,
   id,
   showCommonBases,
+  progressBar = false,
+  filledSeeds = 0,
+  availableSeeds = 0,
 }: CurrencyInputPanelProps) {
+  const { isDark, theme } = useTheme()
   const { account } = useActiveWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
   const { t } = useTranslation()
@@ -85,18 +101,31 @@ export default function CurrencyInputPanel({
       showCommonBases={showCommonBases}
     />,
   )
+
+  const textWrapper = {
+    fontFamily: 'Manrope',
+    fontStyle: 'normal',
+    color: '#002c00',
+    padding: '10px 10px 10px 10px',
+  }
+  const textWrapperDark = {
+    fontFamily: 'Manrope',
+    fontStyle: 'normal',
+    color: '#FFFCF1',
+    padding: '10px 10px 10px 10px',
+  }
+
+  const inputBackgroundLight = {
+    background: 'rgba(0, 44, 0, 0.2)',
+  }
+  const inputBackgroundDark = {
+    background: '',
+  }
+
   return (
     <Box id={id}>
       <Flex mb="6px" alignItems="center" justifyContent="space-between">
-        <CurrencySelectButton
-          className="open-currency-select-button"
-          selected={!!currency}
-          onClick={() => {
-            if (!disableCurrencySelect) {
-              onPresentCurrencyModal()
-            }
-          }}
-        >
+        <CurrencySelectButton className="open-currency-select-button" selected={!!currency}>
           <Flex alignItems="center" justifyContent="space-between">
             {pair ? (
               <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={16} margin />
@@ -108,16 +137,19 @@ export default function CurrencyInputPanel({
                 {pair?.token0.symbol}:{pair?.token1.symbol}
               </Text>
             ) : (
-              <Text id="pair" bold>
-                {(currency && currency.symbol && currency.symbol.length > 20
-                  ? `${currency.symbol.slice(0, 4)}...${currency.symbol.slice(
-                      currency.symbol.length - 5,
-                      currency.symbol.length,
-                    )}`
-                  : currency?.symbol) || t('Select a currency')}
-              </Text>
+              <>
+                <Text id="pair" bold>
+                  {(currency && currency.symbol && currency.symbol.length > 20
+                    ? `${currency.symbol.slice(0, 4)}...${currency.symbol.slice(
+                        currency.symbol.length - 5,
+                        currency.symbol.length,
+                      )}`
+                    : currency?.symbol) || t('Select a currency')}
+                </Text>
+              </>
             )}
-            {!disableCurrencySelect && <ChevronDownIcon />}
+
+            {/* {!disableCurrencySelect && <ChevronDownIcon />} */}
           </Flex>
         </CurrencySelectButton>
         {account && (
@@ -128,8 +160,17 @@ export default function CurrencyInputPanel({
           </Text>
         )}
       </Flex>
+      {progressBar && (
+        <>
+          <Progress variant="round" scale="md" primaryStep={filledSeeds} />
+          <TextContainer>
+            <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>{filledSeeds}% filled</Text>
+            <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>{availableSeeds} available</Text>
+          </TextContainer>
+        </>
+      )}
       <InputPanel>
-        <Container>
+        <Container style={isDark ? { ...inputBackgroundDark } : { ...inputBackgroundLight }}>
           <LabelRow>
             <RowBetween>
               <NumericalInput
@@ -141,13 +182,13 @@ export default function CurrencyInputPanel({
               />
             </RowBetween>
           </LabelRow>
-          <InputRow selected={disableCurrencySelect}>
-            {account && currency && showMaxButton && label !== 'To' && (
+          <InputRow selected={disableCurrencySelect} />
+          {/* {account && currency && showMaxButton && label !== 'To' && (
               <Button onClick={onMax} scale="xs" variant="secondary">
                 MAX
               </Button>
-            )}
-          </InputRow>
+            )} */}
+          {/* </InputRow> */}
         </Container>
       </InputPanel>
     </Box>

@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
-import masterchefABI from 'config/abi/masterchef.json'
+import grandGardenerABI from 'config/abi/GrandGardener.json'
 import erc20 from 'config/abi/erc20.json'
-import { getAddress, getMasterChefAddress } from 'utils/addressHelpers'
+import { getAddress, getGrandGardenerAddress } from 'utils/addressHelpers'
 import { BIG_TEN, BIG_ZERO } from 'utils/bigNumber'
 import multicall from 'utils/multicall'
 import { SerializedFarm, SerializedBigNumber } from '../types'
@@ -31,11 +31,11 @@ const fetchFarm = async (farm: SerializedFarm): Promise<PublicFarmData> => {
       name: 'balanceOf',
       params: [lpAddress],
     },
-    // Balance of LP tokens in the master chef contract
+    // Balance of LP tokens in the Grand Gardener contract
     {
       address: lpAddress,
       name: 'balanceOf',
-      params: [getMasterChefAddress()],
+      params: [getGrandGardenerAddress()],
     },
     // Total supply of LP tokens
     {
@@ -70,17 +70,17 @@ const fetchFarm = async (farm: SerializedFarm): Promise<PublicFarmData> => {
   // Total staked in LP, in quote token value
   const lpTotalInQuoteToken = quoteTokenAmountMc.times(new BigNumber(2))
 
-  // Only make masterchef calls if farm has pid
+  // Only make GrandGardener calls if farm has pid
   const [info, totalAllocPoint] =
     pid || pid === 0
-      ? await multicall(masterchefABI, [
+      ? await multicall(grandGardenerABI, [
           {
-            address: getMasterChefAddress(),
+            address: getGrandGardenerAddress(),
             name: 'poolInfo',
             params: [pid],
           },
           {
-            address: getMasterChefAddress(),
+            address: getGrandGardenerAddress(),
             name: 'totalAllocPoint',
           },
         ])

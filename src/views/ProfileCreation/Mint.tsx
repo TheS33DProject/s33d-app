@@ -4,8 +4,8 @@ import { Card, CardBody, Heading, Text } from '@pancakeswap/uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'contexts/Localization'
 import useApproveConfirmTransaction from 'hooks/useApproveConfirmTransaction'
-import { useCake, useBunnyFactory } from 'hooks/useContract'
-import { FetchStatus, useGetCakeBalance } from 'hooks/useTokenBalance'
+import { useS33D, useBunnyFactory } from 'hooks/useContract'
+import { FetchStatus, useGetS33DBalance } from 'hooks/useTokenBalance'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import ApproveConfirmButtons from 'components/ApproveConfirmButtons'
 import useToast from 'hooks/useToast'
@@ -27,17 +27,17 @@ interface MintNftData extends ApiSingleTokenData {
 const Mint: React.FC = () => {
   const [selectedBunnyId, setSelectedBunnyId] = useState<string>('')
   const [starterNfts, setStarterNfts] = useState<MintNftData[]>([])
-  const { actions, minimumCakeRequired, allowance } = useProfileCreation()
+  const { actions, minimumS33DRequired, allowance } = useProfileCreation()
   const collections = useGetCollections()
   const { toastSuccess } = useToast()
   const dispatch = useAppDispatch()
 
   const { account } = useWeb3React()
-  const cakeContract = useCake()
+  const s33dContract = useS33D()
   const bunnyFactoryContract = useBunnyFactory()
   const { t } = useTranslation()
-  const { balance: cakeBalance, fetchStatus } = useGetCakeBalance()
-  const hasMinimumCakeRequired = fetchStatus === FetchStatus.SUCCESS && cakeBalance.gte(MINT_COST)
+  const { balance: s33dBalance, fetchStatus } = useGetS33DBalance()
+  const hasMinimumCakeRequired = fetchStatus === FetchStatus.SUCCESS && s33dBalance.gte(MINT_COST)
   const { callWithGasPrice } = useCallWithGasPrice()
 
   useEffect(() => {
@@ -61,14 +61,14 @@ const Mint: React.FC = () => {
       onRequiresApproval: async () => {
         // TODO: Move this to a helper, this check will be probably be used many times
         try {
-          const response = await cakeContract.allowance(account, bunnyFactoryContract.address)
-          return response.gte(minimumCakeRequired)
+          const response = await s33dContract.allowance(account, bunnyFactoryContract.address)
+          return response.gte(minimumS33DRequired)
         } catch (error) {
           return false
         }
       },
       onApprove: () => {
-        return callWithGasPrice(cakeContract, 'approve', [bunnyFactoryContract.address, allowance.toString()])
+        return callWithGasPrice(s33dContract, 'approve', [bunnyFactoryContract.address, allowance.toString()])
       },
       onConfirm: () => {
         return callWithGasPrice(bunnyFactoryContract, 'mintNFT', [selectedBunnyId])
@@ -126,7 +126,7 @@ const Mint: React.FC = () => {
           })}
           {!hasMinimumCakeRequired && (
             <Text color="failure" mb="16px">
-              {t('A minimum of %num% CAKE is required', { num: formatUnits(MINT_COST) })}
+              {t('A minimum of %num% S33D is required', { num: formatUnits(MINT_COST) })}
             </Text>
           )}
           <ApproveConfirmButtons

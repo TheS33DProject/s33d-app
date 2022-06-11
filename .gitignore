@@ -13,6 +13,7 @@ node_modules/@pancakeswap/uikit/package.json
 node_modules/@pancakeswap/uikit/README.md
 /.pnp
 .pnp.js
+yarn.lock
 
 # testing
 /coverage

@@ -1,7 +1,11 @@
 export default {
-  masterChef: {
-    97: '0x1d32c2945C8FDCBc7156c553B7cEa4325a17f4f9',
-    56: '0x73feaa1eE314F8c655E354234017bE2193C9E24E',
+  initialS33DRound: {
+    56: '0x5fC8BAAddfba577097540365329f8E4C3cF7184e',
+    97: '0x8F3Aa747700B35B63E6005f3fA9FfA74439933B6',
+  },
+  grandGardener: {
+    97: '0x6ACA0044CB3418BDf6efeaC2E0d2072fb5222585',
+    56: '0xa550822d9aD7A7f5b856b474787385cb3F759c75',
   },
   sousChef: {
     97: '0xd3af5fe61dbaf8f73149bfcfa9fb653ff096029a',

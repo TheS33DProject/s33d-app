@@ -64,6 +64,7 @@
     "lodash": "^4.17.21",
     "multicodec": "^2.0.0",
     "multihashes": "^3.0.1",
+    "nuka-carousel": "^5.1.0",
     "numeral": "^2.0.6",
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
