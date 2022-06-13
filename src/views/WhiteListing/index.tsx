@@ -1,4 +1,5 @@
 import { Flex, Heading, Text, Button, Input, Checkbox, Box } from '@pancakeswap/uikit'
+import { ToastContainer } from 'components/Toast'
 
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -41,7 +42,10 @@ export default function WhiteListingScreen() {
     lastname: '',
     email: '',
     termAndCondition: false,
+    address: '',
   })
+  const [toasts, setToasts] = useState([])
+
   const { firstname, lastname, email, termAndCondition } = userDetails
   const onChange = (e) => {
     setUserDetails({
@@ -49,40 +53,80 @@ export default function WhiteListingScreen() {
       [e.target.name]: e.target.name === 'termAndCondition' ? e.target.checked : e.target.value,
     })
   }
+
   const validateForm = () => {
-    if (firstname === '') {
-      alert('First Name is required feild')
+    if (/^[a-zA-Z ]{2,30}$/.test(firstname) === false) {
+      // const now = Date.now();
+      // const randomToast = {
+      //    id: `id-${now}`,
+      //   title : "First Name is required",
+      //   type : "danger",
+      // }
+      // setToasts((prevState) => [...prevState, randomToast])
+
       return false
     }
-    if (lastname === '') {
-      alert('Last Name is required feild.')
+    if (/^[a-zA-Z ]{2,30}$/.test(firstname) === false) {
+      // const now = Date.now();
+      // const randomToast = {
+      //    id: `id-${now}`,
+      //   title : "Last Name is required feild.",
+      //   type : "danger",
+      // }
+      // setToasts((prevState) => [...prevState, randomToast])
+
       return false
     }
-    if (email === '') {
-      alert('Email is required field.')
+    if (/.+@.+\.[A-Za-z]+$/.test(email) === false) {
+      // const now = Date.now();
+      // const randomToast = {
+      //    id: `id-${now}`,
+      //   title : "Email is required field.",
+      //   type : "danger",
+      // }
+      // setToasts((prevState) => [...prevState, randomToast])
       return false
     }
     if (termAndCondition === false) {
-      alert('Please Agree to term and conditions.')
+      //  const now = Date.now();
+      // const randomToast = {
+      //    id: `id-${now}`,
+      //   title : "Please Agree to term and conditions.",
+      //   type : "danger",
+      // }
+      // setToasts((prevState) => [...prevState, randomToast])
+
       return false
     }
     return true
   }
   const handleSubmit = (e) => {
     e.preventDefault()
+
     if (validateForm()) {
       hsFormSubmission()
     }
   }
 
+  const handleRemove = (id: string) => {
+    setToasts((prevToasts) => prevToasts.filter((prevToast) => prevToast.id !== id))
+  }
+
   const hsFormSubmission = async () => {
     if (!account) {
-      alert('please connect your wallet then try Again.')
-      return
+      // alert('Please connect your wallet then try again.')
+      const now = Date.now()
+      const randomToast = {
+        id: `id-${now}`,
+        title: 'Please connect your wallet then try again.',
+        type: 'danger',
+      }
+      setToasts((prevState) => [...prevState, randomToast])
+      // return false;
     }
     try {
       const data = { ...userDetails }
-      data['TICKET.content'] = account
+      data.address = account
       delete data.termAndCondition
       const payload = transformHSFormPayload(data)
       // console.log(payload)
@@ -129,7 +173,6 @@ export default function WhiteListingScreen() {
     } else {
       setButtonFlag(true)
     }
-    // console.log({ buttonFlag, firstname, lastname, email, termAndCondition })
   }, [firstname, lastname, email, termAndCondition, buttonFlag])
 
   const PageHeight = {
@@ -212,6 +255,7 @@ export default function WhiteListingScreen() {
                   placeholder="First Name"
                   name="firstname"
                   onChange={onChange}
+                  isSuccess={validateForm()}
                 />
                 <Input
                   style={isDark ? { ...formStylesDark } : { ...formStyles }}
@@ -298,6 +342,7 @@ export default function WhiteListingScreen() {
         </div>
       </div> */}
       </WhiteListingContainer>
+      <ToastContainer toasts={toasts} onRemove={handleRemove} />
     </>
   )
 }
