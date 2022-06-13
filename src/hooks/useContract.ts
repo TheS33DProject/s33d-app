@@ -37,6 +37,7 @@ import { getMulticallAddress } from 'utils/addressHelpers'
 // Imports below migrated from Exchange useContract.ts
 import { Contract } from '@ethersproject/contracts'
 import { ChainId, WETH } from '@pancakeswap/sdk'
+import { useWeb3React } from '@web3-react/core'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import ENS_PUBLIC_RESOLVER_ABI from '../config/abi/ens-public-resolver.json'
 import ENS_ABI from '../config/abi/ens-registrar.json'
@@ -45,7 +46,6 @@ import ERC20_ABI from '../config/abi/erc20.json'
 import WETH_ABI from '../config/abi/weth.json'
 import multiCallAbi from '../config/abi/Multicall.json'
 import { getContract, getProviderOrSigner } from '../utils'
-import { useWeb3React } from '@web3-react/core'
 
 /**
  * Helper hooks to get specific contracts (by ABI)
@@ -107,8 +107,9 @@ export const useGrandGardener = () => {
 export const useInitialS33DRound = () => {
   const { library } = useActiveWeb3React()
   const { account } = useWeb3React()
-  let walletAddress = account ? account : '0x69fd40e4bFd533CA710561331F940228575D2d0A'
-  return useMemo(() => getInitialS33DRoundContract(library.getSigner(walletAddress)), [library])
+  // const walletAddress = account ? account : '0x69fd40e4bFd533CA710561331F940228575D2d0A'
+  const walletAddress = account || '0x69fd40e4bFd533CA710561331F940228575D2d0A'
+  return useMemo(() => getInitialS33DRoundContract(library.getSigner(walletAddress)), [library, walletAddress])
 }
 
 export const useSousChef = (id) => {

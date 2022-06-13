@@ -20,6 +20,8 @@ import Footer from 'components/Menu/Footer'
 import { RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'contexts/Localization'
 import SwapWarningTokens from 'config/constants/swapWarningTokens'
+import { useS33D, useInitialS33DRound } from 'hooks/useContract'
+import { useWeb3React } from '@web3-react/core'
 import AddressInputPanel from './components/AddressInputPanel'
 import { GreyCard } from '../../components/Card'
 import Column, { AutoColumn } from '../../components/Layout/Column'
@@ -63,8 +65,6 @@ import SwapWarningModal from './components/SwapWarningModal'
 import PriceChartContainer from './components/Chart/PriceChartContainer'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import CurrencyInputHeader from './components/CurrencyInputHeader'
-import { useS33D, useInitialS33DRound } from 'hooks/useContract'
-import { useWeb3React } from '@web3-react/core'
 
 const Label = styled(Text)`
   font-size: 12px;
@@ -83,7 +83,7 @@ export default function Swap({ history }: RouteComponentProps) {
   const initialS33DRound = useInitialS33DRound()
   const whitelist = initialS33DRound.getWhitelist()
   whitelist.then((res) => {
-    //console.log(res.toString())
+    // console.log(res.toString())
   })
 
   const availableS33D = initialS33DRound.getPouchBalance()
