@@ -55,19 +55,17 @@ export default function WhiteListingScreen() {
   }
 
   const validateForm = (type: string, data: any) => {
-    console.log('1. ', { type, data }, /^[ a-zA-Z\-/']+$/.test(data.firstname))
-
     if (type === 'firstname') {
-      console.log('2. ', { type, data }, /^[ a-zA-Z\-/']+$/.test(data.firstname))
-      return /^[a-zA-Z ]{2,30}$/.test(data.firstname)
+      // return /^[a-zA-Z ]{2,30}$/.test(data.firstname)
+      return /^[a-z ,.'-]+$/i.test(data.firstname)
     }
     if (type === 'lastname') {
-      return /^[a-zA-Z ]{2,30}$/.test(data.lastname)
+      // return /^[a-zA-Z ]{2,30}$/.test(data.lastname)
+      return /^[a-z ,.'-]+$/i.test(data.lastname)
     }
     if (type === 'email') {
       return /.+@.+\.[A-Za-z]+$/.test(data.email)
     }
-    console.log('3. ', { type, data }, /^[ a-zA-Z\-/']+$/.test(data.firstname))
 
     // if (type === 'form') {
     //   return true
