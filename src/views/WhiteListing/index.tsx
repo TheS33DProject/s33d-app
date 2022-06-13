@@ -29,9 +29,7 @@ const DesktopContent2 = styled.div`
   flex-direction: column;
   margin-right: 30px;
 `
-const WhiteListingContainer = styled.div`
-  margin-top: 10px;
-`
+const WhiteListingContainer = styled.div``
 
 export default function WhiteListingScreen() {
   const history = useHistory()
@@ -87,7 +85,7 @@ export default function WhiteListingScreen() {
       data['TICKET.content'] = account
       delete data.termAndCondition
       const payload = transformHSFormPayload(data)
-      console.log(payload)
+      // console.log(payload)
 
       const config = {
         headers: {
@@ -104,7 +102,7 @@ export default function WhiteListingScreen() {
         history.push('/thank-you')
       }
     } catch (error) {
-      console.log('Error from API', error)
+      // console.log('Error from API', error)
     }
   }
 
@@ -131,7 +129,7 @@ export default function WhiteListingScreen() {
     } else {
       setButtonFlag(true)
     }
-    console.log({ buttonFlag, firstname, lastname, email, termAndCondition })
+    // console.log({ buttonFlag, firstname, lastname, email, termAndCondition })
   }, [firstname, lastname, email, termAndCondition, buttonFlag])
 
   const PageHeight = {

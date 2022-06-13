@@ -13,6 +13,16 @@ import './carousel.css'
 SwiperCore.use([EffectCoverflow, Pagination, Autoplay])
 
 const DesktopContent = styled.div``
+const DesktopContainerMain = styled.div`
+  margin-top: 100px;
+  @media (min-width: 481px) and (max-width: 767px) {
+    margin-top: 0px;
+  }
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    margin-top: 0px;
+  }
+`
 
 function HomeCarousel() {
   // const wrapAround = true
@@ -51,21 +61,31 @@ function HomeCarousel() {
   // }
 
   return (
-    <>
+    <DesktopContainerMain>
       <Swiper
         style={{ width: '100vw' }}
-        autoplay={{
-          delay: 5000,
-        }}
         centeredSlides
         spaceBetween={50}
         pagination={{
           clickable: true,
+          bulletActiveClass: 'swiper-pagination-bullet-active',
         }}
         loop
         slidesPerView={1}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
+        breakpoints={{
+          // when window width is >= 320px
+          320: {
+            spaceBetween: 20,
+          },
+          // when window width is >= 480px
+          480: {
+            spaceBetween: 20,
+          },
+          // when window width is >= 640px
+          640: {
+            spaceBetween: 20,
+          },
+        }}
       >
         <SwiperSlide>
           <Flex mb="30px" alignItems="center" flexDirection="column" justifyContent="center">
@@ -242,7 +262,7 @@ function HomeCarousel() {
           </Flex>
         </>
       </Carousel> */}
-    </>
+    </DesktopContainerMain>
   )
 }
 export default HomeCarousel

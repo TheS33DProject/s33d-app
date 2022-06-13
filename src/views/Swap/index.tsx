@@ -88,7 +88,7 @@ export default function Swap({ history }: RouteComponentProps) {
 
   const availableS33D = initialS33DRound.getPouchBalance()
   availableS33D.then((res) => {
-    console.log(res.toString())
+    // console.log(res.toString())
   })
   // console.log("whitelist "+ Object.keys(whitelist))
   // console.log("pouchBalance "+ availableS33D)
@@ -123,7 +123,7 @@ export default function Swap({ history }: RouteComponentProps) {
     })
 
   const { account } = useActiveWeb3React()
-  console.log(account)
+  // console.log(account)
   // for expert mode
   const [isExpertMode] = useExpertModeManager()
 
