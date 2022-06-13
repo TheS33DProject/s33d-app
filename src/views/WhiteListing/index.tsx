@@ -54,56 +54,31 @@ export default function WhiteListingScreen() {
     })
   }
 
-  const validateForm = () => {
-    if (/^[a-zA-Z ]{2,30}$/.test(firstname) === false) {
-      // const now = Date.now();
-      // const randomToast = {
-      //    id: `id-${now}`,
-      //   title : "First Name is required",
-      //   type : "danger",
-      // }
-      // setToasts((prevState) => [...prevState, randomToast])
+  const validateForm = (type: string, data: any) => {
+    console.log('1. ', { type, data }, /^[ a-zA-Z\-/']+$/.test(data.firstname))
 
-      return false
+    if (type === 'firstname') {
+      console.log('2. ', { type, data }, /^[ a-zA-Z\-/']+$/.test(data.firstname))
+      return /^[a-zA-Z ]{2,30}$/.test(data.firstname)
     }
-    if (/^[a-zA-Z ]{2,30}$/.test(firstname) === false) {
-      // const now = Date.now();
-      // const randomToast = {
-      //    id: `id-${now}`,
-      //   title : "Last Name is required feild.",
-      //   type : "danger",
-      // }
-      // setToasts((prevState) => [...prevState, randomToast])
+    if (type === 'lastname') {
+      return /^[a-zA-Z ]{2,30}$/.test(data.lastname)
+    }
+    if (type === 'email') {
+      return /.+@.+\.[A-Za-z]+$/.test(data.email)
+    }
+    console.log('3. ', { type, data }, /^[ a-zA-Z\-/']+$/.test(data.firstname))
 
-      return false
-    }
-    if (/.+@.+\.[A-Za-z]+$/.test(email) === false) {
-      // const now = Date.now();
-      // const randomToast = {
-      //    id: `id-${now}`,
-      //   title : "Email is required field.",
-      //   type : "danger",
-      // }
-      // setToasts((prevState) => [...prevState, randomToast])
-      return false
-    }
-    if (termAndCondition === false) {
-      //  const now = Date.now();
-      // const randomToast = {
-      //    id: `id-${now}`,
-      //   title : "Please Agree to term and conditions.",
-      //   type : "danger",
-      // }
-      // setToasts((prevState) => [...prevState, randomToast])
-
-      return false
-    }
+    // if (type === 'form') {
+    //   return true
+    // }
     return true
   }
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (validateForm()) {
+    if (validateForm('form', userDetails)) {
       hsFormSubmission()
     }
   }
@@ -255,7 +230,8 @@ export default function WhiteListingScreen() {
                   placeholder="First Name"
                   name="firstname"
                   onChange={onChange}
-                  isSuccess={validateForm()}
+                  isSuccess={validateForm('firstname', userDetails)}
+                  isWarning={!validateForm('firstname', userDetails)}
                 />
                 <Input
                   style={isDark ? { ...formStylesDark } : { ...formStyles }}
@@ -264,6 +240,8 @@ export default function WhiteListingScreen() {
                   placeholder="Last Name"
                   name="lastname"
                   onChange={onChange}
+                  isSuccess={validateForm('lastname', userDetails)}
+                  isWarning={!validateForm('lastname', userDetails)}
                 />
               </DesktopContent>
               <DesktopContent2>
@@ -274,6 +252,8 @@ export default function WhiteListingScreen() {
                   scale="lg"
                   name="email"
                   placeholder="Email Address"
+                  isSuccess={validateForm('email', userDetails)}
+                  isWarning={!validateForm('email', userDetails)}
                 />
               </DesktopContent2>
               {/* <Flex alignItems="center" justifyContent="space-between">
