@@ -3,6 +3,8 @@ import Container from 'components/Layout/Container'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import React, { useEffect } from 'react'
+import { useInitialS33DRound } from 'hooks/useContract'
+import { ethers } from 'ethers'
 import { useWeb3React } from '@web3-react/core'
 import useTheme from './Hooks/useTheme'
 // import logo from '/images/assets/astronaut.svg'
@@ -23,7 +25,10 @@ export default function BuySeedScreen() {
   const [checkWalletStatus, setCheckWalletStatus] = React.useState(true)
   const { account } = useWeb3React()
   const history = useHistory()
+  const initialS33DRound = useInitialS33DRound()
+  const buyLimit = initialS33DRound.buyLimit()
 
+  const [buySeed, setBuySeed] = React.useState(0)
   useEffect(() => {
     const walletStatus = localStorage.getItem('connectorIdv2')
     if (walletStatus !== null) {
@@ -33,6 +38,10 @@ export default function BuySeedScreen() {
     }
     console.log({ walletStatus, checkWalletStatus, account })
   }, [checkWalletStatus, account])
+
+  buyLimit.then((res) => {
+    setBuySeed(parseFloat(ethers.utils.formatUnits(res.toString(), 18).toString()))
+  })
 
   const handleClick = (e) => {
     history.push('/white-listing')
@@ -94,7 +103,7 @@ export default function BuySeedScreen() {
                 To ensure a fair distribution in this first launch, each participant can acquire a maximum of{' '}
               </Text>
               <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }} bold>
-                100,000 S33D
+                {buySeed} S33D
               </Text>
               <br />
               <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>

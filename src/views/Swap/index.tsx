@@ -22,6 +22,7 @@ import { useTranslation } from 'contexts/Localization'
 import SwapWarningTokens from 'config/constants/swapWarningTokens'
 import { useS33D, useInitialS33DRound } from 'hooks/useContract'
 import { useWeb3React } from '@web3-react/core'
+import { ethers } from 'ethers'
 import AddressInputPanel from './components/AddressInputPanel'
 import { GreyCard } from '../../components/Card'
 import Column, { AutoColumn } from '../../components/Layout/Column'
@@ -36,7 +37,6 @@ import ImportTokenWarningModal from './components/ImportTokenWarningModal'
 import ProgressSteps from './components/ProgressSteps'
 import { AppBody } from '../../components/App'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
-
 import { INITIAL_ALLOWED_SLIPPAGE } from '../../config/constants'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { useCurrency, useAllTokens } from '../../hooks/Tokens'
@@ -80,18 +80,43 @@ const TextContainer = styled.div`
 
 export default function Swap({ history }: RouteComponentProps) {
   const s33dContract = useS33D()
+
   const initialS33DRound = useInitialS33DRound()
   const whitelist = initialS33DRound.getWhitelist()
+
+  // progress bar stuff
+  const [progressBar, setProgress] = useState(true)
+  // conversion seed val
+  const [conversionSeedVal, setConversionSeedVal] = useState(0)
+  const [filledSeed, setFilledSeed] = useState(45)
+  const [availableSeeds, setAvailableSeeds] = useState(1000)
+
   whitelist.then((res) => {
-    // console.log(res.toString())
+    // console.log('whitelist',res.toString())
   })
 
   const availableS33D = initialS33DRound.getPouchBalance()
-  availableS33D.then((res) => {
-    // console.log(res.toString())
+
+  const offerPrice = initialS33DRound.offerPrice()
+  const buyLimit = initialS33DRound.buyLimit()
+
+  offerPrice.then((res) => {
+    // console.log('offerPrice',res.toString())
+    const ofrPrice = parseInt(ethers.utils.formatUnits(res.toString(), 17).toString())
+    // console.log('offerPrice Parse',ofrPrice);
+    setConversionSeedVal(ofrPrice)
   })
-  // console.log("whitelist "+ Object.keys(whitelist))
-  // console.log("pouchBalance "+ availableS33D)
+  buyLimit.then((res) => {
+    // console.log('buyLimit',res.toString())
+    // console.log('buyLimit Parse',ethers.utils.formatUnits(res.toString(),	18).toString())
+  })
+
+  availableS33D.then((res) => {
+    //  console.log('availableS33D',res.toString())
+    const aS33D = parseInt(ethers.utils.formatUnits(res.toString(), 18).toString())
+    //  console.log('availableS33D Parse',aS33D)
+    setAvailableSeeds(aS33D)
+  })
 
   const loadedUrlParams = useDefaultsFromURLSearch()
   const { t } = useTranslation()
@@ -251,14 +276,6 @@ export default function Swap({ history }: RouteComponentProps) {
   // errors
   const [showInverted, setShowInverted] = useState<boolean>(false)
 
-  // progress bar stuff
-  const [progressBar, setProgress] = useState(true)
-  // conversion seed val
-  const [conversionSeedVal, setConversionSeedVal] = useState(12.0)
-  const [filledSeed, setFilledSeed] = useState(45)
-  const [availableSeeds, setAvailableSeeds] = useState(1000)
-
-  // warnings on slippage
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
   // show approve flow when: no error on inputs, not approved or pending, or approved in current session
