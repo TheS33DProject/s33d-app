@@ -80,43 +80,53 @@ const TextContainer = styled.div`
 
 export default function Swap({ history }: RouteComponentProps) {
   const s33dContract = useS33D()
-
+  const { account } = useActiveWeb3React()
   const initialS33DRound = useInitialS33DRound()
   const whitelist = initialS33DRound.getWhitelist()
-
-  // progress bar stuff
   const [progressBar, setProgress] = useState(true)
-  // conversion seed val
   const [conversionSeedVal, setConversionSeedVal] = useState(0)
   const [filledSeed, setFilledSeed] = useState(45)
-  const [availableSeeds, setAvailableSeeds] = useState(1000)
-
-  whitelist.then((res) => {
-    // console.log('whitelist',res.toString())
-  })
-
+  const [availableSeeds, setAvailableSeeds] = useState(0)
+  const [buyLimitSd, setbuyLimitSd] = useState(0)
   const availableS33D = initialS33DRound.getPouchBalance()
-
   const offerPrice = initialS33DRound.offerPrice()
   const buyLimit = initialS33DRound.buyLimit()
+  const readContract = initialS33DRound.con
+  const [filldValue, setFilldValue] = useState(0)
 
-  offerPrice.then((res) => {
-    // console.log('offerPrice',res.toString())
-    const ofrPrice = parseInt(ethers.utils.formatUnits(res.toString(), 17).toString())
-    // console.log('offerPrice Parse',ofrPrice);
-    setConversionSeedVal(ofrPrice)
-  })
-  buyLimit.then((res) => {
-    // console.log('buyLimit',res.toString())
-    // console.log('buyLimit Parse',ethers.utils.formatUnits(res.toString(),	18).toString())
-  })
+  const formatMoney = (number) => {
+    return number.toLocaleString('en-US', { currency: 'USD' })
+  }
+  if (account) {
+    const contribution = initialS33DRound.contribution(account)
+    Promise.all([contribution, whitelist, offerPrice, availableS33D]).then((res) => {
+      const contributionVal = parseInt(ethers.utils.formatUnits(res[0].toString(), 18).toString())
+      const whiteListVal = parseInt(ethers.utils.formatUnits(res[1].toString(), 18).toString())
+      const ofrPrice = parseInt(ethers.utils.formatUnits(res[2].toString(), 17).toString())
+      const aS33D = parseInt(ethers.utils.formatUnits(res[3].toString(), 18).toString())
+      const total = (contributionVal / whiteListVal) * 100
 
-  availableS33D.then((res) => {
-    //  console.log('availableS33D',res.toString())
-    const aS33D = parseInt(ethers.utils.formatUnits(res.toString(), 18).toString())
-    //  console.log('availableS33D Parse',aS33D)
-    setAvailableSeeds(aS33D)
-  })
+      setAvailableSeeds(formatMoney(aS33D))
+      setConversionSeedVal(formatMoney(ofrPrice))
+      setFilledSeed(total)
+      setbuyLimitSd(formatMoney(whiteListVal))
+    })
+  }
+  // whitelist.then((res) => {
+  //   console.log('whitelist',res.toString())
+  // })
+  // buyLimit.then((res) => {
+  //   setbuyLimitSd(parseInt(ethers.utils.formatUnits(res.toString(),	18).toString()))
+  // })
+  // offerPrice.then((res) => {
+  //   const ofrPrice = parseInt(ethers.utils.formatUnits(res.toString(), 17).toString())
+  //   setConversionSeedVal(ofrPrice)
+  // })
+
+  // availableS33D.then((res) => {
+  //   const aS33D = parseInt(ethers.utils.formatUnits(res.toString(), 18).toString())
+  //   setAvailableSeeds(aS33D)
+  // })
 
   const loadedUrlParams = useDefaultsFromURLSearch()
   const { t } = useTranslation()
@@ -147,7 +157,6 @@ export default function Swap({ history }: RouteComponentProps) {
       return !(token.address in defaultTokens)
     })
 
-  const { account } = useActiveWeb3React()
   // console.log(account)
   // for expert mode
   const [isExpertMode] = useExpertModeManager()
@@ -439,6 +448,10 @@ export default function Swap({ history }: RouteComponentProps) {
                 isChartDisplayed={isChartDisplayed}
               />
               <TextContainer>
+                <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>Available</Text>
+                <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>{availableSeeds} S33D</Text>
+              </TextContainer>
+              <TextContainer>
                 <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>Offer Price</Text>
                 <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>
                   {conversionSeedVal} USDT per S33D
@@ -484,7 +497,7 @@ export default function Swap({ history }: RouteComponentProps) {
                     onCurrencySelect={handleOutputSelect}
                     otherCurrency={currencies[Field.INPUT]}
                     id="swap-currency-output"
-                    availableSeeds={availableSeeds}
+                    buyLimit={buyLimitSd}
                     filledSeeds={filledSeed}
                   />
 

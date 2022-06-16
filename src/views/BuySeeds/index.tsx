@@ -26,7 +26,7 @@ export default function BuySeedScreen() {
   const { account } = useWeb3React()
   const history = useHistory()
   const initialS33DRound = useInitialS33DRound()
-  const buyLimit = initialS33DRound.buyLimit()
+  const buyLimit = initialS33DRound.getWhitelist()
 
   const [buySeed, setBuySeed] = React.useState(0)
   useEffect(() => {
@@ -39,8 +39,11 @@ export default function BuySeedScreen() {
     console.log({ walletStatus, checkWalletStatus, account })
   }, [checkWalletStatus, account])
 
+  const formatMoney = (number) => {
+    return number.toLocaleString('en-US', { currency: 'USD' })
+  }
   buyLimit.then((res) => {
-    setBuySeed(parseFloat(ethers.utils.formatUnits(res.toString(), 18).toString()))
+    setBuySeed(formatMoney(parseFloat(ethers.utils.formatUnits(res.toString(), 18).toString())))
   })
 
   const handleClick = (e) => {
