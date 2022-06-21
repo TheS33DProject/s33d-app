@@ -100,10 +100,10 @@ export default function Swap({ history }: RouteComponentProps) {
   if (account) {
     const contribution = initialS33DRound.contribution(account)
     Promise.all([contribution, whitelist, offerPrice, availableS33D]).then((res) => {
-      const contributionVal = parseInt(ethers.utils.formatUnits(res[0].toString(), 18).toString())
-      const whiteListVal = parseInt(ethers.utils.formatUnits(res[1].toString(), 18).toString())
-      const ofrPrice = parseInt(ethers.utils.formatUnits(res[2].toString(), 17).toString())
-      const aS33D = parseInt(ethers.utils.formatUnits(res[3].toString(), 18).toString())
+      const contributionVal = parseFloat(ethers.utils.formatUnits(res[0].toString(), 18).toString())
+      const whiteListVal = parseFloat(ethers.utils.formatUnits(res[1].toString(), 18).toString())
+      const ofrPrice = parseFloat(ethers.utils.formatUnits(res[2].toString(), 18).toString())
+      const aS33D = parseFloat(ethers.utils.formatUnits(res[3].toString(), 18).toString())
       const total = (contributionVal / whiteListVal) * 100
 
       setAvailableSeeds(formatMoney(aS33D))
@@ -545,22 +545,6 @@ export default function Swap({ history }: RouteComponentProps) {
                     </Button>
                   ) : !account ? (
                     <ConnectWalletButton width="100%" />
-                  ) : showWrap ? (
-                    <Button width="100%" disabled={Boolean(wrapInputError)} onClick={onWrap}>
-                      {wrapInputError ??
-                        (wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null)}
-                    </Button>
-                  ) : noRoute && userHasSpecifiedInputOutput ? (
-                    <GreyCard style={{ textAlign: 'center' }}>
-                      <Text color="textSubtle" mb="4px">
-                        {t('Insufficient liquidity for this trade.')}
-                      </Text>
-                      {singleHopOnly && (
-                        <Text color="textSubtle" mb="4px">
-                          {t('Try enabling multi-hop trades.')}
-                        </Text>
-                      )}
-                    </GreyCard>
                   ) : showApproveFlow ? (
                     <RowBetween>
                       <Button

@@ -67,9 +67,6 @@ export default function WhiteListingScreen() {
       return /.+@.+\.[A-Za-z]+$/.test(data.email)
     }
 
-    // if (type === 'form') {
-    //   return true
-    // }
     return true
   }
 
@@ -254,8 +251,6 @@ export default function WhiteListingScreen() {
                   isWarning={!validateForm('email', userDetails)}
                 />
               </DesktopContent2>
-              {/* <Flex alignItems="center" justifyContent="space-between">
-                        </Flex> */}
 
               <br />
 
@@ -278,47 +273,6 @@ export default function WhiteListingScreen() {
             </form>
           </Flex>
         </Flex>
-
-        {/* <div className="main-container">
-        <div className="astro-box pr-1">
-          <img src="images/assets/astronaut-input.svg" className="App-logo" alt="logo" />
-        </div>
-        <div className="content-box">
-          <h1 className="hero-heading">Whitelisting</h1>
-          <form id="WhiteListingForm" onSubmit={handleSubmit}>
-            <p className="para-content">
-              Please fill in the form to start. We require this information to communicate important information about
-              The S33D Project to all our founding gardeners.
-            </p>
-            <div className="input-controller">
-              <div className="form-group">
-                <Input type="text" scale="lg" placeholder="First Name" name="firstname" onChange={onChange} />
-              </div>
-              <div className="form-group">
-                <Input type="text" scale="lg" placeholder="Last Name" name="lastname" onChange={onChange} />
-              </div>
-            </div>
-            <div className="form-group-mail">
-              <Input type="email" onChange={onChange} scale="lg" name="email" placeholder="Email Address" />
-            </div>
-            <br />
-            <p className="para-content">
-              The S33D Project is committed to protect and respect your privacy and we only use your personal
-              information to facilitate this whitelisting process. If you consent to us contacting you for project
-              updates, please tick the box below.
-            </p>
-            <label htmlFor="vehicle1" className="para-content">
-              <input type="checkbox" onChange={onChange} name="termAndCondition" />I agree to receive communications
-              from The S33D Project
-            </label>
-            <br />
-            <br />
-            <Button type="submit" className="btn" disabled={buttonFlag}>
-              Submit
-            </Button>
-          </form>
-        </div>
-      </div> */}
       </WhiteListingContainer>
       <ToastContainer toasts={toasts} onRemove={handleRemove} />
     </>
