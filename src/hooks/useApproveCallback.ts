@@ -9,7 +9,7 @@ import { Field } from '../state/swap/actions'
 import { useTransactionAdder, useHasPendingApproval } from '../state/transactions/hooks'
 import { computeSlippageAdjustedAmounts } from '../utils/prices'
 import { calculateGasMargin } from '../utils'
-import { useTokenContract } from './useContract'
+import { useTokenContract, useTokenContractS33d } from './useContract'
 import { useCallWithGasPrice } from './useCallWithGasPrice'
 
 export enum ApprovalState {
@@ -113,4 +113,37 @@ export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) 
   )
 
   return useApproveCallback(amountToApprove, ROUTER_ADDRESS)
+}
+
+export function useBuyS33dCallback(amountToApprove?: CurrencyAmount, spender?: string): [() => Promise<void>] {
+  const { callWithGasPrice } = useCallWithGasPrice()
+  const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined
+  const tokenContract = useTokenContractS33d(spender)
+  const addTransaction = useTransactionAdder()
+
+  const approve = useCallback(async (): Promise<void> => {
+    let useExact = false
+    const estimatedGas = await tokenContract.estimateGas.buyS33D(amountToApprove.raw.toString()).catch(() => {
+      // general fallback for tokens who restrict approval amounts
+      useExact = true
+      return tokenContract.estimateGas.approve(spender, amountToApprove.raw.toString())
+    })
+    // eslint-disable-next-line consistent-return
+
+    return callWithGasPrice(tokenContract, 'buyS33D', [useExact ? amountToApprove.raw.toString() : MaxUint256], {
+      gasLimit: calculateGasMargin(estimatedGas),
+    })
+      .then((response: TransactionResponse) => {
+        addTransaction(response, {
+          summary: `Approve ${amountToApprove.currency.symbol}`,
+          approval: { tokenAddress: token.address, spender },
+        })
+      })
+      .catch((error: Error) => {
+        console.error('Failed to approve token', error)
+        throw error
+      })
+  }, [token, tokenContract, amountToApprove, spender, addTransaction, callWithGasPrice])
+
+  return [approve]
 }

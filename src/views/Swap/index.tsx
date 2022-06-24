@@ -14,6 +14,7 @@ import {
   Progress,
 } from '@pancakeswap/uikit'
 import useTheme from 'hooks/useTheme'
+import { getInitialS33DRoundAddress } from 'utils/addressHelpers'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
 import Footer from 'components/Menu/Footer'
@@ -40,7 +41,12 @@ import ConnectWalletButton from '../../components/ConnectWalletButton'
 import { INITIAL_ALLOWED_SLIPPAGE } from '../../config/constants'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { useCurrency, useAllTokens } from '../../hooks/Tokens'
-import { ApprovalState, useApproveCallback, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
+import {
+  ApprovalState,
+  useApproveCallback,
+  useApproveCallbackFromTrade,
+  useBuyS33dCallback,
+} from '../../hooks/useApproveCallback'
 import { useSwapCallback } from '../../hooks/useSwapCallback'
 import useWrapCallback, { WrapType } from '../../hooks/useWrapCallback'
 import { Field } from '../../state/swap/actions'
@@ -79,6 +85,7 @@ const TextContainer = styled.div`
 `
 
 export default function Swap({ history }: RouteComponentProps) {
+  const [buttonFlag, setButtonFlag] = useState(true)
   const s33dContract = useS33D()
   const { account } = useActiveWeb3React()
   const initialS33DRound = useInitialS33DRound()
@@ -197,16 +204,31 @@ export default function Swap({ history }: RouteComponentProps) {
   const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
   const isValid = !swapInputError
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
-
+  const [formValue, setFormValue]: any = useState({
+    input: '',
+    output: '',
+  })
   const handleTypeInput = useCallback(
     (value: string) => {
+      // const s33d = Number(value) * 10;
+      // const sS33d = s33d.toString();
+      // console.log("type input",{value, s33d});
       onUserInput(Field.INPUT, value)
+      // onUserInput(Field.OUTPUT, sS33d)
+      // const covertedValue = (Number(value)*10).toString();
+      // setFormValue({input: value, output:covertedValue})
     },
     [onUserInput],
   )
   const handleTypeOutput = useCallback(
     (value: string) => {
+      // console.log("type output",{value, Field});
+
+      // // console.log('handleTypeOutput',String(Number(inputOutputVal) * 10));
       onUserInput(Field.OUTPUT, value)
+      // // console.log(inputOutputVal);
+      // const covertedValue = (Number(value)/10).toString();
+      // setFormValue({input: covertedValue, output:value})
     },
     [onUserInput],
   )
@@ -239,10 +261,7 @@ export default function Swap({ history }: RouteComponentProps) {
 
   // check whether the user has approved the router on the input token
   // const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
-  const [approval, approveCallback] = useApproveCallback(
-    currencyBalances[Field.INPUT],
-    '0x8F3Aa747700B35B63E6005f3fA9FfA74439933B6',
-  )
+  const [approval, approveCallback] = useApproveCallback(currencyBalances[Field.INPUT], getInitialS33DRoundAddress())
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
@@ -264,27 +283,55 @@ export default function Swap({ history }: RouteComponentProps) {
 
   const [singleHopOnly] = useUserSingleHopOnly()
 
-  const handleSwap = useCallback(() => {
-    if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee, t)) {
-      return
+  const [approvalS33d] = useBuyS33dCallback(currencyBalances[Field.INPUT], getInitialS33DRoundAddress())
+
+  const handleSwap = useCallback(async () => {
+    // if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee, t)) {
+    //   return
+    // }
+    // if (!swapCallback) {
+    //   return
+    // }
+    // setSwapState({ attemptingTxn: true, tradeToConfirm, swapErrorMessage: undefined, txHash: undefined })
+    // swapCallback()
+    //   .then((hash) => {
+    //     setSwapState({ attemptingTxn: false, tradeToConfirm, swapErrorMessage: undefined, txHash: hash })
+    //   })
+    //   .catch((error) => {
+    //     setSwapState({
+    //       attemptingTxn: false,
+    //       tradeToConfirm,
+    //       swapErrorMessage: error.message,
+    //       txHash: undefined,
+    //     })
+    //   })
+    try {
+      const approve = await approvalS33d()
+    } catch (error) {
+      console.log(error)
     }
-    if (!swapCallback) {
-      return
-    }
-    setSwapState({ attemptingTxn: true, tradeToConfirm, swapErrorMessage: undefined, txHash: undefined })
-    swapCallback()
-      .then((hash) => {
-        setSwapState({ attemptingTxn: false, tradeToConfirm, swapErrorMessage: undefined, txHash: hash })
-      })
-      .catch((error) => {
-        setSwapState({
-          attemptingTxn: false,
-          tradeToConfirm,
-          swapErrorMessage: error.message,
-          txHash: undefined,
-        })
-      })
-  }, [priceImpactWithoutFee, swapCallback, tradeToConfirm, t])
+
+    // initialS33DRound.approve(,"0x8F3Aa747700B35B63E6005f3fA9FfA74439933B6")
+  }, [approvalS33d])
+
+  // useEffect(()=>{
+  //   const temp = useBuyS33dCallback(
+  //   currencyBalances[Field.INPUT],
+  //   '0x8F3Aa747700B35B63E6005f3fA9FfA74439933B6',
+  // )
+  // console.log(temp);
+  // },[buttonFlag]);
+
+  // const temp = useBuyS33dCallback(
+  //   currencyBalances[Field.INPUT],
+  //   '0x8F3Aa747700B35B63E6005f3fA9FfA74439933B6',
+  // )
+  // console.log(' use buy Seed output', temp);
+
+  // const handleSwap = () => {
+  //    setButtonFlag(!buttonFlag);
+
+  // }
 
   // errors
   const [showInverted, setShowInverted] = useState<boolean>(false)
@@ -592,11 +639,11 @@ export default function Swap({ history }: RouteComponentProps) {
                     <Button
                       variant={isValid && priceImpactSeverity > 2 && !swapCallbackError ? 'danger' : 'primary'}
                       onClick={() => {
-                        if (isExpertMode) {
+                        if (true) {
                           handleSwap()
                         } else {
                           setSwapState({
-                            tradeToConfirm: trade,
+                            tradeToConfirm: undefined,
                             attemptingTxn: false,
                             swapErrorMessage: undefined,
                             txHash: undefined,
@@ -606,7 +653,6 @@ export default function Swap({ history }: RouteComponentProps) {
                       }}
                       id="swap-button"
                       width="100%"
-                      disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
                     >
                       {swapInputError ||
                         (priceImpactSeverity > 3 && !isExpertMode

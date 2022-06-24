@@ -45,7 +45,9 @@ import { ERC20_BYTES32_ABI } from '../config/abi/erc20'
 import ERC20_ABI from '../config/abi/erc20.json'
 import WETH_ABI from '../config/abi/weth.json'
 import multiCallAbi from '../config/abi/Multicall.json'
+import InitialS33DRound from '../config/abi/InitialS33DRound.json'
 import { getContract, getProviderOrSigner } from '../utils'
+// import  InitialS33DRound  from '../config/abi/InitialS33DRound.json'
 
 /**
  * Helper hooks to get specific contracts (by ABI)
@@ -246,6 +248,9 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
   return useContract(tokenAddress, ERC20_ABI, withSignerIfPossible)
 }
 
+export function useTokenContractS33d(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
+  return useContract(tokenAddress, InitialS33DRound, withSignerIfPossible)
+}
 export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React()
   return useContract(chainId ? WETH[chainId].address : undefined, WETH_ABI, withSignerIfPossible)
