@@ -35,7 +35,7 @@ const WhiteListingContainer = styled.div``
 export default function WhiteListingScreen() {
   const history = useHistory()
   const { isDark, theme } = useTheme()
-  const { account } = useWeb3React() // wallet address is available as account
+  const { account } = useWeb3React()
   const [buttonFlag, setButtonFlag] = useState(false)
   const [userDetails, setUserDetails] = useState({
     firstname: '',
@@ -56,11 +56,9 @@ export default function WhiteListingScreen() {
 
   const validateForm = (type: string, data: any) => {
     if (type === 'firstname') {
-      // return /^[a-zA-Z ]{2,30}$/.test(data.firstname)
       return /^[a-z ,.'-]+$/i.test(data.firstname)
     }
     if (type === 'lastname') {
-      // return /^[a-zA-Z ]{2,30}$/.test(data.lastname)
       return /^[a-z ,.'-]+$/i.test(data.lastname)
     }
     if (type === 'email') {
@@ -92,14 +90,12 @@ export default function WhiteListingScreen() {
         type: 'danger',
       }
       setToasts((prevState) => [...prevState, randomToast])
-      // return false;
     }
     try {
       const data = { ...userDetails }
       data.address = account
       delete data.termAndCondition
       const payload = transformHSFormPayload(data)
-      // console.log(payload)
 
       const config = {
         headers: {
@@ -116,7 +112,13 @@ export default function WhiteListingScreen() {
         history.push('/thank-you')
       }
     } catch (error) {
-      // console.log('Error from API', error)
+      const now = Date.now()
+      const randomToast = {
+        id: `id-${now}`,
+        title: 'Please check your internet.',
+        type: 'danger',
+      }
+      setToasts((prevState) => [...prevState, randomToast])
     }
   }
 
@@ -182,13 +184,7 @@ export default function WhiteListingScreen() {
     marginRight: '20px',
   }
 
-  const inputWidth = {
-    width: '250px',
-  }
   const emailInput = {
-    // margin:"10px"
-    // marginRight:"15px",
-    // marginLeft:"15px",
     width: '100%',
   }
 

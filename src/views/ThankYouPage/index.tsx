@@ -3,7 +3,6 @@ import { Flex, Heading, Text } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import useTheme from './Hooks/useTheme'
 
-// import logo from '/images/assets/astronaut-input.svg'
 const DesktopImage = styled.div`
   display: none;
 

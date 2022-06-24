@@ -4,7 +4,6 @@ import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import useTheme from './Hooks/useTheme'
 
-// import logo from '/images/assets/g12.svg'
 const DesktopImage = styled.div`
   display: none;
 

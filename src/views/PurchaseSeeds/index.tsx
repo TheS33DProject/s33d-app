@@ -8,8 +8,6 @@ function PurchaseSeeds() {
   useEffect(() => {
     const disclaimerStatus = localStorage.getItem('userDisclamerStatus')
     const whiteListStatus = localStorage.getItem('userWhiteListStatus')
-    console.log({ disclaimerStatus, whiteListStatus })
-
     if (whiteListStatus === null) {
       history.push('/')
     } else if ((disclaimerStatus !== 'true' || disclaimerStatus === null) && whiteListStatus === 'true') {
@@ -66,28 +64,6 @@ function PurchaseSeeds() {
               Buy S33D
             </Button>
           </div>
-          {/* <div style={{ width: '270', margin: 'auto', display: 'flex' }}>
-            <div
-              className="text-wrapper"
-              style={{
-                alignItems: 'left',
-              }}
-            >
-              50% filled
-            </div>
-            <div
-              className="text-wrapper"
-              style={{
-                alignItems: 'right',
-              }}
-            >
-              100,000 available
-            </div>
-          </div>
-          <div className="text-wrapper">
-            <Input type="text" scale="md" placeholder="Placeholder..." />
-            <img src="images/Ellipse8.svg" alt="button" />
-          </div> */}
         </div>
       </div>
     </>

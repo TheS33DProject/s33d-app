@@ -126,7 +126,7 @@ export function useBuyS33dCallback(amountToApprove?: CurrencyAmount, spender?: s
     const estimatedGas = await tokenContract.estimateGas.buyS33D(amountToApprove.raw.toString()).catch(() => {
       // general fallback for tokens who restrict approval amounts
       useExact = true
-      return tokenContract.estimateGas.approve(spender, amountToApprove.raw.toString())
+      return tokenContract.estimateGas.buyS33D(amountToApprove.raw.toString())
     })
     // eslint-disable-next-line consistent-return
 

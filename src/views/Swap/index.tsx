@@ -85,8 +85,6 @@ const TextContainer = styled.div`
 `
 
 export default function Swap({ history }: RouteComponentProps) {
-  const [buttonFlag, setButtonFlag] = useState(true)
-  const s33dContract = useS33D()
   const { account } = useActiveWeb3React()
   const initialS33DRound = useInitialS33DRound()
   const whitelist = initialS33DRound.getWhitelist()
@@ -97,9 +95,6 @@ export default function Swap({ history }: RouteComponentProps) {
   const [buyLimitSd, setbuyLimitSd] = useState(0)
   const availableS33D = initialS33DRound.getPouchBalance()
   const offerPrice = initialS33DRound.offerPrice()
-  const buyLimit = initialS33DRound.buyLimit()
-  const readContract = initialS33DRound.con
-  const [filldValue, setFilldValue] = useState(0)
 
   const formatMoney = (number) => {
     return number.toLocaleString('en-US', { currency: 'USD' })
@@ -119,21 +114,6 @@ export default function Swap({ history }: RouteComponentProps) {
       setbuyLimitSd(formatMoney(whiteListVal))
     })
   }
-  // whitelist.then((res) => {
-  //   console.log('whitelist',res.toString())
-  // })
-  // buyLimit.then((res) => {
-  //   setbuyLimitSd(parseInt(ethers.utils.formatUnits(res.toString(),	18).toString()))
-  // })
-  // offerPrice.then((res) => {
-  //   const ofrPrice = parseInt(ethers.utils.formatUnits(res.toString(), 17).toString())
-  //   setConversionSeedVal(ofrPrice)
-  // })
-
-  // availableS33D.then((res) => {
-  //   const aS33D = parseInt(ethers.utils.formatUnits(res.toString(), 18).toString())
-  //   setAvailableSeeds(aS33D)
-  // })
 
   const loadedUrlParams = useDefaultsFromURLSearch()
   const { t } = useTranslation()
@@ -164,7 +144,6 @@ export default function Swap({ history }: RouteComponentProps) {
       return !(token.address in defaultTokens)
     })
 
-  // console.log(account)
   // for expert mode
   const [isExpertMode] = useExpertModeManager()
 
@@ -210,23 +189,15 @@ export default function Swap({ history }: RouteComponentProps) {
   })
   const handleTypeInput = useCallback(
     (value: string) => {
-      // const s33d = Number(value) * 10;
-      // const sS33d = s33d.toString();
-      // console.log("type input",{value, s33d});
       onUserInput(Field.OUTPUT, value)
       const covertedValue = (Number(value) * 10).toString()
       setFormValue({ input: value, output: covertedValue })
-      // onUserInput(Field.INPUT, value);
     },
     [setFormValue, onUserInput],
   )
   const handleTypeOutput = useCallback(
     (value: string) => {
-      // console.log("type output",{value, Field});
-
-      // // console.log('handleTypeOutput',String(Number(inputOutputVal) * 10));
       onUserInput(Field.OUTPUT, value)
-      // // console.log(inputOutputVal);
       const covertedValue = (Number(value) / 10).toString()
       setFormValue({ input: covertedValue, output: value })
     },
@@ -308,30 +279,9 @@ export default function Swap({ history }: RouteComponentProps) {
     try {
       const approve = await swapS33d()
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
-
-    // initialS33DRound.approve(,"0x8F3Aa747700B35B63E6005f3fA9FfA74439933B6")
   }, [swapS33d])
-
-  // useEffect(()=>{
-  //   const temp = useBuyS33dCallback(
-  //   currencyBalances[Field.INPUT],
-  //   '0x8F3Aa747700B35B63E6005f3fA9FfA74439933B6',
-  // )
-  // console.log(temp);
-  // },[buttonFlag]);
-
-  // const temp = useBuyS33dCallback(
-  //   currencyBalances[Field.INPUT],
-  //   '0x8F3Aa747700B35B63E6005f3fA9FfA74439933B6',
-  // )
-  // console.log(' use buy Seed output', temp);
-
-  // const handleSwap = () => {
-  //    setButtonFlag(!buttonFlag);
-
-  // }
 
   // errors
   const [showInverted, setShowInverted] = useState<boolean>(false)
