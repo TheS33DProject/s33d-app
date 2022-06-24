@@ -31,7 +31,7 @@ export default function DisclamerScreen() {
 
   const handleClick = () => {
     localStorage.setItem('userDisclamerStatus', 'true')
-    history.push('/purchase-seed')
+    history.push('/swap')
   }
 
   const PageHeight = {

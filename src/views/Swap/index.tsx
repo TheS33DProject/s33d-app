@@ -213,12 +213,12 @@ export default function Swap({ history }: RouteComponentProps) {
       // const s33d = Number(value) * 10;
       // const sS33d = s33d.toString();
       // console.log("type input",{value, s33d});
-      onUserInput(Field.INPUT, value)
-      // onUserInput(Field.OUTPUT, sS33d)
-      // const covertedValue = (Number(value)*10).toString();
-      // setFormValue({input: value, output:covertedValue})
+      onUserInput(Field.OUTPUT, value)
+      const covertedValue = (Number(value) * 10).toString()
+      setFormValue({ input: value, output: covertedValue })
+      // onUserInput(Field.INPUT, value);
     },
-    [onUserInput],
+    [setFormValue, onUserInput],
   )
   const handleTypeOutput = useCallback(
     (value: string) => {
@@ -227,10 +227,10 @@ export default function Swap({ history }: RouteComponentProps) {
       // // console.log('handleTypeOutput',String(Number(inputOutputVal) * 10));
       onUserInput(Field.OUTPUT, value)
       // // console.log(inputOutputVal);
-      // const covertedValue = (Number(value)/10).toString();
-      // setFormValue({input: covertedValue, output:value})
+      const covertedValue = (Number(value) / 10).toString()
+      setFormValue({ input: covertedValue, output: value })
     },
-    [onUserInput],
+    [setFormValue, onUserInput],
   )
 
   // modal and loading
@@ -283,7 +283,7 @@ export default function Swap({ history }: RouteComponentProps) {
 
   const [singleHopOnly] = useUserSingleHopOnly()
 
-  const [approvalS33d] = useBuyS33dCallback(currencyBalances[Field.INPUT], getInitialS33DRoundAddress())
+  const [swapS33d] = useBuyS33dCallback(currencyBalances[Field.OUTPUT], getInitialS33DRoundAddress())
 
   const handleSwap = useCallback(async () => {
     // if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee, t)) {
@@ -306,13 +306,13 @@ export default function Swap({ history }: RouteComponentProps) {
     //     })
     //   })
     try {
-      const approve = await approvalS33d()
+      const approve = await swapS33d()
     } catch (error) {
       console.log(error)
     }
 
     // initialS33DRound.approve(,"0x8F3Aa747700B35B63E6005f3fA9FfA74439933B6")
-  }, [approvalS33d])
+  }, [swapS33d])
 
   // useEffect(()=>{
   //   const temp = useBuyS33dCallback(
@@ -512,7 +512,7 @@ export default function Swap({ history }: RouteComponentProps) {
                 <AutoColumn gap="md">
                   <CurrencyInputPanel
                     label={independentField === Field.OUTPUT && !showWrap && trade ? t('From (estimated)') : t('From')}
-                    value={formattedAmounts[Field.INPUT]}
+                    value={formValue.input}
                     showMaxButton={!atMaxAmountInput}
                     currency={currencies[Field.INPUT]}
                     onUserInput={handleTypeInput}
@@ -540,7 +540,7 @@ export default function Swap({ history }: RouteComponentProps) {
 
                   <CurrencyInputPanel
                     progressBar={progressBar}
-                    value={formattedAmounts[Field.OUTPUT]}
+                    value={formValue.output}
                     onUserInput={handleTypeOutput}
                     label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}
                     showMaxButton={false}

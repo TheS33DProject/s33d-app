@@ -130,7 +130,7 @@ export function useBuyS33dCallback(amountToApprove?: CurrencyAmount, spender?: s
     })
     // eslint-disable-next-line consistent-return
 
-    return callWithGasPrice(tokenContract, 'buyS33D', [useExact ? amountToApprove.raw.toString() : MaxUint256], {
+    return callWithGasPrice(tokenContract, 'buyS33D', [amountToApprove.raw.toString()], {
       gasLimit: calculateGasMargin(estimatedGas),
     })
       .then((response: TransactionResponse) => {
