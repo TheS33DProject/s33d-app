@@ -115,28 +115,29 @@ export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) 
   return useApproveCallback(amountToApprove, ROUTER_ADDRESS)
 }
 
-export function useBuyS33dCallback(amountToApprove?: CurrencyAmount, spender?: string): [() => Promise<void>] {
+export function useBuyS33dCallback(amountToApprove?: String, spender?: string): [() => Promise<void>] {
   const { callWithGasPrice } = useCallWithGasPrice()
   const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined
   const tokenContract = useTokenContractS33d(spender)
   const addTransaction = useTransactionAdder()
+  amountToApprove = (+amountToApprove * 10e17).toString()
 
   const approve = useCallback(async (): Promise<void> => {
     let useExact = false
-    const estimatedGas = await tokenContract.estimateGas.buyS33D(amountToApprove.raw.toString()).catch(() => {
+    const estimatedGas = await tokenContract.estimateGas.buyS33D(amountToApprove).catch(() => {
       // general fallback for tokens who restrict approval amounts
       useExact = true
-      return tokenContract.estimateGas.buyS33D(amountToApprove.raw.toString())
+      return tokenContract.estimateGas.approve(spender, amountToApprove)
     })
     // eslint-disable-next-line consistent-return
 
-    return callWithGasPrice(tokenContract, 'buyS33D', [amountToApprove.raw.toString()], {
+    return callWithGasPrice(tokenContract, 'buyS33D', [amountToApprove], {
       gasLimit: calculateGasMargin(estimatedGas),
     })
       .then((response: TransactionResponse) => {
         addTransaction(response, {
-          summary: `Approve ${amountToApprove.currency.symbol}`,
-          approval: { tokenAddress: token.address, spender },
+          summary: `Swapped ${amountToApprove}`,
+          approval: { tokenAddress: tokenContract.address, spender },
         })
       })
       .catch((error: Error) => {

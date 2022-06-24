@@ -27,7 +27,7 @@ export default function BuySeedScreen() {
   const initialS33DRound = useInitialS33DRound()
   const buyLimit = initialS33DRound.buyLimit()
   const whitelistLimit = initialS33DRound.getWhitelist()
-  
+
   const [buyS33DLimit, setBuyLimit] = React.useState(0)
   const [whitelistS33DLimit, setWhitelistLimit] = React.useState(0)
 
@@ -49,14 +49,13 @@ export default function BuySeedScreen() {
     const whitelistVal = parseFloat(ethers.utils.formatUnits(res[1].toString(), 18).toString())
     setBuyLimit(buyLimitVal)
     setWhitelistLimit(whitelistVal)
-    console.log("whitelist:", whitelistVal)
+    console.log('whitelist:', whitelistVal)
   })
 
   const handleClick = (e) => {
     if (whitelistS33DLimit > 0) {
       history.push('/disclaimer')
-    } 
-    else {
+    } else {
       history.push('/white-listing')
     }
   }

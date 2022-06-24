@@ -254,7 +254,7 @@ export default function Swap({ history }: RouteComponentProps) {
 
   const [singleHopOnly] = useUserSingleHopOnly()
 
-  const [swapS33d] = useBuyS33dCallback(currencyBalances[Field.OUTPUT], getInitialS33DRoundAddress())
+  const [swapS33d] = useBuyS33dCallback(formValue.output, getInitialS33DRoundAddress())
 
   const handleSwap = useCallback(async () => {
     // if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee, t)) {
