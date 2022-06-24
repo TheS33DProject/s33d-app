@@ -628,11 +628,7 @@ export default function Swap({ history }: RouteComponentProps) {
                         id="swap-button"
                         disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode)}
                       >
-                        {priceImpactSeverity > 3 && !isExpertMode
-                          ? t('Price Impact High')
-                          : priceImpactSeverity > 2
-                          ? t('Swap Anyway')
-                          : t('Swap')}
+                        {t('Swap')}
                       </Button>
                     </RowBetween>
                   ) : (
@@ -653,13 +649,9 @@ export default function Swap({ history }: RouteComponentProps) {
                       }}
                       id="swap-button"
                       width="100%"
+                      disabled={formValue.input < 0.01}
                     >
-                      {swapInputError ||
-                        (priceImpactSeverity > 3 && !isExpertMode
-                          ? t('Price Impact Too High')
-                          : priceImpactSeverity > 2
-                          ? t('Swap Anyway')
-                          : t('Swap'))}
+                      {t('Swap')}
                     </Button>
                   )}
                   {showApproveFlow && (
