@@ -25,9 +25,12 @@ export default function BuySeedScreen() {
   const { account } = useWeb3React()
   const history = useHistory()
   const initialS33DRound = useInitialS33DRound()
-  const buyLimit = initialS33DRound.getWhitelist()
+  const buyLimit = initialS33DRound.buyLimit()
+  const whitelistLimit = initialS33DRound.getWhitelist()
+  
+  const [buyS33DLimit, setBuyLimit] = React.useState(0)
+  const [whitelistS33DLimit, setWhitelistLimit] = React.useState(0)
 
-  const [buySeed, setBuySeed] = React.useState(0)
   useEffect(() => {
     const walletStatus = localStorage.getItem('connectorIdv2')
     if (walletStatus !== null) {
@@ -40,12 +43,22 @@ export default function BuySeedScreen() {
   const formatMoney = (number) => {
     return number.toLocaleString('en-US', { currency: 'USD' })
   }
-  buyLimit.then((res) => {
-    setBuySeed(formatMoney(parseFloat(ethers.utils.formatUnits(res.toString(), 18).toString())))
+
+  Promise.all([buyLimit, whitelistLimit]).then((res) => {
+    const buyLimitVal = parseFloat(ethers.utils.formatUnits(res[0].toString(), 18).toString())
+    const whitelistVal = parseFloat(ethers.utils.formatUnits(res[1].toString(), 18).toString())
+    setBuyLimit(buyLimitVal)
+    setWhitelistLimit(whitelistVal)
+    console.log("whitelist:", whitelistVal)
   })
 
   const handleClick = (e) => {
-    history.push('/white-listing')
+    if (whitelistS33DLimit > 0) {
+      history.push('/disclaimer')
+    } 
+    else {
+      history.push('/white-listing')
+    }
   }
   const PageHeight = {
     height: 'calc(100vh - 200px)',
@@ -104,7 +117,7 @@ export default function BuySeedScreen() {
                 To ensure a fair distribution in this first launch, each participant can acquire a maximum of{' '}
               </Text>
               <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }} bold>
-                {buySeed} S33D
+                {formatMoney(buyS33DLimit)} S33D
               </Text>
               <br />
               <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>

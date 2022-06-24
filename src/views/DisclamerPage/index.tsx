@@ -82,7 +82,7 @@ export default function DisclamerScreen() {
             <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               The S33D Project is an innovative concept for reimagining the ideas and our relationship with nature and
               our planet. We are on a mission to enable the propagation of sustainability initiatives and encourage
-              humankind to form symbiotic relationships with our planet and each
+              humankind to form symbiotic relationships with our planet and each other
             </Text>
             <br />
             <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
