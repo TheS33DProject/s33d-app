@@ -2,6 +2,9 @@ import { Flex, Heading, Text, Button } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { ethers } from 'ethers'
+import { useInitialS33DRound } from 'hooks/useContract'
+import { useWeb3React } from '@web3-react/core'
 import useTheme from './Hooks/useTheme'
 
 const DesktopImage = styled.div`
@@ -21,16 +24,22 @@ const DesktopContent = styled.div`
 export default function DisclamerScreen() {
   const history = useHistory()
   const { isDark, theme } = useTheme()
-  useEffect(() => {
-    const whiteListStatus = localStorage.getItem('userWhiteListStatus')
-    if (whiteListStatus !== 'true') {
-      history.push('/')
-    }
-  }, [history])
-
+  const { account } = useWeb3React()
+  const initialS33DRound = useInitialS33DRound()
+  const whitelist = initialS33DRound.getWhitelist()
+  let whitelistVal = 0
+  Promise.all([whitelist]).then((res) => {
+    whitelistVal = parseFloat(ethers.utils.formatUnits(res.toString(), 18).toString())
+  })
+  const accountStatus = JSON.parse(localStorage.getItem(account))
   const handleClick = () => {
-    localStorage.setItem('userDisclamerStatus', 'true')
-    history.push('/swap')
+    if (whitelistVal !== 0) {
+      history.push('/swap')
+    } else if (accountStatus === null) {
+      history.push('/buy-seeds')
+    } else if (accountStatus.whitelist === true) {
+      history.push('/thank-you')
+    }
   }
 
   const PageHeight = {

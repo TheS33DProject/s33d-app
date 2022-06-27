@@ -37,6 +37,7 @@ export default function WhiteListingScreen() {
   const { isDark, theme } = useTheme()
   const { account } = useWeb3React()
   const [buttonFlag, setButtonFlag] = useState(false)
+  const [checkWalletStatus, setCheckWalletStatus] = React.useState(true)
   const [userDetails, setUserDetails] = useState({
     firstname: '',
     lastname: '',
@@ -45,6 +46,23 @@ export default function WhiteListingScreen() {
     address: '',
   })
   const [toasts, setToasts] = useState([])
+
+  const accountStatus = JSON.parse(localStorage.getItem(account))
+  useEffect(() => {
+    if (accountStatus !== null && accountStatus.whitelist === true) {
+      history.push('/disclaimer')
+    }
+  }, [accountStatus, history])
+
+  useEffect(() => {
+    const walletStatus = localStorage.getItem('connectorIdv2')
+    if (walletStatus !== null) {
+      setCheckWalletStatus(true)
+    } else {
+      setCheckWalletStatus(false)
+    }
+    console.log('walletStatus:', checkWalletStatus)
+  }, [checkWalletStatus, account])
 
   const { firstname, lastname, email, termAndCondition } = userDetails
   const onChange = (e) => {
@@ -108,7 +126,7 @@ export default function WhiteListingScreen() {
         config,
       )
       if (result.status === 200) {
-        localStorage.setItem('userWhiteListStatus', 'true')
+        localStorage.setItem(account, JSON.stringify({ whitelist: true }))
         history.push('/thank-you')
       }
     } catch (error) {
@@ -140,12 +158,12 @@ export default function WhiteListingScreen() {
     return tranformedData
   }
   useEffect(() => {
-    if (firstname && lastname && email && termAndCondition) {
+    if (firstname && lastname && email && termAndCondition && checkWalletStatus) {
       setButtonFlag(false)
     } else {
       setButtonFlag(true)
     }
-  }, [firstname, lastname, email, termAndCondition, buttonFlag])
+  }, [firstname, lastname, email, termAndCondition, checkWalletStatus, buttonFlag])
 
   const PageHeight = {
     minHeight: 'calc(100vh - 150px)',

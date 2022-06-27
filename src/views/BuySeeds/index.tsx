@@ -49,7 +49,6 @@ export default function BuySeedScreen() {
     const whitelistVal = parseFloat(ethers.utils.formatUnits(res[1].toString(), 18).toString())
     setBuyLimit(buyLimitVal)
     setWhitelistLimit(whitelistVal)
-    console.log('whitelist:', whitelistVal)
   })
 
   const handleClick = (e) => {
