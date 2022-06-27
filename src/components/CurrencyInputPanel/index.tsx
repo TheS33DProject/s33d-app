@@ -68,7 +68,7 @@ interface CurrencyInputPanelProps {
   showCommonBases?: boolean
   progressBar?: boolean
   filledSeeds?: number
-  availableSeeds?: number
+  buyLimit?: number
 }
 export default function CurrencyInputPanel({
   value,
@@ -86,7 +86,7 @@ export default function CurrencyInputPanel({
   showCommonBases,
   progressBar = false,
   filledSeeds = 0,
-  availableSeeds = 0,
+  buyLimit = 0,
 }: CurrencyInputPanelProps) {
   const { isDark, theme } = useTheme()
   const { account } = useActiveWeb3React()
@@ -165,7 +165,7 @@ export default function CurrencyInputPanel({
           <Progress variant="round" scale="md" primaryStep={filledSeeds} />
           <TextContainer>
             <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>{filledSeeds}% filled</Text>
-            <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>{availableSeeds} available</Text>
+            <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>{buyLimit} limit</Text>
           </TextContainer>
         </>
       )}

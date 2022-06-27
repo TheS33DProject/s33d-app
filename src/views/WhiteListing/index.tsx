@@ -1,4 +1,5 @@
 import { Flex, Heading, Text, Button, Input, Checkbox, Box } from '@pancakeswap/uikit'
+import { ToastContainer } from 'components/Toast'
 
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -29,24 +30,39 @@ const DesktopContent2 = styled.div`
   flex-direction: column;
   margin-right: 30px;
 `
-const WhiteListingContainer = styled.div`
-  margin-top: 10px;
-  ${({ theme }) => theme.mediaQueries.lg && theme.mediaQueries.md} {
-    margin-top: 0px;
-  }
-`
+const WhiteListingContainer = styled.div``
 
 export default function WhiteListingScreen() {
   const history = useHistory()
   const { isDark, theme } = useTheme()
-  const { account } = useWeb3React() // wallet address is available as account
+  const { account } = useWeb3React()
   const [buttonFlag, setButtonFlag] = useState(false)
+  const [checkWalletStatus, setCheckWalletStatus] = React.useState(true)
   const [userDetails, setUserDetails] = useState({
     firstname: '',
     lastname: '',
     email: '',
     termAndCondition: false,
+    address: '',
   })
+  const [toasts, setToasts] = useState([])
+
+  const accountStatus = JSON.parse(localStorage.getItem(account))
+  useEffect(() => {
+    if (accountStatus !== null && accountStatus.whitelist === true) {
+      history.push('/disclaimer')
+    }
+  }, [accountStatus, history])
+
+  useEffect(() => {
+    const walletStatus = localStorage.getItem('connectorIdv2')
+    if (walletStatus !== null) {
+      setCheckWalletStatus(true)
+    } else {
+      setCheckWalletStatus(false)
+    }
+  }, [checkWalletStatus, account])
+
   const { firstname, lastname, email, termAndCondition } = userDetails
   const onChange = (e) => {
     setUserDetails({
@@ -54,43 +70,49 @@ export default function WhiteListingScreen() {
       [e.target.name]: e.target.name === 'termAndCondition' ? e.target.checked : e.target.value,
     })
   }
-  const validateForm = () => {
-    if (firstname === '') {
-      alert('First Name is required feild')
-      return false
+
+  const validateForm = (type: string, data: any) => {
+    if (type === 'firstname') {
+      return /^[a-z ,.'-]+$/i.test(data.firstname)
     }
-    if (lastname === '') {
-      alert('Last Name is required feild.')
-      return false
+    if (type === 'lastname') {
+      return /^[a-z ,.'-]+$/i.test(data.lastname)
     }
-    if (email === '') {
-      alert('Email is required field.')
-      return false
+    if (type === 'email') {
+      return /.+@.+\.[A-Za-z]+$/.test(data.email)
     }
-    if (termAndCondition === false) {
-      alert('Please Agree to term and conditions.')
-      return false
-    }
+
     return true
   }
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (validateForm()) {
+
+    if (validateForm('form', userDetails)) {
       hsFormSubmission()
     }
   }
 
+  const handleRemove = (id: string) => {
+    setToasts((prevToasts) => prevToasts.filter((prevToast) => prevToast.id !== id))
+  }
+
   const hsFormSubmission = async () => {
     if (!account) {
-      alert('please connect your wallet then try Again.')
-      return
+      // alert('Please connect your wallet then try again.')
+      const now = Date.now()
+      const randomToast = {
+        id: `id-${now}`,
+        title: 'Please connect your wallet then try again.',
+        type: 'danger',
+      }
+      setToasts((prevState) => [...prevState, randomToast])
     }
     try {
       const data = { ...userDetails }
-      data['TICKET.content'] = account
+      data.address = account
       delete data.termAndCondition
       const payload = transformHSFormPayload(data)
-      console.log(payload)
 
       const config = {
         headers: {
@@ -103,11 +125,17 @@ export default function WhiteListingScreen() {
         config,
       )
       if (result.status === 200) {
-        localStorage.setItem('userWhiteListStatus', 'true')
+        localStorage.setItem(account, JSON.stringify({ whitelist: true }))
         history.push('/thank-you')
       }
     } catch (error) {
-      console.log('Error from API', error)
+      const now = Date.now()
+      const randomToast = {
+        id: `id-${now}`,
+        title: 'Please check your internet.',
+        type: 'danger',
+      }
+      setToasts((prevState) => [...prevState, randomToast])
     }
   }
 
@@ -129,13 +157,12 @@ export default function WhiteListingScreen() {
     return tranformedData
   }
   useEffect(() => {
-    if (firstname && lastname && email && termAndCondition) {
+    if (firstname && lastname && email && termAndCondition && checkWalletStatus) {
       setButtonFlag(false)
     } else {
       setButtonFlag(true)
     }
-    console.log({ buttonFlag, firstname, lastname, email, termAndCondition })
-  }, [firstname, lastname, email, termAndCondition, buttonFlag])
+  }, [firstname, lastname, email, termAndCondition, checkWalletStatus, buttonFlag])
 
   const PageHeight = {
     minHeight: 'calc(100vh - 150px)',
@@ -174,13 +201,7 @@ export default function WhiteListingScreen() {
     marginRight: '20px',
   }
 
-  const inputWidth = {
-    width: '250px',
-  }
   const emailInput = {
-    // margin:"10px"
-    // marginRight:"15px",
-    // marginLeft:"15px",
     width: '100%',
   }
 
@@ -217,6 +238,8 @@ export default function WhiteListingScreen() {
                   placeholder="First Name"
                   name="firstname"
                   onChange={onChange}
+                  isSuccess={validateForm('firstname', userDetails)}
+                  isWarning={!validateForm('firstname', userDetails)}
                 />
                 <Input
                   style={isDark ? { ...formStylesDark } : { ...formStyles }}
@@ -225,6 +248,8 @@ export default function WhiteListingScreen() {
                   placeholder="Last Name"
                   name="lastname"
                   onChange={onChange}
+                  isSuccess={validateForm('lastname', userDetails)}
+                  isWarning={!validateForm('lastname', userDetails)}
                 />
               </DesktopContent>
               <DesktopContent2>
@@ -235,10 +260,10 @@ export default function WhiteListingScreen() {
                   scale="lg"
                   name="email"
                   placeholder="Email Address"
+                  isSuccess={validateForm('email', userDetails)}
+                  isWarning={!validateForm('email', userDetails)}
                 />
               </DesktopContent2>
-              {/* <Flex alignItems="center" justifyContent="space-between">
-                        </Flex> */}
 
               <br />
 
@@ -261,48 +286,8 @@ export default function WhiteListingScreen() {
             </form>
           </Flex>
         </Flex>
-
-        {/* <div className="main-container">
-        <div className="astro-box pr-1">
-          <img src="images/assets/astronaut-input.svg" className="App-logo" alt="logo" />
-        </div>
-        <div className="content-box">
-          <h1 className="hero-heading">Whitelisting</h1>
-          <form id="WhiteListingForm" onSubmit={handleSubmit}>
-            <p className="para-content">
-              Please fill in the form to start. We require this information to communicate important information about
-              The S33D Project to all our founding gardeners.
-            </p>
-            <div className="input-controller">
-              <div className="form-group">
-                <Input type="text" scale="lg" placeholder="First Name" name="firstname" onChange={onChange} />
-              </div>
-              <div className="form-group">
-                <Input type="text" scale="lg" placeholder="Last Name" name="lastname" onChange={onChange} />
-              </div>
-            </div>
-            <div className="form-group-mail">
-              <Input type="email" onChange={onChange} scale="lg" name="email" placeholder="Email Address" />
-            </div>
-            <br />
-            <p className="para-content">
-              The S33D Project is committed to protect and respect your privacy and we only use your personal
-              information to facilitate this whitelisting process. If you consent to us contacting you for project
-              updates, please tick the box below.
-            </p>
-            <label htmlFor="vehicle1" className="para-content">
-              <input type="checkbox" onChange={onChange} name="termAndCondition" />I agree to receive communications
-              from The S33D Project
-            </label>
-            <br />
-            <br />
-            <Button type="submit" className="btn" disabled={buttonFlag}>
-              Submit
-            </Button>
-          </form>
-        </div>
-      </div> */}
       </WhiteListingContainer>
+      <ToastContainer toasts={toasts} onRemove={handleRemove} />
     </>
   )
 }

@@ -3,9 +3,10 @@ import Container from 'components/Layout/Container'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import React, { useEffect } from 'react'
+import { useInitialS33DRound } from 'hooks/useContract'
+import { ethers } from 'ethers'
 import { useWeb3React } from '@web3-react/core'
 import useTheme from './Hooks/useTheme'
-// import logo from '/images/assets/astronaut.svg'
 
 const DesktopImage = styled.div`
   display: none;
@@ -23,6 +24,12 @@ export default function BuySeedScreen() {
   const [checkWalletStatus, setCheckWalletStatus] = React.useState(true)
   const { account } = useWeb3React()
   const history = useHistory()
+  const initialS33DRound = useInitialS33DRound()
+  const buyLimit = initialS33DRound.buyLimit()
+  const whitelistLimit = initialS33DRound.getWhitelist()
+
+  const [buyS33DLimit, setBuyLimit] = React.useState(0)
+  const [whitelistS33DLimit, setWhitelistLimit] = React.useState(0)
 
   useEffect(() => {
     const walletStatus = localStorage.getItem('connectorIdv2')
@@ -31,11 +38,25 @@ export default function BuySeedScreen() {
     } else {
       setCheckWalletStatus(true)
     }
-    console.log({ walletStatus, checkWalletStatus, account })
   }, [checkWalletStatus, account])
 
+  const formatMoney = (number) => {
+    return number.toLocaleString('en-US', { currency: 'USD' })
+  }
+
+  Promise.all([buyLimit, whitelistLimit]).then((res) => {
+    const buyLimitVal = parseFloat(ethers.utils.formatUnits(res[0].toString(), 18).toString())
+    const whitelistVal = parseFloat(ethers.utils.formatUnits(res[1].toString(), 18).toString())
+    setBuyLimit(buyLimitVal)
+    setWhitelistLimit(whitelistVal)
+  })
+
   const handleClick = (e) => {
-    history.push('/white-listing')
+    if (whitelistS33DLimit > 0) {
+      history.push('/disclaimer')
+    } else {
+      history.push('/white-listing')
+    }
   }
   const PageHeight = {
     height: 'calc(100vh - 200px)',
@@ -94,7 +115,7 @@ export default function BuySeedScreen() {
                 To ensure a fair distribution in this first launch, each participant can acquire a maximum of{' '}
               </Text>
               <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }} bold>
-                100,000 S33D
+                {formatMoney(buyS33DLimit)} S33D
               </Text>
               <br />
               <Text style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
@@ -109,28 +130,6 @@ export default function BuySeedScreen() {
           </DesktopContent>
         </Flex>
       </Container>
-      {/* <div className="main-container">
-        <div className="astro-box pr-1">
-          <img src="images/assets/astronaut.svg" className="App-logo" alt="logo" />
-        </div>
-        <div className="content-box">
-          <h1 className="hero-heading">Buy S33D</h1>
-          <p className="para-content">
-            We are delighted that you share the vision and dreams of creating a new future with us.
-          </p>
-          <p className="para-content">
-            Our first goal is to raise $1,000,000 and you’re invited to participate as founding gardeners at S33D. To
-            ensure a fair distribution in this first launch, each participant can acquire a maximum of{' '}
-            <span className="txt-bold">100,000 S33D</span>.
-          </p>
-
-          <p className="para-content">Please connect your wallet on Binance Smart Chain to begin.</p>
-          <br />
-          <Button disabled={checkWalletStatus} onClick={handleClick} className="btn">
-            Continue
-          </Button>
-        </div>
-      </div> */}
     </>
   )
 }

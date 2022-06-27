@@ -2,9 +2,11 @@ import { Flex, Heading, Text, Button } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { ethers } from 'ethers'
+import { useInitialS33DRound } from 'hooks/useContract'
+import { useWeb3React } from '@web3-react/core'
 import useTheme from './Hooks/useTheme'
 
-// import logo from '/images/assets/g12.svg'
 const DesktopImage = styled.div`
   display: none;
 
@@ -18,26 +20,26 @@ const DesktopContent = styled.div`
     margin-top: 40px;
   }
 `
-// const DisclaimerContainer = styled.div`
-//   margin-top: 250px;
-//   ${({ theme }) => theme.mediaQueries.lg && theme.mediaQueries.md} {
-//     margin-top: 0px;
-//   }
-// `
 
 export default function DisclamerScreen() {
   const history = useHistory()
   const { isDark, theme } = useTheme()
-  useEffect(() => {
-    const whiteListStatus = localStorage.getItem('userWhiteListStatus')
-    if (whiteListStatus !== 'true') {
-      history.push('/')
-    }
-  }, [history])
-
+  const { account } = useWeb3React()
+  const initialS33DRound = useInitialS33DRound()
+  const whitelist = initialS33DRound.getWhitelist()
+  let whitelistVal = 0
+  Promise.all([whitelist]).then((res) => {
+    whitelistVal = parseFloat(ethers.utils.formatUnits(res.toString(), 18).toString())
+  })
+  const accountStatus = JSON.parse(localStorage.getItem(account))
   const handleClick = () => {
-    localStorage.setItem('userDisclamerStatus', 'true')
-    history.push('/purchase-seed')
+    if (whitelistVal !== 0) {
+      history.push('/swap')
+    } else if (accountStatus === null) {
+      history.push('/buy-seeds')
+    } else if (accountStatus.whitelist === true) {
+      history.push('/thank-you')
+    }
   }
 
   const PageHeight = {
@@ -70,7 +72,6 @@ export default function DisclamerScreen() {
 
   return (
     <>
-      {/* <DisclaimerContainer> */}
       <Flex style={PageHeight} alignItems="center" justifyContent="center">
         <DesktopImage>
           <Flex alignItems="center" justifyContent="center" flexDirection="column">
@@ -90,7 +91,7 @@ export default function DisclamerScreen() {
             <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               The S33D Project is an innovative concept for reimagining the ideas and our relationship with nature and
               our planet. We are on a mission to enable the propagation of sustainability initiatives and encourage
-              humankind to form symbiotic relationships with our planet and each
+              humankind to form symbiotic relationships with our planet and each other
             </Text>
             <br />
             <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
@@ -114,35 +115,6 @@ export default function DisclamerScreen() {
           </Flex>
         </DesktopContent>
       </Flex>
-      {/* </DisclaimerContainer> */}
     </>
-    // <div className="main-container">
-    //   <div className="astro-box pr-1">
-    //     <img src="images/assets/g12.svg" className="App-logo" alt="logo" />
-    //   </div>
-    //   <div className="content-box">
-    //     <h1 className="hero-heading">Disclaimer</h1>
-    //     <p className="para-content">
-    //       The S33D Project is an innovative concept for reimagining the ideas and our relationship with nature and our
-    //       planet. We are on a mission to enable the propagation of sustainability initiatives and encourage humankind to
-    //       form symbiotic relationships with our planet and each
-    //     </p>
-    //     <p className="para-content">
-    //       You understand that by participating the Initial DEX Offering (IDO) of The S33D Project, you have:
-    //     </p>
-    //     <p className="para-content">
-    //       <span className="content1">(I) read the Legal Notice and other information about this ID</span>
-    //       <span className="content1">(II) confirmed that you are not in a jurisdiction where buying,</span>
-    //       <span className="content1">
-    //         trading and/or owing S33D token would be prohibited or restricted in any manner.
-    //       </span>
-    //       <span className="content1">(III) understood that despite all precautions, there can</span>
-    //       still be exploit risks that exist within the app which may result in partial or total loss of funds.
-    //     </p>
-    //     <Button type="button" onClick={handleClick} className="btn">
-    //       Submit
-    //     </Button>
-    //   </div>
-    // </div>
   )
 }
