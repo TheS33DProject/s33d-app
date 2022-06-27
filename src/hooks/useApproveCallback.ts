@@ -115,28 +115,28 @@ export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) 
   return useApproveCallback(amountToApprove, ROUTER_ADDRESS)
 }
 
-export function useBuyS33dCallback(amountToApprove?: String, spender?: string): [() => Promise<void>] {
+export function useBuyS33dCallback(amountToApprove?: string, spender?: string): [() => Promise<void>] {
   const { callWithGasPrice } = useCallWithGasPrice()
-  const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined
+  // const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined
   const tokenContract = useTokenContractS33d(spender)
   const addTransaction = useTransactionAdder()
-  amountToApprove = (+amountToApprove * 10e17).toString()
+  const amountToApproveA = (+amountToApprove * 10e17).toString()
 
   const approve = useCallback(async (): Promise<void> => {
     let useExact = false
-    const estimatedGas = await tokenContract.estimateGas.buyS33D(amountToApprove).catch(() => {
+    const estimatedGas = await tokenContract.estimateGas.buyS33D(amountToApproveA).catch(() => {
       // general fallback for tokens who restrict approval amounts
       useExact = true
-      return tokenContract.estimateGas.approve(spender, amountToApprove)
+      return tokenContract.estimateGas.approve(spender, amountToApproveA)
     })
     // eslint-disable-next-line consistent-return
 
-    return callWithGasPrice(tokenContract, 'buyS33D', [amountToApprove], {
+    return callWithGasPrice(tokenContract, 'buyS33D', [amountToApproveA], {
       gasLimit: calculateGasMargin(estimatedGas),
     })
       .then((response: TransactionResponse) => {
         addTransaction(response, {
-          summary: `Swapped ${amountToApprove}`,
+          summary: `Swapped ${amountToApproveA}`,
           approval: { tokenAddress: tokenContract.address, spender },
         })
       })
@@ -144,7 +144,7 @@ export function useBuyS33dCallback(amountToApprove?: String, spender?: string): 
         console.error('Failed to approve token', error)
         throw error
       })
-  }, [token, tokenContract, amountToApprove, spender, addTransaction, callWithGasPrice])
+  }, [tokenContract, amountToApproveA, spender, addTransaction, callWithGasPrice])
 
   return [approve]
 }
