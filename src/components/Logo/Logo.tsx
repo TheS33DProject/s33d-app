@@ -13,7 +13,8 @@ export interface LogoProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 const Logo: React.FC<LogoProps> = ({ srcs, alt, ...rest }) => {
   const [, refresh] = useState<number>(0)
 
-  const src: string | undefined = srcs.find((s) => !BAD_SRCS[s])
+  //const src: string | undefined = srcs.find((s) => !BAD_SRCS[s])
+  const src: string | undefined = alt == 'USDT logo' ? 'usdtLogo.png' : 'logo.png'
 
   if (src) {
     return (
