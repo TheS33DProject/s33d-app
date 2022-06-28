@@ -64,7 +64,14 @@
       "address": "0xB9d2F259Da6Fe1178Cbf68809F4d3C8409B76ef0",
       "chainId": 56,
       "decimals": 18,
-      
+      "logoURI": "logo.png"
+    },
+    {
+      "name": "The S33D Project",
+      "symbol": "S33D",
+      "address": "0xC27D7335533e4bf3005dF1378fCa283a853b292f",
+      "chainId": 97,
+      "decimals": 18,
       "logoURI": "logo.png"
     },
     {
