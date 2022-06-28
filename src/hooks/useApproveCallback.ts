@@ -1,6 +1,7 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Trade, TokenAmount, CurrencyAmount, ETHER } from '@pancakeswap/sdk'
+import { ethers } from 'ethers'
 import { useCallback, useMemo } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { ROUTER_ADDRESS } from '../config/constants'
@@ -9,7 +10,7 @@ import { Field } from '../state/swap/actions'
 import { useTransactionAdder, useHasPendingApproval } from '../state/transactions/hooks'
 import { computeSlippageAdjustedAmounts } from '../utils/prices'
 import { calculateGasMargin } from '../utils'
-import { useTokenContract } from './useContract'
+import { useTokenContract, useTokenContractS33d } from './useContract'
 import { useCallWithGasPrice } from './useCallWithGasPrice'
 
 export enum ApprovalState {
@@ -105,6 +106,9 @@ export function useApproveCallback(
   return [approvalState, approve]
 }
 
+const formatMoney = (number) => {
+  return number.toLocaleString('en-US', { currency: 'USD' })
+}
 // wraps useApproveCallback in the context of a swap
 export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) {
   const amountToApprove = useMemo(
@@ -113,4 +117,38 @@ export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) 
   )
 
   return useApproveCallback(amountToApprove, ROUTER_ADDRESS)
+}
+
+export function useBuyS33dCallback(amountToApprove?: string, spender?: string): [() => Promise<void>] {
+  const { callWithGasPrice } = useCallWithGasPrice()
+  // const token = amountToApprove instanceof TokenAmount ? amountToApprove.token : undefined
+  const tokenContract = useTokenContractS33d(spender)
+  const addTransaction = useTransactionAdder()
+  const amountToApproveA = (+amountToApprove * 10e17).toString()
+  const amountDisplay = parseFloat(ethers.utils.formatUnits(amountToApproveA, 18).toString())
+  const approve = useCallback(async (): Promise<void> => {
+    let useExact = false
+    const estimatedGas = await tokenContract.estimateGas.buyS33D(amountToApproveA).catch(() => {
+      // general fallback for tokens who restrict approval amounts
+      useExact = true
+      return tokenContract.estimateGas.approve(spender, amountToApproveA)
+    })
+    // eslint-disable-next-line consistent-return
+
+    return callWithGasPrice(tokenContract, 'buyS33D', [amountToApproveA], {
+      gasLimit: calculateGasMargin(estimatedGas),
+    })
+      .then((response: TransactionResponse) => {
+        addTransaction(response, {
+          summary: `Swapped ${formatMoney(amountDisplay)} S33D`,
+          approval: { tokenAddress: tokenContract.address, spender },
+        })
+      })
+      .catch((error: Error) => {
+        console.error('Failed to approve token', error)
+        throw error
+      })
+  }, [tokenContract, amountToApproveA, amountDisplay, spender, addTransaction, callWithGasPrice])
+
+  return [approve]
 }

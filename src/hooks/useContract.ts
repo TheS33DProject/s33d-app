@@ -37,6 +37,7 @@ import { getMulticallAddress } from 'utils/addressHelpers'
 // Imports below migrated from Exchange useContract.ts
 import { Contract } from '@ethersproject/contracts'
 import { ChainId, WETH } from '@pancakeswap/sdk'
+import { useWeb3React } from '@web3-react/core'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import ENS_PUBLIC_RESOLVER_ABI from '../config/abi/ens-public-resolver.json'
 import ENS_ABI from '../config/abi/ens-registrar.json'
@@ -44,7 +45,9 @@ import { ERC20_BYTES32_ABI } from '../config/abi/erc20'
 import ERC20_ABI from '../config/abi/erc20.json'
 import WETH_ABI from '../config/abi/weth.json'
 import multiCallAbi from '../config/abi/Multicall.json'
+import InitialS33DRound from '../config/abi/InitialS33DRound.json'
 import { getContract, getProviderOrSigner } from '../utils'
+// import  InitialS33DRound  from '../config/abi/InitialS33DRound.json'
 
 /**
  * Helper hooks to get specific contracts (by ABI)
@@ -105,7 +108,10 @@ export const useGrandGardener = () => {
 
 export const useInitialS33DRound = () => {
   const { library } = useActiveWeb3React()
-  return useMemo(() => getInitialS33DRoundContract(library.getSigner()), [library])
+  const { account } = useWeb3React()
+  // const walletAddress = account ? account : '0x69fd40e4bFd533CA710561331F940228575D2d0A'
+  const walletAddress = account || '0x69fd40e4bFd533CA710561331F940228575D2d0A'
+  return useMemo(() => getInitialS33DRoundContract(library.getSigner(walletAddress)), [library, walletAddress])
 }
 
 export const useSousChef = (id) => {
@@ -242,6 +248,9 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
   return useContract(tokenAddress, ERC20_ABI, withSignerIfPossible)
 }
 
+export function useTokenContractS33d(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
+  return useContract(tokenAddress, InitialS33DRound, withSignerIfPossible)
+}
 export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {
   const { chainId } = useActiveWeb3React()
   return useContract(chainId ? WETH[chainId].address : undefined, WETH_ABI, withSignerIfPossible)

@@ -32,11 +32,13 @@ function ImportToken({ tokens, handleCurrencySelect }: ImportProps) {
       <Message variant="warning">
         <Text>
           {t(
-            'Anyone can create a BEP20 token on BSC with any name, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have a token.',
+            'S33D token is currently made available for purchase to facilitate the development of The S33D Project and does not have trading available on any markets right now.',
           )}
           <br />
           <br />
-          {t('If you purchase an arbitrary token, you may be unable to sell it back.')}
+          {t(
+            'If you choose to purchase S33D, please treat it as a contribution to the cause and not expecting any resale value from the sale of S33D token.',
+          )}
         </Text>
       </Message>
 
@@ -45,7 +47,7 @@ function ImportToken({ tokens, handleCurrencySelect }: ImportProps) {
         const address = token.address ? `${truncateHash(token.address)}` : null
         return (
           <Grid key={token.address} gridTemplateRows="1fr 1fr 1fr" gridGap="4px">
-            {list !== undefined ? (
+            {/* {list !== undefined ? (
               <Tag
                 variant="success"
                 outline
@@ -54,11 +56,13 @@ function ImportToken({ tokens, handleCurrencySelect }: ImportProps) {
               >
                 {t('via')} {list.name}
               </Tag>
-            ) : (
+            ) : 
+            (
               <Tag variant="failure" outline scale="sm" startIcon={<ErrorIcon color="failure" />}>
                 {t('Unknown Source')}
               </Tag>
-            )}
+            )
+            } */}
             <Flex alignItems="center">
               <Text mr="8px">{token.name}</Text>
               <Text>({token.symbol})</Text>

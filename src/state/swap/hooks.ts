@@ -36,7 +36,6 @@ import {
 } from './normalizers'
 import { PairDataTimeWindowEnum } from './types'
 import { derivedPairByDataIdSelector, pairByDataIdSelector } from './selectors'
-import { DEFAULT_INPUT_CURRENCY, DEFAULT_OUTPUT_CURRENCY } from './constants'
 import fetchDerivedPriceData from './fetch/fetchDerivedPriceData'
 import { pairHasEnoughLiquidity } from './fetch/utils'
 
@@ -280,14 +279,18 @@ function validatedRecipient(recipient: any): string | null {
 }
 
 export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
-  let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || DEFAULT_INPUT_CURRENCY
-  let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency) || DEFAULT_OUTPUT_CURRENCY
-  if (inputCurrency === outputCurrency) {
-    if (typeof parsedQs.outputCurrency === 'string') {
-      inputCurrency = ''
-    } else {
-      outputCurrency = ''
-    }
+  let inputCurrency = ''
+  let outputCurrency = ''
+
+  if (process.env.REACT_APP_CHAIN_ID === '97') {
+    inputCurrency = '0x337610d27c682E347C9cD60BD4b3b107C9d34dDd'
+    outputCurrency = '0xC27D7335533e4bf3005dF1378fCa283a853b292f'
+  } else if (process.env.REACT_APP_CHAIN_ID === '56') {
+    inputCurrency = '0x55d398326f99059ff775485246999027b3197955'
+    outputCurrency = '0xb9d2f259da6fe1178cbf68809f4d3c8409b76ef0'
+  } else {
+    inputCurrency = ''
+    outputCurrency = ''
   }
 
   const recipient = validatedRecipient(parsedQs.recipient)

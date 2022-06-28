@@ -14,12 +14,16 @@ import {
   Progress,
 } from '@pancakeswap/uikit'
 import useTheme from 'hooks/useTheme'
+import { getInitialS33DRoundAddress } from 'utils/addressHelpers'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
 import Footer from 'components/Menu/Footer'
 import { RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'contexts/Localization'
 import SwapWarningTokens from 'config/constants/swapWarningTokens'
+import { useS33D, useInitialS33DRound } from 'hooks/useContract'
+import { useWeb3React } from '@web3-react/core'
+import { ethers } from 'ethers'
 import AddressInputPanel from './components/AddressInputPanel'
 import { GreyCard } from '../../components/Card'
 import Column, { AutoColumn } from '../../components/Layout/Column'
@@ -34,11 +38,15 @@ import ImportTokenWarningModal from './components/ImportTokenWarningModal'
 import ProgressSteps from './components/ProgressSteps'
 import { AppBody } from '../../components/App'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
-
 import { INITIAL_ALLOWED_SLIPPAGE } from '../../config/constants'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { useCurrency, useAllTokens } from '../../hooks/Tokens'
-import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
+import {
+  ApprovalState,
+  useApproveCallback,
+  useApproveCallbackFromTrade,
+  useBuyS33dCallback,
+} from '../../hooks/useApproveCallback'
 import { useSwapCallback } from '../../hooks/useSwapCallback'
 import useWrapCallback, { WrapType } from '../../hooks/useWrapCallback'
 import { Field } from '../../state/swap/actions'
@@ -77,6 +85,36 @@ const TextContainer = styled.div`
 `
 
 export default function Swap({ history }: RouteComponentProps) {
+  const { account } = useActiveWeb3React()
+  const initialS33DRound = useInitialS33DRound()
+  const whitelist = initialS33DRound.getWhitelist()
+  const [progressBar, setProgress] = useState(true)
+  const [conversionSeedVal, setConversionSeedVal] = useState(0)
+  const [filledSeed, setFilledSeed] = useState(45)
+  const [availableSeeds, setAvailableSeeds] = useState(0)
+  const [buyLimitSd, setbuyLimitSd] = useState(0)
+  const availableS33D = initialS33DRound.getPouchBalance()
+  const offerPrice = initialS33DRound.offerPrice()
+
+  const formatMoney = (number) => {
+    return number.toLocaleString('en-US', { currency: 'USD' })
+  }
+  if (account) {
+    const contribution = initialS33DRound.contribution(account)
+    Promise.all([contribution, whitelist, offerPrice, availableS33D]).then((res) => {
+      const contributionVal = parseFloat(ethers.utils.formatUnits(res[0].toString(), 18).toString())
+      const whiteListVal = parseFloat(ethers.utils.formatUnits(res[1].toString(), 18).toString())
+      const ofrPrice = parseFloat(ethers.utils.formatUnits(res[2].toString(), 18).toString())
+      const aS33D = parseFloat(ethers.utils.formatUnits(res[3].toString(), 18).toString())
+      const total = (contributionVal / whiteListVal) * 100
+
+      setAvailableSeeds(formatMoney(aS33D))
+      setConversionSeedVal(formatMoney(ofrPrice))
+      setFilledSeed(total)
+      setbuyLimitSd(formatMoney(whiteListVal))
+    })
+  }
+
   const loadedUrlParams = useDefaultsFromURLSearch()
   const { t } = useTranslation()
   const { isMobile } = useMatchBreakpoints()
@@ -105,8 +143,6 @@ export default function Swap({ history }: RouteComponentProps) {
     urlLoadedTokens.filter((token: Token) => {
       return !(token.address in defaultTokens)
     })
-
-  const { account } = useActiveWeb3React()
 
   // for expert mode
   const [isExpertMode] = useExpertModeManager()
@@ -147,18 +183,25 @@ export default function Swap({ history }: RouteComponentProps) {
   const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
   const isValid = !swapInputError
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
-
+  const [formValue, setFormValue]: any = useState({
+    input: '',
+    output: '',
+  })
   const handleTypeInput = useCallback(
     (value: string) => {
-      onUserInput(Field.INPUT, value)
+      onUserInput(Field.OUTPUT, value)
+      const covertedValue = (Number(value) * 10).toString()
+      setFormValue({ input: value, output: covertedValue })
     },
-    [onUserInput],
+    [setFormValue, onUserInput],
   )
   const handleTypeOutput = useCallback(
     (value: string) => {
       onUserInput(Field.OUTPUT, value)
+      const covertedValue = (Number(value) / 10).toString()
+      setFormValue({ input: covertedValue, output: value })
     },
-    [onUserInput],
+    [setFormValue, onUserInput],
   )
 
   // modal and loading
@@ -188,7 +231,8 @@ export default function Swap({ history }: RouteComponentProps) {
   const noRoute = !route
 
   // check whether the user has approved the router on the input token
-  const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
+  // const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
+  const [approval, approveCallback] = useApproveCallback(currencyBalances[Field.INPUT], getInitialS33DRoundAddress())
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
@@ -210,39 +254,38 @@ export default function Swap({ history }: RouteComponentProps) {
 
   const [singleHopOnly] = useUserSingleHopOnly()
 
-  const handleSwap = useCallback(() => {
-    if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee, t)) {
-      return
+  const [swapS33d] = useBuyS33dCallback(formValue.output, getInitialS33DRoundAddress())
+
+  const handleSwap = useCallback(async () => {
+    // if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee, t)) {
+    //   return
+    // }
+    // if (!swapCallback) {
+    //   return
+    // }
+    // setSwapState({ attemptingTxn: true, tradeToConfirm, swapErrorMessage: undefined, txHash: undefined })
+    // swapCallback()
+    //   .then((hash) => {
+    //     setSwapState({ attemptingTxn: false, tradeToConfirm, swapErrorMessage: undefined, txHash: hash })
+    //   })
+    //   .catch((error) => {
+    //     setSwapState({
+    //       attemptingTxn: false,
+    //       tradeToConfirm,
+    //       swapErrorMessage: error.message,
+    //       txHash: undefined,
+    //     })
+    //   })
+    try {
+      const approve = await swapS33d()
+    } catch (error) {
+      console.error(error)
     }
-    if (!swapCallback) {
-      return
-    }
-    setSwapState({ attemptingTxn: true, tradeToConfirm, swapErrorMessage: undefined, txHash: undefined })
-    swapCallback()
-      .then((hash) => {
-        setSwapState({ attemptingTxn: false, tradeToConfirm, swapErrorMessage: undefined, txHash: hash })
-      })
-      .catch((error) => {
-        setSwapState({
-          attemptingTxn: false,
-          tradeToConfirm,
-          swapErrorMessage: error.message,
-          txHash: undefined,
-        })
-      })
-  }, [priceImpactWithoutFee, swapCallback, tradeToConfirm, t])
+  }, [swapS33d])
 
   // errors
   const [showInverted, setShowInverted] = useState<boolean>(false)
 
-  // progress bar stuff
-  const [progressBar, setProgress] = useState(true)
-  // conversion seed val
-  const [conversionSeedVal, setConversionSeedVal] = useState(12.0)
-  const [filledSeed, setFilledSeed] = useState(45)
-  const [availableSeeds, setAvailableSeeds] = useState(1000)
-
-  // warnings on slippage
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
   // show approve flow when: no error on inputs, not approved or pending, or approved in current session
@@ -406,6 +449,10 @@ export default function Swap({ history }: RouteComponentProps) {
                 isChartDisplayed={isChartDisplayed}
               />
               <TextContainer>
+                <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>Available</Text>
+                <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>{availableSeeds} S33D</Text>
+              </TextContainer>
+              <TextContainer>
                 <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>Offer Price</Text>
                 <Text style={isDark ? { ...textWrapperDark } : { ...textWrapper }}>
                   {conversionSeedVal} USDT per S33D
@@ -415,7 +462,7 @@ export default function Swap({ history }: RouteComponentProps) {
                 <AutoColumn gap="md">
                   <CurrencyInputPanel
                     label={independentField === Field.OUTPUT && !showWrap && trade ? t('From (estimated)') : t('From')}
-                    value={formattedAmounts[Field.INPUT]}
+                    value={formValue.input}
                     showMaxButton={!atMaxAmountInput}
                     currency={currencies[Field.INPUT]}
                     onUserInput={handleTypeInput}
@@ -443,7 +490,7 @@ export default function Swap({ history }: RouteComponentProps) {
 
                   <CurrencyInputPanel
                     progressBar={progressBar}
-                    value={formattedAmounts[Field.OUTPUT]}
+                    value={formValue.output}
                     onUserInput={handleTypeOutput}
                     label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}
                     showMaxButton={false}
@@ -451,7 +498,7 @@ export default function Swap({ history }: RouteComponentProps) {
                     onCurrencySelect={handleOutputSelect}
                     otherCurrency={currencies[Field.INPUT]}
                     id="swap-currency-output"
-                    availableSeeds={availableSeeds}
+                    buyLimit={buyLimitSd}
                     filledSeeds={filledSeed}
                   />
 
@@ -499,35 +546,14 @@ export default function Swap({ history }: RouteComponentProps) {
                     </Button>
                   ) : !account ? (
                     <ConnectWalletButton width="100%" />
-                  ) : showWrap ? (
-                    <Button width="100%" disabled={Boolean(wrapInputError)} onClick={onWrap}>
-                      {wrapInputError ??
-                        (wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null)}
-                    </Button>
-                  ) : noRoute && userHasSpecifiedInputOutput ? (
-                    <GreyCard style={{ textAlign: 'center' }}>
-                      <Text color="textSubtle" mb="4px">
-                        {t('Insufficient liquidity for this trade.')}
-                      </Text>
-                      {singleHopOnly && (
-                        <Text color="textSubtle" mb="4px">
-                          {t('Try enabling multi-hop trades.')}
-                        </Text>
-                      )}
-                    </GreyCard>
-                  ) : showApproveFlow ? (
+                  ) : approval !== ApprovalState.APPROVED ? (
                     <RowBetween>
-                      <Button
-                        variant={approval === ApprovalState.APPROVED ? 'success' : 'primary'}
-                        onClick={approveCallback}
-                        disabled={approval !== ApprovalState.NOT_APPROVED || approvalSubmitted}
-                        width="48%"
-                      >
+                      <Button variant="success" onClick={approveCallback} disabled={approvalSubmitted} width="48%">
                         {approval === ApprovalState.PENDING ? (
                           <AutoRow gap="6px" justify="center">
                             {t('Enabling')} <CircleLoader stroke="white" />
                           </AutoRow>
-                        ) : approvalSubmitted && approval === ApprovalState.APPROVED ? (
+                        ) : approvalSubmitted ? (
                           t('Enabled')
                         ) : (
                           t('Enable %asset%', { asset: currencies[Field.INPUT]?.symbol ?? '' })
@@ -550,26 +576,20 @@ export default function Swap({ history }: RouteComponentProps) {
                         }}
                         width="48%"
                         id="swap-button"
-                        disabled={
-                          !isValid || approval !== ApprovalState.APPROVED || (priceImpactSeverity > 3 && !isExpertMode)
-                        }
+                        disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode)}
                       >
-                        {priceImpactSeverity > 3 && !isExpertMode
-                          ? t('Price Impact High')
-                          : priceImpactSeverity > 2
-                          ? t('Swap Anyway')
-                          : t('Swap')}
+                        {t('Swap')}
                       </Button>
                     </RowBetween>
                   ) : (
                     <Button
                       variant={isValid && priceImpactSeverity > 2 && !swapCallbackError ? 'danger' : 'primary'}
                       onClick={() => {
-                        if (isExpertMode) {
+                        if (true) {
                           handleSwap()
                         } else {
                           setSwapState({
-                            tradeToConfirm: trade,
+                            tradeToConfirm: undefined,
                             attemptingTxn: false,
                             swapErrorMessage: undefined,
                             txHash: undefined,
@@ -579,14 +599,9 @@ export default function Swap({ history }: RouteComponentProps) {
                       }}
                       id="swap-button"
                       width="100%"
-                      disabled={!isValid || (priceImpactSeverity > 3 && !isExpertMode) || !!swapCallbackError}
+                      disabled={formValue.input < 0.01}
                     >
-                      {swapInputError ||
-                        (priceImpactSeverity > 3 && !isExpertMode
-                          ? t('Price Impact Too High')
-                          : priceImpactSeverity > 2
-                          ? t('Swap Anyway')
-                          : t('Swap'))}
+                      {t('Swap')}
                     </Button>
                   )}
                   {showApproveFlow && (

@@ -46,8 +46,9 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
 
       if (loading) return [PairState.LOADING, null]
       if (!tokenA || !tokenB || tokenA.equals(tokenB)) return [PairState.INVALID, null]
-      if (!reserves) return [PairState.NOT_EXISTS, null]
-      const { reserve0, reserve1 } = reserves
+
+      // if (!reserves) return [PairState.NOT_EXISTS, null]
+      const { reserve0, reserve1 } = { reserve0: 1, reserve1: 1 }
       const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA]
       return [
         PairState.EXISTS,
