@@ -140,7 +140,7 @@ export function useBuyS33dCallback(amountToApprove?: string, spender?: string): 
     })
       .then((response: TransactionResponse) => {
         addTransaction(response, {
-          summary: `Swapped ${formatMoney(amountDisplay)}`,
+          summary: `Swapped ${formatMoney(amountDisplay)} S33D`,
           approval: { tokenAddress: tokenContract.address, spender },
         })
       })

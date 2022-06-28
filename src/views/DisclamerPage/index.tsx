@@ -91,22 +91,22 @@ export default function DisclamerScreen() {
             <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               The S33D Project is an innovative concept for reimagining the ideas and our relationship with nature and
               our planet. We are on a mission to enable the propagation of sustainability initiatives and encourage
-              humankind to form symbiotic relationships with our planet and each other
+              humankind to form symbiotic relationships with our planet and each other.
             </Text>
             <br />
             <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
               You understand that by participating the Initial DEX Offering (IDO) of The S33D Project, you have:
               <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
-                (I) read the Legal Notice and other information about this ID
+                (I) read the Legal Notice and other information about this IDO.
               </Text>
               <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
-                (II) confirmed that you are not in a jurisdiction where buying,
+                (II) confirmed that you are not in a jurisdiction where buying, trading and/or owing S33D token would be
+                prohibited or restricted in any manner.
               </Text>
               <Text p="10px" style={isDark ? { ...contentFontStyleDark } : { ...contentFontStyle }}>
-                trading and/or owing S33D token would be prohibited or restricted in any manner.
+                (III) understood that despite all precautions, there can still be exploit risks that exist within the
+                app which may result in partial or total loss of funds.
               </Text>
-              <br />
-              still be exploit risks that exist within the app which may result in partial or total loss of funds.
             </Text>
             <br />
             <Button width="100px" onClick={handleClick} className="btn">
