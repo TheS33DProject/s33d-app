@@ -190,7 +190,7 @@ export default function Swap({ history }: RouteComponentProps) {
   const handleTypeInput = useCallback(
     (value: string) => {
       onUserInput(Field.OUTPUT, value)
-      const covertedValue = (Number(value) * 10).toString()
+      const covertedValue = Number(value) ? (Number(value) * 10).toString() : '0'
       setFormValue({ input: value, output: covertedValue })
     },
     [setFormValue, onUserInput],
@@ -198,7 +198,7 @@ export default function Swap({ history }: RouteComponentProps) {
   const handleTypeOutput = useCallback(
     (value: string) => {
       onUserInput(Field.OUTPUT, value)
-      const covertedValue = (Number(value) / 10).toString()
+      const covertedValue = Number(value) ? (Number(value) / 10).toString() : '0'
       setFormValue({ input: covertedValue, output: value })
     },
     [setFormValue, onUserInput],
