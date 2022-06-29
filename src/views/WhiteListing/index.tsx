@@ -61,7 +61,6 @@ export default function WhiteListingScreen() {
     } else {
       setCheckWalletStatus(false)
     }
-    console.log('walletStatus:', checkWalletStatus)
   }, [checkWalletStatus, account])
 
   const { firstname, lastname, email, termAndCondition } = userDetails

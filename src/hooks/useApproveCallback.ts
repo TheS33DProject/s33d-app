@@ -1,6 +1,7 @@
 import { MaxUint256 } from '@ethersproject/constants'
 import { TransactionResponse } from '@ethersproject/providers'
 import { Trade, TokenAmount, CurrencyAmount, ETHER } from '@pancakeswap/sdk'
+import { ethers } from 'ethers'
 import { useCallback, useMemo } from 'react'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { ROUTER_ADDRESS } from '../config/constants'
@@ -105,6 +106,9 @@ export function useApproveCallback(
   return [approvalState, approve]
 }
 
+const formatMoney = (number) => {
+  return number.toLocaleString('en-US', { currency: 'USD' })
+}
 // wraps useApproveCallback in the context of a swap
 export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0) {
   const amountToApprove = useMemo(
@@ -121,7 +125,7 @@ export function useBuyS33dCallback(amountToApprove?: string, spender?: string): 
   const tokenContract = useTokenContractS33d(spender)
   const addTransaction = useTransactionAdder()
   const amountToApproveA = (+amountToApprove * 10e17).toString()
-
+  const amountDisplay = parseFloat(ethers.utils.formatUnits(amountToApproveA, 18).toString())
   const approve = useCallback(async (): Promise<void> => {
     let useExact = false
     const estimatedGas = await tokenContract.estimateGas.buyS33D(amountToApproveA).catch(() => {
@@ -136,7 +140,7 @@ export function useBuyS33dCallback(amountToApprove?: string, spender?: string): 
     })
       .then((response: TransactionResponse) => {
         addTransaction(response, {
-          summary: `Swapped ${amountToApproveA}`,
+          summary: `Swapped ${formatMoney(amountDisplay)} S33D`,
           approval: { tokenAddress: tokenContract.address, spender },
         })
       })
@@ -144,7 +148,7 @@ export function useBuyS33dCallback(amountToApprove?: string, spender?: string): 
         console.error('Failed to approve token', error)
         throw error
       })
-  }, [tokenContract, amountToApproveA, spender, addTransaction, callWithGasPrice])
+  }, [tokenContract, amountToApproveA, amountDisplay, spender, addTransaction, callWithGasPrice])
 
   return [approve]
 }
