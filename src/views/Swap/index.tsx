@@ -90,7 +90,7 @@ export default function Swap({ history }: RouteComponentProps) {
   const whitelist = initialS33DRound.getWhitelist()
   const [progressBar, setProgress] = useState(true)
   const [conversionSeedVal, setConversionSeedVal] = useState(0)
-  const [filledSeed, setFilledSeed] = useState(45)
+  const [filledSeed, setFilledSeed] = useState(0)
   const [availableSeeds, setAvailableSeeds] = useState(0)
   const [buyLimitSd, setbuyLimitSd] = useState(0)
   const availableS33D = initialS33DRound.getPouchBalance()
@@ -106,7 +106,7 @@ export default function Swap({ history }: RouteComponentProps) {
       const whiteListVal = parseFloat(ethers.utils.formatUnits(res[1].toString(), 18).toString())
       const ofrPrice = parseFloat(ethers.utils.formatUnits(res[2].toString(), 18).toString())
       const aS33D = parseFloat(ethers.utils.formatUnits(res[3].toString(), 18).toString())
-      const total = (contributionVal / whiteListVal) * 100
+      const total = contributionVal / whiteListVal ? (contributionVal / whiteListVal) * 100 : 0
 
       setAvailableSeeds(formatMoney(aS33D))
       setConversionSeedVal(formatMoney(ofrPrice))
